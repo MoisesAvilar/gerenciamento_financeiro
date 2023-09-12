@@ -4,11 +4,11 @@ from cria_lista import views
 app_name = 'cria_lista'
 urlpatterns = [
      path('', views.IndexView.as_view(), name='index'),
-     path('editar', views.EditarView.as_view(), name='editar'),
+     path('editar/', views.EditarView.as_view(), name='editar'),
      path('criando-lista/',
           views.CriaListaView.as_view(), name='criando_lista'),
      path(
-          'cadastrar-itens/<int:pk>', views.CadastrarItensView.as_view(),
+          'cadastrar-itens/<int:pk>/', views.CadastrarItensView.as_view(),
           name='cadastrar_itens'
           ),
      path('ver-listas/',
@@ -26,6 +26,6 @@ urlpatterns = [
      path('excluir-item/', views.excluir_item_view, name='excluir_item'),
      path('confirma-excluir-item/<pk>/', views.DeletarItem.as_view(),
           name='confirma_excluir_item'),
-     path('escolher-lista', views.EscolherListaView.as_view(),
+     path('escolher-lista/', views.EscolherListaView.as_view(),
           name='escolher_lista'),
 ]

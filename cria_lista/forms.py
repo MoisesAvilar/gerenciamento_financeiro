@@ -5,7 +5,7 @@ from cria_lista.models import Item, Lista
 class CadastraItensForm(forms.ModelForm):
     class Meta:
         model = Item
-        fields = '__all__'
+        fields = ('nome', 'quantidade', 'valor',)
 
 
 class CriaListaForm(forms.ModelForm):
