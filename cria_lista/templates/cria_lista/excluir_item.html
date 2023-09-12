@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block head %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'list_style.css' %}">
+{% endblock %}
+
+{% block content %}
+{% if itens %}
+    <h2>Excluir itens</h2>
+    <div class="list-container">
+        <ul>
+            {% for item in itens %}
+            <a href="{% url 'cria_lista:confirma_excluir_item' item.id %}"><li> Lista: {{ item.lista }} - Item: {{ item.nome }} - Quantidade: {{ item.quantidade }}</li></a>
+            {% endfor %}
+        </ul>
+        <p>Total de itens: {{ itens|length }}</p>
+    </div>
+
+{% else %}
+    <p id="no-lists">Sem itens no momento</p>
+{% endif %}
+{% endblock %}

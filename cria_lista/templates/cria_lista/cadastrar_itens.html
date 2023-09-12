@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block head %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'form_style.css' %}">
+{% endblock %}
+{% block content %}
+
+<h2>Cadastre seus itens na lista {{ lista }}</h2>
+<form method="post" class="form">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="nome">Nome: {{ form.nome }}</label>
+    </div>
+    <div class="form-group">
+        <label for="quantidade">Quantidade: {{ form.quantidade }}</label>
+    </div>
+    <div class="form-group">
+        <label for="valor">Valor: R${{ form.valor }}</label>
+    </div>
+    <div class="botao">
+        <button type="submit">Salvar</button>
+    </div>
+</form>
+<p>Disponivel: {{ lista.calcular_diferenca }}</p>
+<p>Diferença: {{ lista.valor_total }}</p>
+
+{% endblock %}

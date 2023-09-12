@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if lista %}
+        <ul>
+            <li>Lista: {{ lista.nome }} {{ lista.meta_de_gastos }} {{ lista.tipo }}</li>
+        </ul>
+
+            
+    {% else %}
+        <h2>Sem itens cadastrados</h2>
+    {% endif %}
+    
+{% endblock %}

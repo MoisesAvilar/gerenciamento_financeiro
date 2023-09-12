@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+:root {
+    --cor1: #0a606c;
+    --cor2: #bbbbbb;
+    --cor3: #cac3c3;
+    --fonte-cabeçalho: Verdana, Helvetica, sans-serif;
+    --fonte-paragrafos: Helvetica, Verdana, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+header, footer {
+    font-family: var(--fonte-cabeçalho);
+    background-color: var(--cor1);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    text-align: left;
+    font-size: 36px;
+
+}
+
+header a {
+    color: white;
+}
+
+body {
+    background-color: var(--cor2);
+}
+
+main {
+    background-color: var(--cor2);
+    font-family: var(--fonte-paragrafos);
+}
+
+a {
+    text-decoration: none;
+    color: black
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

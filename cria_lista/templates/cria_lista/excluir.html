@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block head %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'delete_page_style.css' %}">
+{% endblock %}
+{% block content %}
+<menu class="menu">
+    <div class="img-lista">
+        <a href="{% url 'cria_lista:excluir_lista' %}">
+            <img src="/media/lista.png" alt="lista">
+            <p class="img-label">Excluir Listas</p>
+        </a>
+    </div>
+    <div class="img-item">
+        <a href="{% url 'cria_lista:excluir_item' %}">
+            <img src="/media/item.png" alt="item">
+            <p class="img-label">Excluir itens</p>
+        </a>
+    </div>
+</menu>
+{% endblock %}

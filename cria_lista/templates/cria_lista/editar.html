@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block head %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'edit_page_style.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="menu">
+    <div class="img-atualizar">
+        <a href="{% url 'cria_lista:atualizar_lista' %}">
+            <img src="/media/update.png" alt="atualizar">
+            <p class="img-label">Atualizar Listas</p>
+        </a>
+    </div>
+    <div class="img-ver">
+        <a href="{% url 'cria_lista:ver_listas' %}">
+            <img src="/media/ver.png" alt="ver">
+            <p class="img-label">Ver Listas</p>
+        </a>
+    </div>
+    <div class="img-adicionar">
+        <a href="{% url 'cria_lista:escolher_lista' %}">
+            <img src="/media/adicionar.png" alt="adicionar">
+            <p class="img-label">Adicionar itens</p>
+        </a>
+    </div>
+    <div class="img-excluir">
+        <a href="{% url 'cria_lista:excluir' %}">
+            <img src="/media/excluir.png" alt="excluir">
+            <p class="img-label">Excluir</p>
+        </a>
+    </div>
+</div>
+
+{% endblock %}

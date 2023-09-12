@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block head %} {% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+</head>
+<body>
+    <header>
+        <h1><a href="{% url 'cria_lista:index' %}">INICIO</a></h1>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        &copy; Monza Dev 2023
+    </footer>
+</body>
+</html>

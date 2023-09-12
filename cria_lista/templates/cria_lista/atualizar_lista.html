@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block head %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'list_style.css' %}">
+{% endblock %}
+{% block content %}
+
+{% if listas %}
+    <h2>Escolha uma das lista para editar</h2>
+    <div class="list-container">
+        <ul>
+            {% for lista in listas %}
+                <a href="{% url 'cria_lista:editar_lista' lista.id %}">
+                    <li>Lista: {{ lista.nome }}</li>
+                </a>
+            {% endfor %}
+        </ul>
+    </div>
+    
+
+{% else %}
+    <p id="no-lists">Sem listas até o momento. <a id="link" href="{% url 'cria_lista:criando_lista' %}">Clique aqui</a> para criar sua primeira lista</p>
+{% endif %}
+
+{% endblock %}
