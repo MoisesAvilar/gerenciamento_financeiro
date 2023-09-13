@@ -11,10 +11,6 @@ class IndexView(generic.TemplateView):
     template_name = 'cria_lista/index.html'
 
 
-class EditarView(generic.TemplateView):
-    template_name = 'cria_lista/editar.html'
-
-
 class CriaListaView(generic.CreateView):
     model = Lista
     form_class = CriaListaForm
@@ -22,22 +18,10 @@ class CriaListaView(generic.CreateView):
     success_url = reverse_lazy('cria_lista:index')
 
 
-class EscolherListaView(generic.ListView):
-    model = Lista
-    template_name = 'cria_lista/escolher_lista.html'
-    context_object_name = 'listas'
-
-
 class VerListasView(generic.ListView):
     model = Lista
     template_name = 'cria_lista/ver_listas.html'
     context_object_name = 'listas'
-
-
-class ListaView(generic.DetailView):
-    model = Lista
-    template_name = 'cria_lista/lista.html'
-    context_object_name = 'lista'
 
 
 class CadastrarItensView(generic.CreateView):
@@ -67,12 +51,6 @@ class CadastrarItensView(generic.CreateView):
         return context
 
 
-def atualizar_lista_view(request):
-    listas = Lista.objects.all()
-    return render(request, 'cria_lista/atualizar_lista.html',
-                  {'listas': listas})
-
-
 def editar_lista_view(request, lista_id):
     listas = get_object_or_404(Lista, id=lista_id)
     if request.method == 'POST':
@@ -81,16 +59,6 @@ def editar_lista_view(request, lista_id):
         listas.save()
         return redirect('cria_lista:editar_lista', lista_id=listas.id)
     return render(request, 'cria_lista/editar_lista.html',
-                  {'listas': listas})
-
-
-def excluir_view(request):
-    return render(request, 'cria_lista/excluir.html')
-
-
-def excluir_lista_view(request):
-    listas = Lista.objects.all()
-    return render(request, 'cria_lista/excluir_lista.html',
                   {'listas': listas})
 
 

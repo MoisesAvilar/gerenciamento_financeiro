@@ -6,20 +6,15 @@
 {% endblock %}
 
 {% block content %}
-
 <div class="menu">
-    <div class="img-criar">
-        <a href="{% url 'cria_lista:criando_lista' %}">
-            <img src="media/criar.png" alt="criar">
-            <p class="img-label">Criar Lista</p>
-        </a>
-    </div>
-    <div class="img-editar">
-        <a href="{% url 'cria_lista:editar' %}">
-            <img src="media/editar.png" alt="editar">
-            <p class="img-label">Editar</p>
-        </a>
-    </div>
+    <h1>Bem-vindo!</h1>
+    <a href="{% url 'cria_lista:criando_lista' %}">
+        <button id="add">Criar Listas</button>
+    </a>
+    <a href="{% url 'cria_lista:ver_listas' %}">
+        <button id="show">Ver Listas</button>
+    </a>
+
 </div>
 
 {% endblock %}

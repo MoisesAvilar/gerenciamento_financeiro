@@ -4,8 +4,16 @@
     --cor1: #0a606c;
     --cor2: #bbbbbb;
     --cor3: #cac3c3;
+    --cor4: #000000;
+    --cor5: #ffffff;
+    --cor6: #2b2b2b;
+    --cor7: #8d8d8d;
+    --cor8: #4e4e4e;
+    --cor-add: #2f8f9c;
+    --cor-edit: #0000ff;
+    --cor-delete: #8d1e1e;
     --fonte-cabeçalho: Verdana, Helvetica, sans-serif;
-    --fonte-paragrafos: Helvetica, Verdana, sans-serif;
+    --fonte-paragrafos: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 * {
@@ -14,23 +22,43 @@
 }
 
 .menu {
-    display: flex;
-    justify-content: space-evenly;
-    margin-top: 60px;
-    margin-bottom: 50px;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 60vh;
+    box-sizing: border-box;
 }
 
-.img-criar img, .img-editar img {
-    text-align: center;
-    border: 10px solid black;
-    border-radius: 20px;
-    width: 300px;
+button {
+    border: 2px solid var(--cor4);
+    border-radius: 50px;
+    padding: 30px;
+    font-size: 30px;
+    transition: transform 1s;
 }
 
-.img-label {
-    text-align: center;
-    border: 10px solid black;
-    border-radius: 20px;
-    font-size: 32px;
+button:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+    border-color: var(--cor5);
+}
+
+#add {
+    background-color: var(--cor-add);
+    color: var(--cor5);
+}
+
+#show {
+    background-color: var(--cor-edit);
+    color: var(--cor5);
+}
+
+h1 {
+    -webkit-text-stroke: 1px var(--cor1);
+    font-family: var(--fonte-cabeçalho);
+    text-shadow: var(--cor5) 2px 2px;
+    font-size: 3em;
+    color: var(--cor4);
 }
 

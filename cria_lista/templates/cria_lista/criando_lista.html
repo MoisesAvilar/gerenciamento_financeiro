@@ -8,24 +8,28 @@
 <h2>Crie sua lista</h2>
 <form method="post">
     {% csrf_token %}
-    <div class="form-group">
-        <label for="nome">Nome da lista: {{ form.nome }}</label>
-    </div>
-    <div class="form-group">
-        <label for="tipo">Prioridade: {{ form.tipo }}</label>
-    </div>
-    <div class="form-group">
-        <label for="categoria">Categoria: {{ form.categoria }}</label>
-    </div>
-    <div class="form-group">
-        <label for="data">Data: {{ form.data }}</label>
-    </div>
-    <div class="form-group">
-        <label for="meta">Meta de gastos: {{ form.meta_de_gastos }}</label>
-    </div>
+    <fieldset>
+        <legend>Detalhes da Lista</legend>
+        <div class="form-group">
+            <label for="nome">Nome da lista: {{ form.nome }}</label>
+        </div>
+        <div class="form-group">
+            <label for="tipo">Prioridade: {{ form.tipo }}</label>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>Data e Meta</legend>
+        <div class="form-group">
+            <label for="data">Data: {{ form.data }}</label>
+        </div>
+        <div class="form-group">
+            <label for="meta">Meta de gastos: {{ form.meta_de_gastos }}</label>
+        </div>
+    </fieldset>
     <div class="botao">
         <button type="submit">Criar</button>
     </div>
 </form>
+
         
 {% endblock %}
