@@ -1,18 +1,41 @@
 {% extends "base.html" %}
 {% block head %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'list_style.css' %}">
+<link rel="stylesheet" href="{% static 'table_list.css' %}">
 {% endblock %}
 {% block content %}
 
 {% if listas %}
     <h2>Abaixo você verá as listas</h2>
-        <div class="list-container">
-            <ul>
-                {% for lista in listas %}
-                    <a href="{% url 'cria_lista:lista' lista.id %}"><li>{{ lista.nome }}</li></a>
-                {% endfor %}
-            </ul>
+        <div class="table">
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Lista</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">R$ Disponível</th>
+                        <th scope="col">Gastos previstos R$</th>
+                        <th scope="col" colspan="3">Opções</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lista in listas %}
+                        <tr>
+                            <th>{{ forloop.counter }}</th>
+                            <td>{{ lista.nome }}</td>
+                            <td>{{ lista.tipo }}</td>
+                            <td>{{ lista.categoria}}</td>
+                            <td>R${{ lista.calcular_diferenca }}</td>
+                            <td>R${{ lista.meta_de_gastos }}</td>
+                            <td id="add"><button>Adicionar</button></td>
+                            <td id="edit"><button>Editar</button></td>
+                            <td id="delete"><button>Excluir</button></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
 {% else %}
     <p>Nenhuma lista criada ainda</p>
