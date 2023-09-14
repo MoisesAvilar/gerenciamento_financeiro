@@ -6,30 +6,33 @@
 
 {% block content %}
 <h2>Crie sua lista</h2>
-<form method="post">
-    {% csrf_token %}
-    <fieldset>
-        <legend>Detalhes da Lista</legend>
-        <div class="form-group">
-            <label for="nome">Nome da lista: {{ form.nome }}</label>
-        </div>
-        <div class="form-group">
-            <label for="tipo">Prioridade: {{ form.tipo }}</label>
-        </div>
-    </fieldset>
-    <fieldset>
-        <legend>Data e Meta</legend>
-        <div class="form-group">
-            <label for="data">Data: {{ form.data }}</label>
-        </div>
-        <div class="form-group">
-            <label for="meta">Meta de gastos: {{ form.meta_de_gastos }}</label>
-        </div>
-    </fieldset>
-    <div class="botao">
-        <button type="submit">Criar</button>
-    </div>
-</form>
 
-        
+<div class="form">
+    <form method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Preencha os campos</legend>
+            <div class="form-group">
+                <label for="{{ form.nome.id_for_label }}">{{ form.nome.label }}:</label>{{ form.nome }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.tipo.id_for_label }}">{{ form.tipo.label }}:</label>{{ form.tipo }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.categoria.id_for_label }}">{{ form.categoria.label }}:</label>{{ form.categoria }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.data.id_for_label}}">{{ form.data.label }}:</label>{{ form.data }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.meta_de_gastos.id_for_label}}">{{ form.meta_de_gastos.label }}:</label>{{ form.meta_de_gastos }}
+            </div>
+        </fieldset>
+        <div class="botao">
+            <button type="submit">Criar</button>
+        </div>
+    </form>
+</div>
+
+
 {% endblock %}
