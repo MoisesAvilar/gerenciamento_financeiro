@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 {% block head %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'excluir.css' %}">
+<link rel="stylesheet" href="{% static 'action_confirm.css' %}">
 {% endblock %}
 {% block content %}
-{% if lista %}
+<div class="form">
     <form method="post">
         {% csrf_token %}
-        <h2>Tem certeza que deseja excluir a lista '{{ lista }}'?</h2>
+        <h1>Tem certeza que deseja excluir a lista "<strong>{{ lista }}</strong>"?</h1>
         <p>Ao deletar a lista você apagará todos os itens vinculados a ela</p>
-        <button type="submit">Excluir</button>
+        <div class="botao">
+            <button type="submit">Excluir</button>
+        </div>
     </form>
-{% else %}
-    <p>Sem listas adicionadas no momento</p>
-{% endif %}
+</div>
 {% endblock %}

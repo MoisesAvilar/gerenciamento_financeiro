@@ -19,17 +19,15 @@
 * {
     margin: 0;
     padding: 0;
-}
-
-.table {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50vh;
+    box-sizing: border-box;
 }
 
 table {
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
     text-align: center;
+    align-items: center;
     background-color: var(--cor6);
     color: var(--cor5);
     font-family: var(--fonte-paragrafos);

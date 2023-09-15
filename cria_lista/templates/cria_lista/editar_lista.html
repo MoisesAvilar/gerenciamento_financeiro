@@ -1,21 +1,33 @@
 {% extends 'base.html' %}
 {% block head %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'form_style.css' %}">
+<link rel="stylesheet" href="{% static 'edit_list_style.css' %}">
 {% endblock %}
 {% block content %}
 <h2>Nome atual: {{ listas }}</h2>
+<div class="form">
     <form method="post">
         {% csrf_token %}
-        <div class="form-group">
-            <label for="novo_nome">Alterar nome: <input type="text" name="novo_nome" id="novo_nome" required maxlength="50"></label>
-        </div>
-        <div class="form-group">
-            <label for="meta">Alterar meta de gastos: <input type="number" name="meta" id="meta" required maxlength="6"></label>
-        </div>
+        <fieldset>
+            <legend>Preencha os campos</legend>
+            <div class="form-group">
+                <label for="{{ form.nome.id_for_label }}"><strong>{{ form.nome.label }}</strong></label>{{ form.nome }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.tipo.id_for_label }}"><strong>{{ form.tipo.label }}</strong></label>{{ form.tipo }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.categoria.id_for_label }}"><strong>{{ form.categoria.label }}</strong></label>{{ form.categoria }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.meta_de_gastos.id_for_label}}"><strong>{{ form.meta_de_gastos.label }}</strong></label>{{ form.meta_de_gastos }}
+            </div>
+        </fieldset>
+        <br>
         <div class="botao">
-            <button type="submit">Salvar</button>
+            <button type="submit"><strong>Criar</strong></button>
         </div>
     </form>
+</div>
 
 {% endblock %}

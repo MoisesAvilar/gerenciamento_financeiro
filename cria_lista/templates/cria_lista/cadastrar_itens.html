@@ -1,27 +1,34 @@
 {% extends "base.html" %}
 {% block head %}
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'form_style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adding_new_item.css' %}">
 {% endblock %}
 {% block content %}
 
-<h2>Cadastre seus itens na lista {{ lista }}</h2>
-<form method="post" class="form">
-    {% csrf_token %}
-    <div class="form-group">
-        <label for="nome">Nome: {{ form.nome }}</label>
-    </div>
-    <div class="form-group">
-        <label for="quantidade">Quantidade: {{ form.quantidade }}</label>
-    </div>
-    <div class="form-group">
-        <label for="valor">Valor: R${{ form.valor }}</label>
-    </div>
-    <div class="botao">
-        <button type="submit">Salvar</button>
-    </div>
-</form>
-<p>Disponivel: {{ lista.calcular_diferenca }}</p>
-<p>Diferença: {{ lista.valor_total }}</p>
+<div class="form">    
+    <form method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Cadastre seus itens na lista {{ lista }}</legend>
+            <div class="form-group">
+                <label for="{{ form.nome.id_for_label }}"><strong>{{ form.nome.label }}</strong></label>{{ form.nome}}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.quantidade.id_for_label }}"><strong>{{ form.quantidade.label }}</strong></label>{{ form.quantidade }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.valor.id_for_label }}"><strong>{{ form.valor.label }}</strong></label>{{ form.valor }}
+            </div>
+        </fieldset>
+        <br>
+        <div class="botao">
+            <button type="submit">Salvar</button>
+        </div>
+        <div class="label-data">
+            <label>Saldo: R${{ lista.calcular_diferenca }}</label>
+            <label>Gasto: R${{ lista.valor_total }}</label>
+        </div>
+    </form>
+</div>
 
 {% endblock %}

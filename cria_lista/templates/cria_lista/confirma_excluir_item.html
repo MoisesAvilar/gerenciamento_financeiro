@@ -8,7 +8,9 @@
     <form method="post">
         {% csrf_token %}
         <h2>Tem certeza que deseja excluir o item '{{ object.item }}'?</h2>
-        <button type="submit">Excluir</button>
+        <div class="botao">
+            <button type="submit">Excluir</button>
+        </div>
     </form>
 {% else %}
     <p>Sem itens adicionados no momento</p>
