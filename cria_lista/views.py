@@ -3,7 +3,7 @@ from typing import Any
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
-from cria_lista.forms import CadastraItensForm, CriaListaForm
+from cria_lista.forms import AtualizaNomeListaForm, CadastraItensForm, CriaListaForm
 from cria_lista.models import Item, Lista
 
 
@@ -15,7 +15,7 @@ class CriaListaView(generic.CreateView):
     model = Lista
     form_class = CriaListaForm
     template_name = 'cria_lista/criando_lista.html'
-    success_url = reverse_lazy('cria_lista:index')
+    success_url = reverse_lazy('cria_lista:ver_listas')
 
 
 class VerListasView(generic.ListView):
@@ -51,7 +51,17 @@ class CadastrarItensView(generic.CreateView):
         return context
 
 
-def editar_lista_view(request, lista_id):
+class EditarListaView(generic.UpdateView):
+    model = Lista
+    form_class = AtualizaNomeListaForm
+    template_name = 'cria_lista/editar_lista.html'
+    context_object_name = 'lista'
+
+    def get_success_url(self):
+        return reverse_lazy('cria_lista:ver_listas')
+
+
+'''def editar_lista_view(request, lista_id):
     listas = get_object_or_404(Lista, id=lista_id)
     if request.method == 'POST':
         novo_nome = request.POST.get('novo_nome')
@@ -59,7 +69,7 @@ def editar_lista_view(request, lista_id):
         listas.save()
         return redirect('cria_lista:editar_lista', lista_id=listas.id)
     return render(request, 'cria_lista/editar_lista.html',
-                  {'listas': listas})
+                  {'listas': listas})'''
 
 
 class DeletarLista(generic.DeleteView):

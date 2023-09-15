@@ -51,6 +51,7 @@ legend {
     background-color: var(--cor1);
     border-radius: 5px;
     color: var(--cor5);
+    font-size: 20px;
 }
 
 .form-group {
@@ -106,9 +107,18 @@ button:hover {
     opacity: 1;
 }
 
+.label-data {
+    text-align: center;
+    margin-top: 8px;
+    margin-bottom: 10px;
+}
+
 .label-data label {
-    color: var(--cor5);
+    display: inline;
+    color: var(--cor4);
     bottom: 0;
     margin: 0 auto;
-    margin-right: 10px;
+    background-color: var(--cor3);
+    padding: 5px;
+    border-radius: 10px;
 }

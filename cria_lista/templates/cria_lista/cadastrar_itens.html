@@ -9,7 +9,7 @@
     <form method="post">
         {% csrf_token %}
         <fieldset>
-            <legend>Cadastre seus itens na lista {{ lista }}</legend>
+            <legend>Cadastre itens na lista {{ lista }}</legend>
             <div class="form-group">
                 <label for="{{ form.nome.id_for_label }}"><strong>{{ form.nome.label }}</strong></label>{{ form.nome}}
             </div>
@@ -25,8 +25,8 @@
             <button type="submit">Salvar</button>
         </div>
         <div class="label-data">
-            <label>Saldo: R${{ lista.calcular_diferenca }}</label>
-            <label>Gasto: R${{ lista.valor_total }}</label>
+            <label id="left-label">Saldo: R${{ lista.calcular_diferenca }}</label>
+            <label id="right-label">Gasto: R${{ lista.valor_total }}</label>
         </div>
     </form>
 </div>

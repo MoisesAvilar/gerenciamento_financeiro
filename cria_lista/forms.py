@@ -17,6 +17,4 @@ class CriaListaForm(forms.ModelForm):
 class AtualizaNomeListaForm(forms.ModelForm):
     class Meta:
         model = Lista
-        fields = '__all__'
-    listas = forms.ModelChoiceField(queryset=Lista.objects.all())
-    nome = forms.CharField(max_length=50)
+        fields = ('nome', 'tipo', 'categoria', 'meta_de_gastos',)
