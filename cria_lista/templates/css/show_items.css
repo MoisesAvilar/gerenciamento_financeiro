@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+:root {
+    --cor1alt: #0E90A1;
+    --cor1alt2: #5CDCED;
+    --cor1alt3: #0A626E;
+    --cor1: #0a606c;
+    --cor2: #bbbbbb;
+    --cor3: #cac3c3;
+    --cor4: #000000;
+    --cor5: #ffffff;
+    --cor6: #2b2b2b;
+    --cor7: #8d8d8d;
+    --cor8: #4e4e4e;
+    --cor-add: #0000ff;
+    --cor-show: #2f8f9c;
+    --cor-edit: #489c2f;
+    --cor-delete: #8d1e1e;
+    --fonte-cabeçalho: Verdana, Helvetica, sans-serif;
+    --fonte-paragrafos: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}

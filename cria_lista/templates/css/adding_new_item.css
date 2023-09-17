@@ -122,3 +122,7 @@ button:hover {
     padding: 5px;
     border-radius: 10px;
 }
+
+strong {
+    text-transform: uppercase;
+}

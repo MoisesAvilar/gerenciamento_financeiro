@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 TIPO = (
     ('Prioritários', 'Prioritários'),
@@ -38,6 +39,9 @@ class Lista(models.Model):
     def __str__(self):
         return self.nome
 
+    def get_absolute_url(self):
+        return f'lista/{self.id}/'
+
 
 class Item(models.Model):
     lista = models.ForeignKey(Lista, on_delete=models.CASCADE)
@@ -47,3 +51,6 @@ class Item(models.Model):
 
     def __str__(self):
         return self.nome
+
+    def get_absolute_url(self):
+        return reverse('cria_lista:editar_item', args=[str(self.lista.id), str(self.id)])

@@ -17,7 +17,7 @@
                         <th scope="col">Gasto</th>
                         <th scope="col">Saldo</th>
                         <th scope="col">Limite</th>
-                        <th scope="col" colspan="3">Opções</th>
+                        <th scope="col" colspan="4">Opções</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,20 +31,23 @@
                             <td>R${{ lista.calcular_diferenca }}</td>
                             <td>R${{ lista.meta_de_gastos }}</td>
                             <td id="add">
-                                <a href="{% url 'cria_lista:cadastrar_itens' lista.id %}"><button>Adicionar</button></a>
+                                <a href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}"><button>Adicionar</button></a>
+                            </td>
+                            <td id="show">
+                                <a href="{% url 'cria_lista:ver_itens' id_lista=lista.id %}"><button>Ver Itens</button></a>
                             </td>
                             <td id="edit">
-                                <a href="{% url 'cria_lista:editar_lista' lista.id %}"><button>Editar</button></a>
+                                <a href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}"><button>Editar</button></a>
                             </td>
                             <td id="delete">
-                                <a href="{% url 'cria_lista:confirma_excluir_lista' lista.id %}"><button>Excluir</button></a>
+                                <a href="{% url 'cria_lista:deletar_lista' id_lista=lista.id %}"><button>Excluir</button></a>
                             </td>
                         </tr>
                     {% endfor %}
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="10">Total de listas: {{ listas|length }}</th>
+                        <th colspan="11">Total de listas: {{ listas|length }}</th>
                     </tr>
                 </tfoot>
             </table>

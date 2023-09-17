@@ -53,8 +53,10 @@
     text-shadow: 1px 1px 5px var(--cor5);
 }
 
-.form strong {
-    text-transform: capitalize;
+strong {
+    text-transform: uppercase;
+    color: var(--cor-delete);
+    text-shadow: 1px 1px 5px var(--cor5);
 }
 
 .form h1, .form p {
@@ -78,5 +80,3 @@ button:hover {
     cursor: pointer;
     text-shadow: 2px 2px var(--cor4);
 }
-
-

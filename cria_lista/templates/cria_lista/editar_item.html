@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block head %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'edit_list_style.css' %}">
+{% endblock %}
+{% block content %}
+{% if form %}
+    <div class="form">
+        <form method="post">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Altere os campos desejados</legend>
+                <div class="form-group">
+                    <label for="{{ form.nome.id_for_label }}"><strong>{{ form.nome.label }}</strong></label>{{ form.nome }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.quantidade.id_for_label }}"><strong>{{ form.quantidade.label }}</strong></label>{{ form.quantidade }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.valor.id_for_label }}"><strong>{{ form.valor.label }}</strong></label>{{ form.valor }}
+                </div>
+            </fieldset>
+            <br>
+            <div class="botao">
+                <button type="submit"><strong>Salvar</strong></button>
+            </div>
+        </form>
+    </div>
+{% else %}
+    <p>EEEEEEEEEEEEEErro</p>
+{% endif %}
+
+{% endblock %}
