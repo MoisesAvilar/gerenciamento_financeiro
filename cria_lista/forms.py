@@ -11,7 +11,7 @@ class CadastraItensForm(forms.ModelForm):
 class CriaListaForm(forms.ModelForm):
     class Meta:
         model = Lista
-        fields = ('nome', 'tipo', 'categoria', 'data', 'meta_de_gastos',)
+        fields = ('nome', 'tipo', 'categoria', 'meta_de_gastos',)
 
 
 class AtualizaNomeListaForm(forms.ModelForm):

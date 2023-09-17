@@ -14,8 +14,9 @@ class IndexView(generic.TemplateView):
 class NovaLista(generic.CreateView):
     model = Lista
     form_class = CriaListaForm
-    template_name = 'cria_lista/nova_lista.html'
+    template_name = 'cria_lista/form_lista.html'
     success_url = reverse_lazy('cria_lista:listas')
+    context_object_name = 'lista'
 
 
 class Listas(generic.ListView):
@@ -72,7 +73,7 @@ class CadastrarItens(generic.CreateView):
 class EditarLista(generic.UpdateView):
     model = Lista
     form_class = AtualizaNomeListaForm
-    template_name = 'cria_lista/editar_lista.html'
+    template_name = 'cria_lista/form_lista.html'
     context_object_name = 'lista'
     pk_url_kwarg = 'id_lista'
 
@@ -132,9 +133,3 @@ class DeletarLista(generic.DeleteView):
     def get_success_url(self):
         id_lista = self.kwargs['id_lista']
         return reverse('cria_lista:listas')
-
-
-def excluir_item_view(request):
-    itens = Item.objects.all()
-    return render(request, 'cria_lista/excluir_item.html',
-                  {'itens': itens})

@@ -16,12 +16,12 @@ CATEGORIA = (
 
 
 class Lista(models.Model):
-    nome = models.CharField(max_length=50)
-    tipo = models.CharField(max_length=50, choices=TIPO)
-    categoria = models.CharField(max_length=50, choices=CATEGORIA)
-    data = models.DateField()
+    nome = models.CharField(max_length=50, null=False, blank=False)
+    tipo = models.CharField(max_length=50, choices=TIPO, null=False, blank=False)
+    categoria = models.CharField(max_length=50, choices=CATEGORIA, null=False, blank=False)
+    data = models.DateField(auto_now_add=True)
     meta_de_gastos = models.DecimalField(
-        decimal_places=2, max_digits=6, default=500)
+        decimal_places=2, max_digits=6, default=500, null=False, blank=False)
 
     @property
     def valor_total(self):

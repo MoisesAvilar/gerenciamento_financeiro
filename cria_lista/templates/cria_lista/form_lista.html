@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block head %}
+{% if lista.id_lista %}
+    <title>Editar lista {{ lista }}</title>
+{% else %}
+    <title>Nova Lista</title>
+{% endif %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'creating_list_style.css' %}">
+{% endblock %}
+
+{% block content %}
+{% if lista.id_lista %}
+    <div class="form">
+        <form method="post">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Preencha os campos</legend>
+                <div class="form-group">
+                    <label for="{{ form.nome.id_for_label }}"><strong>{{ form.nome.label }}</strong></label>{{ form.nome }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.tipo.id_for_label }}"><strong>{{ form.tipo.label }}</strong></label>{{ form.tipo }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.categoria.id_for_label }}"><strong>{{ form.categoria.label }}</strong></label>{{ form.categoria }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.meta_de_gastos.id_for_label}}"><strong>{{ form.meta_de_gastos.label }}</strong></label>{{ form.meta_de_gastos }}
+                </div>
+            </fieldset>
+            <br>
+            <div class="botao">
+                <button type="submit"><strong>Salvar</strong></button>
+            </div>
+        </form>
+    </div>
+{% else %}
+    <br>
+    <div class="form">
+        <form method="post">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Preencha os campos</legend>
+                <div class="form-group">
+                    <label for="{{ form.nome.id_for_label }}"><strong>{{ form.nome.label }}</strong></label>{{ form.nome }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.tipo.id_for_label }}"><strong>{{ form.tipo.label }}</strong></label>{{ form.tipo }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.categoria.id_for_label }}"><strong>{{ form.categoria.label }}</strong></label>{{ form.categoria }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.meta_de_gastos.id_for_label}}"><strong>Limite</strong></label>{{ form.meta_de_gastos }}
+                </div>
+            </fieldset>
+            <br>
+            <div class="botao">
+                <button type="submit"><strong>Criar</strong></button>
+            </div>
+        </form>
+    </div>
+{% endif %}
+{% endblock %}

@@ -26,6 +26,13 @@
     box-sizing: border-box;
 }
 
+#no-lists {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 table {
     position: relative;
     margin: 0 auto;
@@ -71,27 +78,45 @@ tbody > tr:nth-child(even) {
 }
 
 button {
-    padding: 4px;
+    padding: 10px;
     border-radius: 4px;
     color: var(--cor5);
+    outline: none;
+    border: none;
 }
 
 button:hover {
     cursor: pointer;
 }
 
-#add button {
+#add {
     background-color: var(--cor-add);
 }
 
-#show button {
+#add:hover {
+    background-color: #0000ffbb;
+}
+
+#show {
     background-color: var(--cor-show);
 }
 
-#edit button {
-    background-color: var(--cor-edit);
+#show:hover {
+    background-color: #2f8f9ca4;
 }
 
-#delete button {
+#edit {
+    background-color: #489c2f;
+}
+
+#edit:hover {
+    background-color: #489c2f9f;
+}
+
+#delete {
     background-color: var(--cor-delete);
+}
+
+#delete:hover {
+    background-color: #8d1e1ea3;
 }

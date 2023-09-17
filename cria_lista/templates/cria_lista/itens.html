@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block head %}
+    <title>Itens na lista {{ lista }}</title>
 {% load static %}
 <link rel="stylesheet" href="{% static 'table_list.css' %}">
 {% endblock %}
@@ -27,17 +28,19 @@
                     <td>{{ item.nome }}</td>
                     <td>{{ item.quantidade }}</td>
                     <td>R${{ item.valor }}</td>
-                    <td id="edit">
-                        <a href="{% url 'cria_lista:editar_item' id_lista=lista.id id_item=item.id %}"><button>Editar</button></a>
-                    </td>
-                    <td id="delete">
-                        <a href="{% url 'cria_lista:deletar_item' id_lista=lista.id id_item=item.id %}"><button>Excluir</button></a>
+                    <td >
+                        <a href="{% url 'cria_lista:editar_item' id_lista=lista.id id_item=item.id %}"><button id="edit">Editar</button></a>
+                        <a href="{% url 'cria_lista:deletar_item' id_lista=lista.id id_item=item.id %}"><button id="delete">Excluir</button></a>
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
         <tfoot>
-            <th colspan="6">Total de {{ itens|length }} itens </th>
+            {% if itens|length > 1 %}
+                <th colspan="6">Total de {{ itens|length }} itens </th>
+            {% else %}
+                <th colspan="6">Total de {{ itens|length }} item </th>
+            {% endif %}
         </tfoot>
     </table>
 </div>
