@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{% static 'table_list.css' %}">
 {% endblock %}
 {% block content %}
- 
+
 {% if listas %}
         <div class="table">
             <table>
@@ -51,7 +51,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="9">Total de listas: {{ listas|length }}</th>
+                        <th colspan="9">Total de <small>listas</small>: {{ listas|length }}</th>
                     </tr>
                 </tfoot>
             </table>
