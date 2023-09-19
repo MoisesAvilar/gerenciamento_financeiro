@@ -45,9 +45,9 @@ class Lista(models.Model):
 
 class Item(models.Model):
     lista = models.ForeignKey(Lista, on_delete=models.CASCADE)
-    nome = models.CharField(max_length=50)
-    quantidade = models.IntegerField(default=1)
-    valor = models.DecimalField(max_digits=6, decimal_places=2)
+    nome = models.CharField(max_length=50,  null=False, blank=False)
+    quantidade = models.IntegerField(default=1,  null=False, blank=False)
+    valor = models.DecimalField(max_digits=6, decimal_places=2,  null=False, blank=False)
 
     def __str__(self):
         return self.nome

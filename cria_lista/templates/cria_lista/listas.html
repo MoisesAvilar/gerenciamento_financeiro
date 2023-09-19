@@ -5,19 +5,19 @@
 <link rel="stylesheet" href="{% static 'table_list.css' %}">
 {% endblock %}
 {% block content %}
-
+ 
 {% if listas %}
         <div class="table">
             <table>
                 <thead>
                     <tr>
-                        <th scope="col">ID</th>
+                        <th scope="col">#</th>
                         <th scope="col">Lista</th>
-                        <th scope="col">Tipo</th>
-                        <th scope="col">Categoria</th>
-                        <th scope="col">Criada em</th>
-                        <th scope="col">Gasto</th>
-                        <th scope="col">Saldo</th>
+                        <th scope="col" id="tipo">Tipo</th>
+                        <th scope="col" id="categoria">Categoria</th>
+                        <th scope="col" id="criada">Criada em</th>
+                        <th scope="col" id="gasto">Gasto</th>
+                        <th scope="col" id="saldo">Saldo</th>
                         <th scope="col">Limite</th>
                         <th scope="col" colspan="4">Opções</th>
                     </tr>
@@ -27,24 +27,26 @@
                         <tr>
                             <th>{{ forloop.counter }}</th>
                             <td>{{ lista.nome.upper }}</td>
-                            <td>{{ lista.tipo }}</td>
-                            <td>{{ lista.categoria}}</td>
-                            <td>{{ lista.data }}</td>
+                            <td id="tipo">{{ lista.tipo }}</td>
+                            <td id="categoria">{{ lista.categoria}}</td>
+                            <td id="criada">{{ lista.data }}</td>
                             {% if lista.valor_total > lista.meta_de_gastos %}
-                                <td style="color: red;">R${{ lista.valor_total }}</td>
+                                <td id="gasto" style="color: red;">R${{ lista.valor_total }}</td>
                                 <td style="color: red;">R${{ lista.calcular_diferenca }}</td>
                             {% else %}
-                                <td>R${{ lista.valor_total }}</td>
-                                <td>R${{ lista.calcular_diferenca }}</td>
+                                <td id="gasto">R${{ lista.valor_total }}</td>
+                                <td id="saldo">R${{ lista.calcular_diferenca }}</td>
                             {% endif %}
-                            <td>R${{ lista.meta_de_gastos }}</td>
-                            <td>
-                                <a href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}"><button id="add">Adicionar</button></a> 
-                                <a href="{% url 'cria_lista:ver_itens' id_lista=lista.id %}"><button id="show">Ver Itens</button></a>
-                                <a href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}"><button id="edit">Editar</button></a>
-                                <a href="{% url 'cria_lista:deletar_lista' id_lista=lista.id %}"><button id="delete">Excluir</button></a>
-                            </td>
-                        </tr>
+                            <td>R${{ lista.meta_de_gastos }}</td>                    
+                                <td class="options">
+                                    <div class="options-buttons">
+                                        <a href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}"><button id="add">Adicionar</button></a>
+                                        <a href="{% url 'cria_lista:ver_itens' id_lista=lista.id %}"><button id="show">Itens</button></a>
+                                        <a href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}"><button id="edit">Editar</button></a>
+                                        <a href="{% url 'cria_lista:deletar_lista' id_lista=lista.id %}"><button id="delete">Excluir</button></a>
+                                    </div>
+                                </td>
+                            </tr>
                     {% endfor %}
                 </tbody>
                 <tfoot>

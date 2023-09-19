@@ -31,7 +31,11 @@
     height: 60vh;
 }
 
-button {
+.button-container {
+    display: grid;
+}
+
+.link {
     border: 2px solid var(--cor4);
     border-radius: 50px;
     padding: 30px;
@@ -39,8 +43,7 @@ button {
     transition: transform 1s;
 }
 
-button:hover {
-    cursor: pointer;
+.link:hover {
     transform: translateY(-2px);
     border-color: var(--cor5);
 }
@@ -53,13 +56,24 @@ button:hover {
 #show {
     background-color: var(--cor-edit);
     color: var(--cor5);
+    margin-top: 20px;
 }
 
 #title {
-    -webkit-text-stroke: 1px var(--cor1);
+    -webkit-text-stroke: 1px var(--cor7);
     font-family: var(--fonte-cabeçalho);
-    text-shadow: var(--cor5) 2px 2px;
     font-size: 3em;
-    color: var(--cor-add);
+    color: var(--cor1);
 }
 
+
+
+@media only screen and (min-width: 992px) {
+    .button-container {
+        display: block;
+    }
+
+    #show {
+        margin-left: 40px;
+    }
+}

@@ -8,12 +8,14 @@
 {% block content %}
 <div class="menu">
     <h1 id="title">Bem-vindo!</h1>
-    <a href="{% url 'cria_lista:nova_lista' %}">
-        <button id="add">Criar Listas</button>
-    </a>
-    <a href="{% url 'cria_lista:listas' %}">
-        <button id="show">Ver Listas</button>
-    </a>
+    <div class="button-container">
+        <a id="add" class="link" href="{% url 'cria_lista:nova_lista' %}">
+            Criar Listas
+        </a>
+        <a id="show" class="link" href="{% url 'cria_lista:listas' %}">
+            Ver Listas
+        </a>
+    </div>
 
 </div>
 

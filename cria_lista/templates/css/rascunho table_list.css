@@ -33,20 +33,6 @@
     transform: translate(-50%, -50%);
 }
 
-#tipo, #categoria, #criada, #saldo, #gasto {
-    display: none;
-}
-
-.options-buttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.options-buttons button {
-    margin-right: 5px; /* Adicione um espaço entre os botões */
-}
-
 table {
     position: relative;
     margin: 0 auto;
