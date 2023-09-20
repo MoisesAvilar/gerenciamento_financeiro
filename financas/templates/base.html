@@ -11,7 +11,19 @@
 <body>
     <header>
         <nav>
-            <h1><a href="{% url 'cria_lista:index' %}">INICIO</a></h1>
+            <ul id="not-logged-in">
+                <li id="index"><a href="{% url 'cria_lista:index' %}">INICIO</a></li>
+                {% if not user.is_authenticated %}
+                    <li><a href="{% url 'accounts:login' %}">Login</a></li>
+                    <li><a href="{% url 'accounts:signup' %}">Cadastre-se</a></li>
+                {% endif %}            
+            </ul>
+            <ul id="logged-in">
+                {% if user.is_authenticated %}
+                    <li>Olá, {{ user.title }}</li>
+                    <li id="logout"><a href="{% url 'accounts:logout' %}">Sair</a></li>
+                {% endif %}
+            </ul>  
         </nav>
     </header>
     <main>

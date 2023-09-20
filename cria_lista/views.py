@@ -2,6 +2,9 @@ from typing import Any
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+
 from cria_lista.forms import AtualizaNomeListaForm, CadastraItensForm, CriaListaForm, EditarItemForm
 from cria_lista.models import Item, Lista
 
@@ -10,6 +13,7 @@ class IndexView(generic.TemplateView):
     template_name = 'cria_lista/index.html'
 
 
+@method_decorator(login_required(login_url='accounts:login'), name='dispatch')
 class NovaLista(generic.CreateView):
     model = Lista
     form_class = CriaListaForm
@@ -24,6 +28,7 @@ class Listas(generic.ListView):
     context_object_name = 'listas'
 
 
+@method_decorator(login_required(login_url='accounts:login'), name='dispatch')
 class VerItens(generic.ListView):
     template_name = 'cria_lista/itens.html'
     context_object_name = 'itens'
@@ -41,6 +46,7 @@ class VerItens(generic.ListView):
         return context
 
 
+@method_decorator(login_required(login_url='accounts:login'), name='dispatch')
 class CadastrarItens(generic.CreateView):
     model = Item
     form_class = CadastraItensForm
@@ -69,6 +75,7 @@ class CadastrarItens(generic.CreateView):
         return reverse('cria_lista:cadastrar_itens', kwargs={'id_lista': id_lista})
 
 
+@method_decorator(login_required(login_url='accounts:login'), name='dispatch')
 class EditarLista(generic.UpdateView):
     model = Lista
     form_class = AtualizaNomeListaForm
@@ -81,6 +88,7 @@ class EditarLista(generic.UpdateView):
         return reverse('cria_lista:listas')
 
 
+@method_decorator(login_required(login_url='accounts:login'), name='dispatch')
 class EditarItem(generic.UpdateView):
     model = Item
     template_name = 'cria_lista/editar_item.html'
@@ -107,6 +115,7 @@ class EditarItem(generic.UpdateView):
         return reverse('cria_lista:ver_itens', kwargs={'id_lista': self.kwargs['id_lista']})
 
 
+@method_decorator(login_required(login_url='accounts:login'), name='dispatch')
 class DeletarItem(generic.DeleteView):
     model = Item
     template_name = 'cria_lista/deletar_item.html'
@@ -123,6 +132,7 @@ class DeletarItem(generic.DeleteView):
         return redirect(reverse('cria_lista:ver_itens', kwargs={'id_lista': id_lista}))
 
 
+@method_decorator(login_required(login_url='accounts:login'), name='dispatch')
 class DeletarLista(generic.DeleteView):
     model = Lista
     template_name = 'cria_lista/deletar_lista.html'
