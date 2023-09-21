@@ -23,7 +23,7 @@ def login_view(request):
             login(request, user)
             return redirect('cria_lista:index')
         else:
-            login_form = AuthenticationForm()
+            login_form = AuthenticationForm(request.POST)
     else:
         login_form = AuthenticationForm(request.POST)
     return render(request, 'accounts/login.html', {'login_form': login_form})

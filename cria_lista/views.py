@@ -5,12 +5,28 @@ from django.views import generic
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
-from cria_lista.forms import AtualizaNomeListaForm, CadastraItensForm, CriaListaForm, EditarItemForm
+from cria_lista.forms import (AtualizaNomeListaForm, CadastraItensForm,
+                              CriaListaForm, EditarItemForm)
 from cria_lista.models import Item, Lista
 
 
 class IndexView(generic.TemplateView):
     template_name = 'cria_lista/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        if user.is_authenticated:
+            context['user'] = user
+            context['lista'] = Lista.objects.filter(user=user)
+            context['item'] = Item.objects.all()
+        else:
+            context['user'] = None
+            context['lista'] = []
+            context['item'] = []
+
+        return context
 
 
 @method_decorator(login_required(login_url='accounts:login'), name='dispatch')
@@ -21,11 +37,22 @@ class NovaLista(generic.CreateView):
     success_url = reverse_lazy('cria_lista:listas')
     context_object_name = 'lista'
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 
 class Listas(generic.ListView):
     model = Lista
     template_name = 'cria_lista/listas.html'
     context_object_name = 'listas'
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return Lista.objects.filter(user=self.request.user)
+        else:
+            return Lista.objects.none()
 
 
 @method_decorator(login_required(login_url='accounts:login'), name='dispatch')

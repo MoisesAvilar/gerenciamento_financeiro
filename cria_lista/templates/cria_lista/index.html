@@ -6,17 +6,28 @@
 {% endblock %}
 
 {% block content %}
-<div class="menu">
-    <h1 id="title">Bem-vindo!</h1>
-    <div class="button-container">
-        <a id="add" class="link" href="{% url 'cria_lista:nova_lista' %}">
-            Criar Listas
-        </a>
-        <a id="show" class="link" href="{% url 'cria_lista:listas' %}">
-            Ver Listas
-        </a>
+<section>
+    <div class="menu">
+        <h1 id="title">Bem-vindo, {{ user.username.title }}!</h1>
+        <div class="button-container">
+            <a id="add" class="link" href="{% url 'cria_lista:nova_lista' %}">
+                Criar Lista
+            </a>
+            <a id="show" class="link" href="{% url 'cria_lista:listas' %}">
+                Ver Listas
+            </a>
+        </div>
+        {% if user.is_authenticated %}
+            {% if lista|length > 0 %}
+                <p>Você tem {{ lista|length }} lista{{ lista|length|pluralize:"s" }} cadastrada{{ lista|length|pluralize:"s" }}</p>
+                <p>Você tem {{ item|length }} item{{ item|length|pluralize:"s" }} cadastrado{{ item|length|pluralize:"s" }}</p>
+            {% else %}
+                <p>Sem detalhes para exibir</p>
+            {% endif %}
+        {% else %}
+            <p>Faça login ou registre-se para acessar os detalhes</p>
+        {% endif %}
     </div>
-
-</div>
+</section>
 
 {% endblock %}

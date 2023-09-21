@@ -48,6 +48,22 @@ nav ul {
     text-align: right;
 }
 
+#hello {
+    color: var(--cor5);
+}
+
+.navbar {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    justify-content: space-around;
+}
+
+.navbar li {
+    margin: 0 10px;
+}
+
 header, footer {
     font-family: var(--fonte-cabeçalho);
     background-color: var(--cor1);
@@ -58,7 +74,12 @@ header, footer {
 }
 
 header a {
-    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    color: var(--cor5);
+    outline: none;
+    border: none;
+    justify-content: space-around;
 }
 
 body {

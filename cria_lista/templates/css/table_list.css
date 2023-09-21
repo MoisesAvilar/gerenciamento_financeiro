@@ -37,16 +37,6 @@
     display: none;
 }
 
-.options-buttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.options-buttons button {
-    margin-right: 5px; /* Adicione um espaço entre os botões */
-}
-
 table {
     position: relative;
     margin: 0 auto;
@@ -91,16 +81,13 @@ tbody > tr:nth-child(even) {
     background-color: var(--cor8);
 }
 
-button {
+a {
     padding: 10px;
     border-radius: 4px;
     color: var(--cor5);
     outline: none;
     border: none;
-}
-
-button:hover {
-    cursor: pointer;
+    justify-content: space-around;
 }
 
 #add {
