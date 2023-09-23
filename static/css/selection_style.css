@@ -22,13 +22,21 @@
     box-sizing: border-box;
 }
 
+main.menu {
+    background-color: var(--cor3);
+    margin: 0 auto;
+    max-width: 70vw;
+}
+
+#title {
+    font-size: 2px;
+}
 
 .menu {
     display: grid;
     justify-content: center;
     align-items: center;
     text-align: center;
-    height: 60vh;
 }
 
 .button-container {

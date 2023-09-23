@@ -28,14 +28,14 @@
     text-align: left;
 }
 
-nav {
+nav.navigation {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
 }
 
-nav ul {
+nav ul.navbar {
     list-style: none;
     display: flex;
     align-items: flex-end;
@@ -44,12 +44,57 @@ nav ul {
     padding: 0;   
 }
 
-#not-logged-in, #logged-in {
+#not-logged-in {
+    text-align: left;
+    padding: 5px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#logged-in {
     text-align: right;
+    align-items: center;
+    font-size: 12px;
 }
 
 #hello {
     color: var(--cor5);
+    position: relative;
+    display: flex;
+    border: 1px solid var(--cor5);
+    border-radius: 10px;
+    padding: 5px;
+    align-items: center;
+}
+
+#hello:hover {
+    cursor: pointer;
+    background-color: var(--cor3);
+    transition: background-color .3s ease-in-out;
+    color: var(--cor4);
+    border: 1px solid var(--cor5);
+    border-radius: 10px;
+    padding: 5px;
+}
+
+#logout {
+    border: 1px solid var(--cor1);
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#logout:hover {
+    border: 1px solid var(--cor5);
+    color: var(--cor4);
+    border-radius: 10px;
+}
+
+#logout a {
+    display: flex;
+    align-items: center;
 }
 
 .navbar {

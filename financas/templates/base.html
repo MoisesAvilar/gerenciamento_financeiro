@@ -6,11 +6,14 @@
     {% block head %} {% endblock %}
     <title>{% block title %}{% endblock %}</title>
     {% load static %}
+    <script src="{% static 'logout.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 <body>
     <header>
-        <nav>
+        <nav class="navigation">
             <ul id="not-logged-in" class="navbar">
                 <li id="index"><a href="{% url 'cria_lista:index' %}">INICIO</a></li>
                 {% if not user.is_authenticated %}
@@ -18,10 +21,14 @@
                     <li><a href="{% url 'accounts:signup' %}">Cadastre-se</a></li>
                 {% endif %}            
             </ul>
-            <ul id="logged-in">
+            <ul id="logged-in" class="navbar">
                 {% if user.is_authenticated %}
-                    <li id="hello">Olá, {{ user.username.title }} 👤</li>
-                    <li id="logout"><a href="{% url 'accounts:logout' %}">Sair 🛌</a></li>
+                    <li id="hello">Olá, {{ user.username.title }} 
+                        <span class="material-symbols-outlined">account_circle</span>
+                    </li>
+                    <li id="logout"><a href="{% url 'accounts:logout' %}">Sair
+                        <span class="material-symbols-outlined">logout</span></a>
+                    </li>
                 {% endif %}
             </ul>  
         </nav>

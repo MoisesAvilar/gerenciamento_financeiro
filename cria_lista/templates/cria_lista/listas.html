@@ -5,63 +5,66 @@
 <link rel="stylesheet" href="{% static 'table_list.css' %}">
 {% endblock %}
 {% block content %} 
-
-{% if listas %}
-        <div class="table">
-            <table>
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Lista</th>
-                        <th scope="col" id="tipo">Tipo</th>
-                        <th scope="col" id="categoria">Categoria</th>
-                        <th scope="col" id="criada">Criada em</th>
-                        <th scope="col" id="gasto">Gasto</th>
-                        <th scope="col" id="saldo">Saldo</th>
-                        <th scope="col">Limite</th>
-                        <th scope="col" colspan="4">Opções</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for lista in listas %}
+{% if user.is_authenticated %}
+    {% if listas %}
+            <div class="table">
+                <table>
+                    <thead>
                         <tr>
-                            <th>{{ forloop.counter }}</th>
-                            <td>{{ lista.nome.upper }}</td>
-                            <td id="tipo">{{ lista.tipo }}</td>
-                            <td id="categoria">{{ lista.categoria}}</td>
-                            <td id="criada">{{ lista.data }}</td>
-                            {% if lista.valor_total > lista.meta_de_gastos %}
-                                <td id="gasto" style="color: red;">R${{ lista.valor_total }}</td>
-                                <td style="color: red;">R${{ lista.calcular_diferenca }}</td>
-                            {% else %}
-                                <td id="gasto">R${{ lista.valor_total }}</td>
-                                <td id="saldo">R${{ lista.calcular_diferenca }}</td>
-                            {% endif %}
-                            <td>R${{ lista.meta_de_gastos }}</td>                    
-                                <td>
-                                    <div>
-                                        <a id="add" href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}">Adicionar</a>
-                                        <a id="show" href="{% url 'cria_lista:ver_itens' id_lista=lista.id %}">Itens</a>
-                                        <a id="edit" href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}">Editar</a>
-                                        <a id="delete" href="{% url 'cria_lista:deletar_lista' id_lista=lista.id %}">Excluir</a>
-                                    </div>
-                                </td>
-                            </tr>
-                    {% endfor %}
-                </tbody>
-                <tfoot>
-                    <tr>
-                        {% if listas|length > 1 %}
-                            <th colspan="9">Total: {{ listas|length }} </th>
-                        {% else %}
-                            <th colspan="9">Listas: {{ listas|length }}</th>
-                        {% endif %}
+                            <th scope="col">#</th>
+                            <th scope="col">Lista</th>
+                            <th scope="col" id="tipo">Tipo</th>
+                            <th scope="col" id="categoria">Categoria</th>
+                            <th scope="col" id="criada">Criada em</th>
+                            <th scope="col" id="gasto">Gasto</th>
+                            <th scope="col" id="saldo">Saldo</th>
+                            <th scope="col">Limite</th>
+                            <th scope="col" colspan="4">Opções</th>
                         </tr>
-                </tfoot>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        {% for lista in listas %}
+                            <tr>
+                                <th>{{ forloop.counter }}</th>
+                                <td>{{ lista.nome.upper }}</td>
+                                <td id="tipo">{{ lista.tipo }}</td>
+                                <td id="categoria">{{ lista.categoria}}</td>
+                                <td id="criada">{{ lista.data }}</td>
+                                {% if lista.valor_total > lista.meta_de_gastos %}
+                                    <td id="gasto" style="color: red;">R${{ lista.valor_total }}</td>
+                                    <td style="color: red;">R${{ lista.calcular_diferenca }}</td>
+                                {% else %}
+                                    <td id="gasto">R${{ lista.valor_total }}</td>
+                                    <td id="saldo">R${{ lista.calcular_diferenca }}</td>
+                                {% endif %}
+                                <td>R${{ lista.meta_de_gastos }}</td>                    
+                                    <td>
+                                        <div>
+                                            <a id="add" href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}">Adicionar</a>
+                                            <a id="show" href="{% url 'cria_lista:ver_itens' id_lista=lista.id %}">Itens</a>
+                                            <a id="edit" href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}">Editar</a>
+                                            <a id="delete" href="{% url 'cria_lista:deletar_lista' id_lista=lista.id %}">Excluir</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            {% if listas|length > 1 %}
+                                <th colspan="9">Total: {{ listas|length }} </th>
+                            {% else %}
+                                <th colspan="9">Listas: {{ listas|length }}</th>
+                            {% endif %}
+                            </tr>
+                    </tfoot>
+                </table>
+            </div>
+    {% else %}
+        <h2 id="no-lists">Nenhuma lista criada ainda</h2>
+    {% endif %}
 {% else %}
-    <h1 id="no-lists">Nenhuma lista criada ainda</h1>
+ <h2>Faça login ou cadastre-se.</h2>
 {% endif %}
 
 {% endblock %}

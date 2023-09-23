@@ -2,32 +2,57 @@
 {% block head %}
     <title>Início</title>
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'selection_style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'index_style.css' %}">
 {% endblock %}
 
 {% block content %}
-<section>
-    <div class="menu">
-        <h1 id="title">Bem-vindo, {{ user.username.title }}!</h1>
-        <div class="button-container">
-            <a id="add" class="link" href="{% url 'cria_lista:nova_lista' %}">
-                Criar Lista
-            </a>
-            <a id="show" class="link" href="{% url 'cria_lista:listas' %}">
-                Ver Listas
-            </a>
+<main class="menu">
+    {% if user.is_authenticated %}
+        <h2 id="title">Bem-vindo, {{ user.username.title }}!</h2>
+    {% else %}
+        <p>Faça login ou registre-se para acessar os detalhes</p>
+    {% endif %}
+
+    <section class="features">
+        <div class="feature">
+            <h2><a href="{% url 'cria_lista:nova_lista' %}">Criar lista</a></h2>
+            <p>Crie e organize suas listas como preferir.</p>
         </div>
-        {% if user.is_authenticated %}
-            {% if lista|length > 0 %}
-                <p>Você tem {{ lista|length }} lista{{ lista|length|pluralize:"s" }} cadastrada{{ lista|length|pluralize:"s" }}</p>
-                <p>Você tem {{ item|length }} item{{ item|length|pluralize:"s" }} cadastrado{{ item|length|pluralize:"s" }}</p>
-            {% else %}
-                <p>Sem detalhes para exibir</p>
-            {% endif %}
-        {% else %}
-            <p>Faça login ou registre-se para acessar os detalhes</p>
-        {% endif %}
-    </div>
-</section>
+
+        <div class="feature">
+            <h2><a href="{% url 'cria_lista:listas' %}">Cadastro de itens</a></h2>
+            <p>Adicione itens às listas.</p>
+        </div>
+
+        <div class="feature">
+            <h2>Faça o que bem entender</h2>
+            <p>Adicione, atualize e exclua o que quiser, <br> seja itens ou listas inteiras.</p>
+        </div>
+    </section>
+
+    <section class="updates">
+        <h2>Notícias e Atualizações</h2>
+        <p>Fique por dentro das últimas notícias e atualizações da nossa aplicação.</p>
+        <a href="https://www.github.com/MoisesAvilar/gerenciamento-financeiro/" target="_blank" rel="external">Leia mais</a>
+    </section>
+
+    <section class="feedback">
+        <h2>Feedback e Suporte</h2>
+        <p>Temos o prazer de ouvir sua opinião e responder às suas perguntas. Entre em contato conosco.</p>
+        <a href="https://www.linkedin.com/moises-avilar/">Enviar Feedback</a>
+    </section>
+
+    <section class="help">
+        <h2>Ajuda e Documentação</h2>
+        <p>Encontre respostas para perguntas frequentes e consulte nossa documentação para obter ajuda.</p>
+        <a href="#">Veja a Documentação</a>
+    </section>
+
+    <section class="news">
+        <h2>Notícias e Blogs</h2>
+        <p>Leia as últimas notícias e blogs relacionados ao nosso nicho de mercado.</p>
+        <a href="#">Leia os Blogs</a>
+    </section>
+</main>
 
 {% endblock %}
