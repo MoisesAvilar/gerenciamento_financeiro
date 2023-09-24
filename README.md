@@ -31,23 +31,28 @@ Para instalar e executar esta aplicação em sua máquina local, siga as seguint
 
 2. Crie um ambiente virtual (recomendado) e ative-o:
 
+    ```bash
     python -m venv venv
     source venv/bin/activate
 
 3. Instale as dependências do projeto:
 
+    ```bash
     pip install -r requirements.txt
 
 4. Execute as migrações do banco de dados:
 
+    ```bash
     python manage.py migrate
 
 5. Inicie o servidor de desenvolvimento:
 
+    ```bash
     python manage.py runserver
 
 6. Acesse a aplicação em seu navegador:
     
-    http://localhost:8000/.
+    ```bash
+    http://localhost:8000/
 
 7. Desfrute da aplicação!
