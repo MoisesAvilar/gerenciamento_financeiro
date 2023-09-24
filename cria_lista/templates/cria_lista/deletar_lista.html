@@ -8,7 +8,7 @@
 <div class="form">
     <form method="post">
         {% csrf_token %}
-        <h1>Tem certeza que deseja excluir a lista "<strong>{{ lista }}</strong>"?</h1>
+        <h2>Tem certeza que deseja excluir a lista "<strong>{{ lista }}</strong>"?</h2>
         <p>Ao deletar a lista você apagará todos os itens vinculados a ela</p>
         <div class="botao">
             <button type="submit">Excluir</button>

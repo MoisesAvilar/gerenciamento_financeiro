@@ -26,7 +26,7 @@
                         {% for lista in listas %}
                             <tr>
                                 <th>{{ forloop.counter }}</th>
-                                <td>{{ lista.nome.upper }}</td>
+                                <td>{{ lista.nome.title }}</td>
                                 <td id="tipo">{{ lista.tipo }}</td>
                                 <td id="categoria">{{ lista.categoria}}</td>
                                 <td id="criada">{{ lista.data }}</td>

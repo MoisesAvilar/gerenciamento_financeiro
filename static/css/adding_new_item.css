@@ -1,21 +1,14 @@
 @charset "UTF-8";
 
 :root {
-    --cor1alt: #0E90A1;
-    --cor1alt2: #5CDCED;
-    --cor1alt3: #0A626E;
-    --cor1: #0a606c;
-    --cor2: #bbbbbb;
-    --cor3: #cac3c3;
-    --cor4: #000000;
-    --cor5: #ffffff;
-    --cor6: #2b2b2b;
-    --cor7: #8d8d8d;
-    --cor8: #4e4e4e;
-    --cor-add: #516725;
-    --cor-edit: #2e2eb0;
-    --cor-delete: #8d1e1e;
-    --fonte-cabeçalho: Verdana, Helvetica, sans-serif;
+    --cor-primaria: #0a606c;
+    --cor-secundaria: #2b2b2b;
+    --cor-terciaria: #c6c6c6;
+    --cor-leitura: #ffffff;
+    --cor-texto: #333;
+    --cor-link: #007bff;
+    --cor-botao: #489c2f; /* Cor do botão */
+    --fonte-cabecalho: Verdana, Helvetica, sans-serif;
     --fonte-paragrafos: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
@@ -26,32 +19,31 @@
 }
 
 .form {
-    margin-top: 10px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 10px;
-    width: 30%;
-    border: 1px solid var(--cor1);
+    padding: 20px;
+    max-width: 800px; 
     border-radius: 10px;
-    background-color: var(--cor1);
+    background-color: var(--cor-terciaria);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 fieldset {
-    border: 1px solid  var(--cor5);
+    border: 1px solid var(--cor-secundaria);
     border-radius: 5px;
-    background-color: var(--cor7);
+    background-color: var(--cor-terciaria);
 }
 
 legend {
-    border: 1px solid var(--cor5);
+    border: 1px solid var(--cor-secundaria);
     padding: 10px;
     text-align: center;
-    background-color: var(--cor1);
+    background-color: var(--cor-primaria);
     border-radius: 5px;
-    color: var(--cor5);
-    font-size: 20px;
+    color: var(--cor-leitura);
+    font-size: 2em;
 }
 
 .form-group {
@@ -59,32 +51,28 @@ legend {
     margin: 20px 0px;
 }
 
-.form-group input {
-    background-color: var(--cor3);
-    font-size: 20px;
-    border: none;
-    border-bottom: 2px solid var(--cor1);
-    border-radius: 20px;
-    outline: none;
-    color: var(--cor4);
-    width: 90%;
-    letter-spacing: 2px;
-    text-align: center;
-    margin: 0 auto;
-    margin-left: auto;
-    display: block;
-}
-
-.form-group input:valid {
-    background-color: var(--cor3);
-}
-
 .form-group label {
-    position: relative;
     display: block;
     text-align: center;
-    margin-bottom: 5px;
-    font-size: 20px;
+    font-size: 1.2em;
+    color: var(--cor-primaria);
+    text-transform: uppercase;
+}
+
+.form-group input, .form-group select {
+    background-color: var(--cor-terciaria);
+    font-size: 1.2em;
+    border: 1px solid var(--cor-secundaria);
+    border-radius: 5px;
+    outline: none;
+    color: var(--cor-secundaria);
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.form-group input:focus, .form-group select:focus {
+    border: 2px solid var(--cor-primaria);
 }
 
 .botao {
@@ -92,37 +80,32 @@ legend {
 }
 
 button {
-    border: 1px solid var(--cor5);
-    padding: 5px 15px;
-    font-size: 20px;
-    background-color: var(--cor1);
-    border-radius: 10px;
-    margin-bottom: 15px;
-    color: var(--cor5);
-    font-variant-caps: all-petite-caps;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: var(--cor-botao);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: var(--cor-leitura);
+    cursor: pointer;
 }
 
 button:hover {
-    cursor: pointer;
-    opacity: 1;
+    background-color: var(--cor-secundaria);
 }
 
-.label-data {
-    text-align: center;
-    margin-top: 8px;
-    margin-bottom: 10px;
+@media screen and (max-width: 768px) {
+    .form {
+        padding: 10px;
+    }
+
+    button {
+        font-size: 1em;
+    }
 }
 
-.label-data label {
-    display: inline;
-    color: var(--cor4);
-    bottom: 0;
-    margin: 0 auto;
-    background-color: var(--cor3);
-    padding: 5px;
-    border-radius: 10px;
-}
-
-strong {
-    text-transform: uppercase;
+@media screen and (min-width: 992px) {
+    .form {
+        width: 60%;
+    }
 }

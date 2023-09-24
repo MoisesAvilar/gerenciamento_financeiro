@@ -6,13 +6,15 @@ TIPO = (
     ('Prioritários', 'Prioritários'),
     ('Secundários', 'Secundários'),
     ('Luxo', 'Luxo'),
+    ('Outros', 'Outros'),
 )
 
 CATEGORIA = (
     ('Compras-do-mes', 'Compras do mês'),
     ('Transporte', 'Transporte'),
     ('Lazer', 'Lazer'),
-    ('Alimentacao-fora', 'Alimentação fora de casa')
+    ('Alimentacao-fora', 'Alimentação fora de casa'),
+    ('Outros', 'Outros'),
 )
 
 

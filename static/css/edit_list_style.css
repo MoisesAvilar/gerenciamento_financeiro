@@ -4,6 +4,7 @@
     --cor-primaria: #0a606c;
     --cor-secundaria: #2b2b2b;
     --cor-terciaria: #c6c6c6;
+    --cor-leitura: #ffffff;
     --cor-texto: #333;
     --cor-link: #007bff;
     --cor-botao: #2e2eb0;
@@ -42,7 +43,7 @@ legend {
     text-align: center;
     background-color: var(--cor-primaria);
     border-radius: 5px;
-    color: var(--cor-terciaria);
+    color: var(--cor-leitura);
     font-size: 2em;
 }
 
@@ -86,7 +87,7 @@ button {
     background-color: var(--cor-botao);
     border-radius: 5px;
     margin-bottom: 10px;
-    color: var(--cor-terciaria);
+    color: var(--cor-leitura);
     cursor: pointer;
 }
 
