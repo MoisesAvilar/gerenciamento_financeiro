@@ -90,6 +90,10 @@ button {
     cursor: pointer;
 }
 
+.errors .errorlist {
+    display: none;
+}
+
 button:hover {
     background-color: var(--cor-secundaria);
 }

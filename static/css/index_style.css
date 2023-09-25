@@ -39,6 +39,14 @@ main.menu {
     border-radius: 10px;
 }
 
+.menu p a {
+    color: var(--cor-link);
+}
+
+.menu p a:hover {
+    color: var(--cor-secundaria);
+}
+
 .menu h2 {
     font-size: 2em;
     color: var(--cor-primaria);
@@ -95,4 +103,16 @@ section a {
 
 section a:hover {
     color: var(--cor-secundaria);
+}
+
+@media (min-width: 768px) {
+    .menu {
+        flex-direction: column;
+        columns: 2;
+        max-height: 80vh;
+    }
+
+    .features-container {
+        margin-top: 0px;
+    }
 }

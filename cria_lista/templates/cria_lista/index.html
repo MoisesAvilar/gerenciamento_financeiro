@@ -7,30 +7,24 @@
 
 {% block content %}
 <main class="menu">
-    {% if user.is_authenticated %}
-        <h2 id="title">Bem-vindo, {{ user.username.title }}!</h2>
-    {% else %}
-        <p>Faça login ou registre-se para acessar os detalhes</p>
-    {% endif %}
-
-    <section class="features">
+    <section class="features-container">
         <div class="feature">
             <h2><a href="{% url 'cria_lista:nova_lista' %}">Criar lista</a></h2>
             <p>Crie e organize suas listas como preferir.</p>
         </div>
 
-        <div class="feature">
+        <div class="feature2">
             <h2><a href="{% url 'cria_lista:listas' %}">Cadastro de itens</a></h2>
             <p>Adicione itens às listas.</p>
         </div>
 
-        <div class="feature">
+        <div class="feature3">
             <h2>Faça o que bem entender</h2>
             <p>Adicione, atualize e exclua o que quiser, <br> seja itens ou listas inteiras.</p>
         </div>
     </section>
 
-    <section class="updates">
+    <section class="updates-container">
         <h2>Notícias e Atualizações</h2>
         <p>Fique por dentro das últimas notícias e atualizações da nossa aplicação.</p>
         <a href="https://www.github.com/MoisesAvilar/gerenciamento-financeiro/" target="_blank" rel="external">Leia mais</a>
@@ -42,17 +36,6 @@
         <a href="https://www.linkedin.com/moises-avilar/">Enviar Feedback</a>
     </section>
 
-    <section class="help">
-        <h2>Ajuda e Documentação</h2>
-        <p>Encontre respostas para perguntas frequentes e consulte nossa documentação para obter ajuda.</p>
-        <a href="#">Veja a Documentação</a>
-    </section>
-
-    <section class="news">
-        <h2>Notícias e Blogs</h2>
-        <p>Leia as últimas notícias e blogs relacionados ao nosso nicho de mercado.</p>
-        <a href="#">Leia os Blogs</a>
-    </section>
 </main>
 
 {% endblock %}

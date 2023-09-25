@@ -16,9 +16,9 @@ Aqui estão alguns dos recursos adicionais e funcionalidades que você pode enco
 
 - **Metas Financeiras:** Defina metas financeiras pessoais para economia ou redução de gastos, ajudando na motivação para alcançar objetivos financeiros.
 
-- **Exportação de Dados:** Exporte seus dados financeiros para formatos compatíveis, como CSV, para análises mais avançadas no Excel ou em outras ferramentas.
+- **Exportação de Dados:** (em progresso) Exporte seus dados financeiros para formatos compatíveis, como CSV, para análises mais avançadas no Excel ou em outras ferramentas.
 
-- **Relatórios e Gráficos:** Visualize seus dados financeiros por meio de gráficos e relatórios interativos para uma compreensão mais profunda dos seus hábitos de gastos.
+- **Relatórios e Gráficos:** (em progresso) Visualize seus dados financeiros por meio de gráficos e relatórios interativos para uma compreensão mais profunda dos seus hábitos de gastos.
 
 ## Instalação
 

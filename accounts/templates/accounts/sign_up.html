@@ -21,10 +21,13 @@
         <fieldset>
             <legend>Criar Cadastro</legend>
             <div class="form-group">
-                {{ user_form.username.errors }}
+                {% for error in user_form.username.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
                 <label for="{{ user_form.username.id_for_label }}">{{ user_form.username.label }}</label>
-                    {{ user_form.username }}
+                {{ user_form.username }}
             </div>
+            
             <div class="form-group">
                 {{ user_form.password1.errors }}
                 <label for="{{ user_form.password1.id_for_label }}">{{ user_form.password1.label }}</label>
