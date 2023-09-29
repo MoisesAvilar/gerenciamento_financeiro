@@ -45,9 +45,9 @@ nav ul.navbar {
 }
 
 #not-logged-in {
-    text-align: left;
-    padding: 5px;
     position: relative;
+    text-align: right;
+    padding: 5px;
     display: flex;
     align-items: center;
 }
@@ -145,69 +145,4 @@ footer {
     width: 100%;
     bottom: 0;
     z-index: -1;
-}
-
-aside {
-    position: relative;
-    font-family: var(--fonte-paragrafos);
-}
-
-#menu {
-    position: absolute;
-    left: 0;
-    padding: 5px;
-    display: block;
-    z-index: 1;
-}
-
-#menu:hover {
-    cursor: pointer;
-    border: 1px solid var(--cor5);
-    border-radius: 5px;
-    color: var(--cor1);
-}
-
-.info {
-    display: none;
-    position: absolute;
-    left: 0;
-    background-color: var(--cor2);
-    height: 80vh;
-    width: 40vw;
-    border: 1px solid var(--cor5);
-    border-radius: 5px;
-    color: var(--cor5);
-    text-align: center;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 2px 2px 2px var(--cor7);
-}
-
-.info h2 {
-    margin-top: 40px;
-    text-shadow: 1px 1px var(--cor4);
-}
-
-.info a {
-    color: var(--cor4);
-}
-
-.info a:hover {
-    padding-right: 10px;
-    color: var(--cor-add);
-    transition: all .3s;
-}
-
-.profile {
-    margin-top: 20px;
-}
-
-.details {
-    margin-top: 10px;
-}
-
-@media (min-width: 768px) {
-    .info {
-        width: 40vw;
-    }
 }

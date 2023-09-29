@@ -4,6 +4,8 @@ from django.urls import reverse_lazy, reverse
 from django.views import generic
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from openpyxl import Workbook
 
 from cria_lista.forms import (AtualizaNomeListaForm, CadastraItensForm,
                               CriaListaForm, EditarItemForm)
@@ -42,6 +44,7 @@ class NovaLista(generic.CreateView):
         return super().form_valid(form)
 
 
+@method_decorator(login_required(login_url='accounts:login'), name='dispatch')
 class Listas(generic.ListView):
     model = Lista
     template_name = 'cria_lista/listas.html'
@@ -169,3 +172,22 @@ class DeletarLista(generic.DeleteView):
     def get_success_url(self):
         id_lista = self.kwargs['id_lista']
         return reverse('cria_lista:listas')
+
+
+def export_to_excel(request):
+    items = Item.objects.all()
+
+    wb = Workbook()
+    ws = wb.active
+
+    ws.append(['ID', 'Item', 'Quantidade', 'Valor'])
+
+    for item in items:
+        ws.append([item.id, item.nome, item.quantidade, item.valor])
+
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="exported_data.xlsx"'
+
+    wb.save(response)
+
+    return response

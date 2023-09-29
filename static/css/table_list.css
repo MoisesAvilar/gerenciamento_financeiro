@@ -79,7 +79,34 @@ header h1 {
     background-color: var(--cor-secundaria);
 }
 
-.table a {
+.table .title {
+    font-size: 1.9em;
+}
+
+.download-container {
+    display: flex;
+}
+
+.download-link {
+    padding: 5px 10px;
+    border: 1px solid var(--cor-terciaria);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--cor-terciaria);
+    transition: background-color 0.3s ease;
+}
+
+.download-link:hover {
+    background-color: var(--cor-terciaria);
+    color: var(--cor-edit);
+    border: 2px solid #8b8b8b;
+}
+
+.material-symbols-outlined {
+    margin-left: 5px;
+}
+
+.table tbody a {
     display: inline-block;
     padding: 10px;
     border-radius: 4px;
@@ -88,39 +115,39 @@ header h1 {
     transition: background-color 0.3s ease;
 }
 
-.table a#add {
+.table tbody a#add {
     background-color: var(--cor-add);
 }
 
-.table a#add:hover {
+.table tbody a#add:hover {
     background-color: #0000ffbb;
 }
 
-.table a#show {
+.table tbody a#show {
     background-color: var(--cor-show);
 }
 
-.table a#show:hover {
+.table tbody a#show:hover {
     background-color: #2f8f9ca4;
 }
 
-.table a#edit {
+.table tbody a#edit {
     background-color: var(--cor-edit);
 }
 
-.table a#edit:hover {
+.table tbody a#edit:hover {
     background-color: #489c2f9f;
 }
 
-.table a#delete {
+.table tbody a#delete {
     background-color: var(--cor-delete);
 }
 
-.table a#delete:hover {
+.table tbody a#delete:hover {
     background-color: #8d1e1ea3;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 768px) {
     .table table {
         font-size: 14px;
     }
@@ -131,5 +158,13 @@ header h1 {
 
     .table a {
         padding: 8px;
+    }
+
+    .download-container {
+        display: inline-block;
+        position: absolute;
+        right: 0;
+        top: 10px;
+        margin-right: 10px;
     }
 }

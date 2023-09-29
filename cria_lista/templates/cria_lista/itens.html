@@ -3,6 +3,7 @@
     <title>Itens na lista {{ lista }}</title>
 {% load static %}
 <link rel="stylesheet" href="{% static 'table_list.css' %}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 {% endblock %}
 {% block content %}
 {% if lista %}
@@ -11,7 +12,15 @@
             <thead>
                 <tr>
                     <th scope="col" colspan="6">
-                        Lista: {{ lista }}
+                        <div class="title" >Lista: {{ lista }}</div> 
+                        <div class="download-container">
+                            <a id="download" class="download-link" href="{% url 'cria_lista:export_to_excel' %}">
+                                Baixar tabela
+                                <span class="material-symbols-outlined">
+                                    download
+                                </span>
+                            </a>
+                        </div>
                     </th>
                 </tr>
                 <tr>
