@@ -24,9 +24,15 @@
             </ul>
             <ul id="logged-in" class="navbar">
                 {% if user.is_authenticated %}
-                    <li id="hello">Olá, {{ user.username.title }} 
-                        <span class="material-symbols-outlined">account_circle</span>
-                    </li>
+                    {% if user.username is title %}
+                        <li id="hello">Olá, {{ user.username }} 
+                            <span class="material-symbols-outlined">account_circle</span>
+                        </li>
+                    {% else %}
+                        <li id="hello">Olá, {{ user.username.title }} 
+                            <span class="material-symbols-outlined">account_circle</span>
+                        </li>
+                    {% endif %}
                     <li id="logout"><a href="{% url 'accounts:logout' %}">Sair
                         <span class="material-symbols-outlined">logout</span></a>
                     </li>

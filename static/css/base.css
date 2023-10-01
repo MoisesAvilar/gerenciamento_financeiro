@@ -64,9 +64,9 @@ nav ul.navbar {
     display: flex;
     border: 1px solid var(--cor5);
     border-radius: 10px;
-    padding: 5px;
+    padding: 10px;
     align-items: center;
-}
+} 
 
 #hello:hover {
     cursor: pointer;
@@ -95,6 +95,10 @@ nav ul.navbar {
 #logout a {
     display: flex;
     align-items: center;
+}
+
+.material-symbols-outlined {
+    margin-left: 10px;
 }
 
 .navbar {

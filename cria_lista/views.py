@@ -2,6 +2,7 @@ from typing import Any
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
+from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -88,6 +89,8 @@ class CadastrarItens(generic.CreateView):
         item: Item = form.save(commit=False)
         item.lista = lista
         item.save()
+
+        messages.success(self.request, 'Item cadastrado com sucesso!')
 
         return super().form_valid(form)
 

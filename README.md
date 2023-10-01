@@ -18,7 +18,7 @@ Aqui estão alguns dos recursos adicionais e funcionalidades que você pode enco
 
 - **Exportação de Dados:** (em progresso) Exporte seus dados financeiros para formatos compatíveis, como CSV, para análises mais avançadas no Excel ou em outras ferramentas.
 
-- **Relatórios e Gráficos:** (em progresso) Visualize seus dados financeiros por meio de gráficos e relatórios interativos para uma compreensão mais profunda dos seus hábitos de gastos.
+- **Relatórios e Gráficos:** (em progresso) Visualize seus dados financeiros por meio de gráficos e relatórios interativos.py para uma compreensão mais profunda dos seus hábitos de gastos.
 
 ## Instalação
 

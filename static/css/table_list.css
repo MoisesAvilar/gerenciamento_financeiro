@@ -49,26 +49,27 @@ header h1 {
     font-family: var(--fonte-paragrafos);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    overflow-x: auto;
     padding: 10px;
+    overflow-x: auto;
 }
 
 .table table {
     width: 100%;
     border-collapse: collapse;
+    position: relative;
+}
+
+.table thead {
+    position: sticky;
+    top: -1px;
+    font-size: 1.5em;
+    font-variant-caps: petite-caps;
+    background-color: var(--cor-primaria);
 }
 
 .table th, .table td {
     padding: 10px;
     border: 1px solid var(--cor-terciaria);
-}
-
-.table th {
-    font-size: 1.2em;
-    font-variant-caps: petite-caps;
-    position: sticky;
-    top: 0;
-    background-color: var(--cor-primaria);
 }
 
 .table th, .table td {
@@ -99,11 +100,15 @@ header h1 {
 .download-link:hover {
     background-color: var(--cor-terciaria);
     color: var(--cor-edit);
-    border: 2px solid #8b8b8b;
+    border: 2px solid var(--cor-edit);
 }
 
 .material-symbols-outlined {
     margin-left: 5px;
+}
+
+.table tbody td {
+    font-size: 1.5em;
 }
 
 .table tbody a {
@@ -148,6 +153,10 @@ header h1 {
 }
 
 @media screen and (min-width: 768px) {
+    .table {
+        overflow-x: visible;
+    }
+
     .table table {
         font-size: 14px;
     }
@@ -164,7 +173,7 @@ header h1 {
         display: inline-block;
         position: absolute;
         right: 0;
-        top: 10px;
+        top: 14px;
         margin-right: 10px;
     }
 }

@@ -7,7 +7,8 @@
     --cor-leitura: #ffffff;
     --cor-texto: #333;
     --cor-link: #007bff;
-    --cor-botao: #489c2f; /* Cor do botão */
+    --cor-botao: #489c2f;
+    --cor-danger: #b20404;
     --fonte-cabecalho: Verdana, Helvetica, sans-serif;
     --fonte-paragrafos: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
@@ -24,10 +25,27 @@
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 20px;
-    max-width: 800px; 
+    width: 80vw;
     border-radius: 10px;
     background-color: var(--cor-terciaria);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.messages-popup {
+    position: absolute;
+    border: 1px solid var(--cor-primaria);
+    border-radius: 5px;
+    text-align: center;
+    padding: 8px 20px;
+    background-color: var(--cor-botao);
+    color: var(--cor-leitura);
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.material-symbols-outlined {
+    vertical-align: middle;
+    display: inline-block;
 }
 
 fieldset {
@@ -92,6 +110,22 @@ button {
 
 button:hover {
     background-color: var(--cor-secundaria);
+}
+
+#left-label {
+    background-color: var(--cor-botao);
+    color: var(--cor-leitura);
+    border: 1px solid var(--cor-botao);
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+#right-label {
+    background-color: var(--cor-danger);
+    color: var(--cor-leitura);
+    border: 1px solid var(--cor-botao);
+    border-radius: 5px;
+    padding: 10px 20px;
 }
 
 @media screen and (max-width: 768px) {

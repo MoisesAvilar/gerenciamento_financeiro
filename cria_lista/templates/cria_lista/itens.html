@@ -46,11 +46,14 @@
                 {% endfor %}
             </tbody>
             <tfoot>
-                {% if itens|length > 1 %}
-                    <th colspan="6">Total de {{ itens|length }} itens </th>
-                {% else %}
-                    <th colspan="6">Total de {{ itens|length }} item </th>
-                {% endif %}
+                <tr>
+                    {% if itens|length > 1 %}
+                        <th colspan="3">Total de {{ itens|length }} itens </th>
+                    {% else %}
+                        <th colspan="3">Total de {{ itens|length }} item </th>
+                    {% endif %}
+                    <th colspan="1">Valor Total: R${{ lista.valor_total }}</th>
+                </tr>
             </tfoot>
         </table>
     </div>

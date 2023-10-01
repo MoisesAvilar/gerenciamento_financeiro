@@ -71,8 +71,12 @@ WSGI_APPLICATION = 'financas.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'shopping_list',
+        'USER': 'postgres',
+        'PASSWORD': 'monza9924',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
