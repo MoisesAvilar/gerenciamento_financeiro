@@ -29,16 +29,11 @@ class Lista(models.Model):
 
     @property
     def valor_total(self):
-        total = 0
-        for item in self.item_set.all():
-            total += item.valor
-        return total
+        return sum(item.valor for item in self.item_set.all())
 
     @property
     def calcular_diferenca(self):
-        total = self.valor_total
-        diferenca = self.meta_de_gastos - total
-        return diferenca
+        return self.meta_de_gastos - self.valor_total
 
     def __str__(self):
         return self.nome

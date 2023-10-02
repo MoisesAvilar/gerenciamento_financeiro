@@ -5,7 +5,7 @@ from cria_lista.models import Lista, Item
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
     list_display = ('lista', 'nome', 'valor',)
-    list_filter = ('nome',)
+    list_filter = ('lista', 'nome',)
 
 
 @admin.register(Lista)
