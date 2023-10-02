@@ -3,6 +3,7 @@
 :root {
     --cor-primaria: #0a606c;
     --cor-secundaria: #2b2b2b;
+    --cor-secundaria-table: #202020;
     --cor-terciaria: #c6c6c6;
     --cor-texto: #333;
     --cor-link: #007bff;
@@ -77,7 +78,7 @@ header h1 {
 }
 
 .table tbody > tr:nth-child(even) {
-    background-color: var(--cor-secundaria);
+    background-color: var(--cor-secundaria-table);
 }
 
 .table .title {

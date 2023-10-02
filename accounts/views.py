@@ -26,7 +26,7 @@ def login_view(request):
                 return redirect('cria_lista:index')
     else:
         login_form = AuthenticationForm(request.POST)
-        
+
     return render(request, 'accounts/login.html', {'login_form': login_form})
 
 
