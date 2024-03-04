@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block head %}
     <title>Listas Criadas</title>
-{% load static %}
-<link rel="stylesheet" href="{% static 'list_view.css' %}">
+    {% load static %}
+        <link rel="stylesheet" href="{% static 'list_view_style.css' %}">
 {% endblock %}
 {% block content %} 
     {% if listas %}
@@ -30,5 +30,9 @@
             <p id="total">Listas: {{ listas|length }}</p>
         {% endif %}
     {% else%}
+            <div class="no-list">
+                <h2>Nenhuma lista criada</h2>
+                <a href="{% url 'cria_lista:nova_lista' %}">Crie sua primeira lista aqui</a>
+            </div>
     {% endif %}
 {% endblock %}

@@ -19,7 +19,7 @@
                 <li id="index"><a href="{% url 'cria_lista:index' %}">INICIO</a></li>
                 {% if not user.is_authenticated %}
                     <li id="login"><a href="{% url 'accounts:login' %}">Login</a></li>
-                    <li id="signup"><a href="{% url 'accounts:signup' %}">Cadastre-se</a></li>
+                    <li id="signup"><a href="{% url 'accounts:signup' %}">Cadastrar</a></li>
                 {% endif %}            
             </ul>
             <ul id="logged-in" class="navbar">

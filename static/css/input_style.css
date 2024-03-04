@@ -5,6 +5,7 @@
     --cor-secundaria: #2b2b2b;
     --cor-terciaria: #c6c6c6;
     --cor-leitura: #ffffff;
+    --cor-cinza: #808080;
     --cor-texto: #333;
     --cor-link: #007bff;
     --cor-verde: #287133;
@@ -45,7 +46,10 @@ fieldset {
 }
 
 .form-group select, .form-group input {
+    height: 30px;
     width: 60vw;
+    border: 1px solid var(--cor-cinza);
+    border-radius: 4px;
 }
 
 .button {
@@ -62,4 +66,26 @@ button {
 
 button:hover {
     cursor: pointer;
+}
+
+.label-data {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media only screen and (min-width: 768px) {
+
+    fieldset {
+        width: 60vw;
+    }
+
+    .form-group input, .form-group select {
+        width: 40vw;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    fieldset {
+        height: 50vh;
+    }
 }

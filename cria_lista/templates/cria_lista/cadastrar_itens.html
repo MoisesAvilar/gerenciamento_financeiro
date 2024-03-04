@@ -2,7 +2,7 @@
 {% block head %}
     <title>Cadastrar Itens</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'adding_new_item.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'input_style.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 {% endblock %}
 {% block content %}
@@ -10,7 +10,7 @@
         <form method="post">
             {% csrf_token %}
             <fieldset>
-                <legend>Cadastre itens na lista <strong>{{ lista|title }}</strong></legend>
+                <legend>Lista: <strong>{{ lista|title }}</strong></legend>
                 <div class="form-group">
                     <label for="{{ form.nome.id_for_label }}"><strong>{{ form.nome.label }}</strong></label>{{ form.nome}}
                 </div>
@@ -22,7 +22,7 @@
                 </div>
             </fieldset>
             <br>
-            <div class="botao">
+            <div class="button">
                 <button type="submit">Salvar</button>
             </div>
             <div class="label-data">

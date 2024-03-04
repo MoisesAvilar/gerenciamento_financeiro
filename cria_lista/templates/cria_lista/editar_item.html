@@ -2,7 +2,7 @@
 {% block head %}
     <title>Editar Item {{ item.nome }}</title>
 {% load static %}
-<link rel="stylesheet" href="{% static 'edit_list_style.css' %}">
+<link rel="stylesheet" href="{% static 'input_style.css' %}">
 {% endblock %}
 {% block content %}
 {% if form %}
@@ -22,7 +22,7 @@
                 </div>
             </fieldset>
             <br>
-            <div class="botao">
+            <div class="button">
                 <button type="submit"><strong>Salvar</strong></button>
             </div>
         </form>
