@@ -1,0 +1,136 @@
+@charset "UTF-8";
+
+:root {
+    --cor-primaria: #0a606c;
+    --cor-secundaria: #649c6c;
+    --cor-secundaria-table: #202020;
+    --cor-terciaria: #c6c6c6;
+    --cor-texto: #333;
+    --cor-link: #007bff;
+    --cor-add: #0000ff;
+    --cor-show: #2f8f9c;
+    --cor-edit: #489c2f;
+    --cor-delete: #8d1e1e;
+    --fonte-cabecalho: Verdana, Helvetica, sans-serif;
+    --fonte-paragrafos: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+header h1 {
+    font-size: 2.5em;
+}
+
+.list {
+    padding: 10px;
+    margin: 20px;
+    background-color: var(--cor-terciaria);
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+.details {
+    text-align: center;
+}
+
+.details > #title {
+    display: inline-block;
+    font-size: 1.5em;
+    margin-bottom: 30px;
+    color: var(--cor-texto);
+}
+
+.details > #title:hover {
+    color: var(--cor-secundaria-table);
+}
+
+.details p {
+    display: none;
+}
+
+.details h2 {
+    color: var(--cor-texto)
+}
+
+.options {
+    display: block;
+    align-content: center;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.options a {
+    padding: 7px;
+    border-radius:8px;
+    color: white;
+    border: 1px solid white;
+}
+
+.options a#add {
+    background-color: var(--cor-secundaria);
+}
+
+.options a#add:hover {
+    transition: .5s ease;
+    background-color: #0000ffbb;
+}
+
+.options a#edit {
+    background-color: var(--cor-secundaria);
+}
+
+.options a#edit:hover {
+    transition: .5s ease;
+    background-color: #489c2f9f;
+}
+
+.options a#delete {
+    background-color: var(--cor-secundaria);
+}
+
+.options a#delete:hover {
+    transition: .5s ease;
+    background-color: #8d1e1ea3;
+}
+
+#total {
+    background-color: var(--cor-secundaria);
+    padding: 10px;
+    margin: 0px 40px;
+    border-radius: 5px;
+    color: var(--cor-terciaria);
+    text-align: center;
+}
+
+@media only screen and (min-width: 768px) {
+
+    body {
+        font-size: 1.3em;
+    }
+
+    .list-container {
+        text-align: center;
+    }
+
+    .list {
+        display: inline-block;
+        width: 70vw;
+        padding-bottom: 20px;
+        
+    }
+
+    .options a {
+        margin: 0px 20px;
+        padding: 10px 20px;
+    }
+}
+
+@media only screen and (min-width:992px) {
+    .list-container {
+        text-align: center;
+    }
+
+    .list {
+        display: inline-block;
+        width: 60vw;
+        padding-bottom: 20px;
+    }
+}

@@ -1,11 +1,10 @@
 @charset "UTF-8";
 
 :root {
-    --cor-primaria: #0a606c;
+    --cor-primaria: #287133;
     --cor-secundaria: #2b2b2b;
     --cor-terciaria: #c6c6c6; 
     --cor-texto: #333;
-    --cor-link: #007bff;
 }
 
 * {
@@ -40,7 +39,7 @@ main.menu {
 }
 
 .menu p a {
-    color: var(--cor-link);
+    color: var(--cor-primeria);
 }
 
 .menu p a:hover {
@@ -66,7 +65,7 @@ main.menu {
 
 .menu ul li a {
     text-decoration: none;
-    color: var(--cor-link);
+    color: var(--cor-primaria);
     transition: color 0.3s ease;
 }
 
@@ -97,7 +96,7 @@ section p {
 
 section a {
     text-decoration: none;
-    color: var(--cor-link);
+    color: var(--cor-primaria);
     transition: color 0.3s ease;
 }
 

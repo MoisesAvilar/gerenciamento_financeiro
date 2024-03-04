@@ -9,18 +9,8 @@
     <div class="form">    
         <form method="post">
             {% csrf_token %}
-            {% if messages %}
-                <div class="messages-popup">
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                    <span class="material-symbols-outlined" class="check-icon">
-                        check_circle
-                    </span>
-                </div>
-            {% endif %}
             <fieldset>
-                <legend>Cadastre itens na lista <strong>{{ lista }}</strong></legend>
+                <legend>Cadastre itens na lista <strong>{{ lista|title }}</strong></legend>
                 <div class="form-group">
                     <label for="{{ form.nome.id_for_label }}"><strong>{{ form.nome.label }}</strong></label>{{ form.nome}}
                 </div>
