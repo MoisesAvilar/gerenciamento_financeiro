@@ -36,12 +36,18 @@ header h1 {
     display: inline-block;
     font-size: 1.5em;
     margin-bottom: 30px;
+    box-shadow: 1px 1px 4px #202020;
+    border-radius: 10px;
+    padding: 5px 10px;
     color: var(--cor-texto);
+    transition: color 0.5s ease, background-color 0.5s ease; 
 }
 
 .details > #title:hover {
-    color: var(--cor-secundaria-table);
+    color: white;
+    background-color: var(--cor-secundaria);
 }
+
 
 .details p {
     display: none;
@@ -92,13 +98,15 @@ header h1 {
     background-color: #8d1e1ea3;
 }
 
-#total {
+.total {
+    display: block;
     background-color: var(--cor-secundaria);
-    padding: 10px;
-    margin: 0px 40px;
-    border-radius: 5px;
-    color: var(--cor-terciaria);
     text-align: center;
+    width: 50vw;
+    border-radius: 5px;
+    color: white;
+    margin: 0 auto;
+    padding: 5px 5px;
 }
 
 .no-list {

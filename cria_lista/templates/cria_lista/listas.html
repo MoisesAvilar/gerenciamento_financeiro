@@ -25,9 +25,13 @@
         {% endfor%}
 
         {% if listas|length > 1 %}
-            <p id="total">Total: {{ listas|length }} </p>
+            <div class="total">
+                <p>Total: {{ listas|length }} </p>
+            </div>
         {% else %}
-            <p id="total">Listas: {{ listas|length }}</p>
+            <div class="total">
+                <p>Listas: {{ listas|length }}</p>
+            </div>
         {% endif %}
     {% else%}
             <div class="no-list">
