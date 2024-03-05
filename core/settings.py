@@ -50,7 +50,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['gerenciamento_financeiro/ core/templates'],
+        'DIRS': ['gerenciamento_financeiro/core/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
