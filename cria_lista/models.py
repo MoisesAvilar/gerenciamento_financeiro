@@ -29,7 +29,7 @@ class Lista(models.Model):
 
     @property
     def valor_total(self):
-        return sum(item.valor for item in self.item_set.all())
+        return sum((item.valor * item.quantidade) for item in self.item_set.all())
 
     @property
     def calcular_diferenca(self):
@@ -47,6 +47,10 @@ class Item(models.Model):
     nome = models.CharField(max_length=50,  null=False, blank=False)
     quantidade = models.IntegerField(default=1,  null=False, blank=False)
     valor = models.DecimalField(max_digits=6, decimal_places=2,  null=False, blank=False) # noqa
+
+    @property
+    def total(self):
+        return self.quantidade * self.valor
 
     def __str__(self):
         return self.nome

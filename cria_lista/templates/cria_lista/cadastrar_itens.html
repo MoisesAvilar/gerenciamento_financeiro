@@ -10,7 +10,8 @@
         <form method="post">
             {% csrf_token %}
             <fieldset>
-                <legend>Lista: <strong>{{ lista|title }}</strong></legend>
+                <legend>Lista: <a id="title" href="{% url 'cria_lista:ver_itens' id_lista=lista.id %}">{{ lista.nome.title }}</a>
+                </legend>
                 <div class="form-group">
                     <label for="{{ form.nome.id_for_label }}"><strong>{{ form.nome.label }}</strong></label>{{ form.nome}}
                 </div>

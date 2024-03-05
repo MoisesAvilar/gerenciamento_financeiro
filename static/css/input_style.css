@@ -37,6 +37,19 @@ fieldset {
     color: var(--cor-verde);
 }
 
+legend {
+    padding: 0px 15px;
+}
+
+#title {
+    font-weight: bold;
+    color: var(--cor-verde);
+}
+
+#title:hover {
+    text-decoration: underline;
+}
+
 .form-group {
     position: relative;
 }
@@ -71,6 +84,7 @@ button:hover {
 .label-data {
     display: flex;
     justify-content: space-between;
+    font-size: large;
 }
 
 @media only screen and (min-width: 768px) {
@@ -85,7 +99,9 @@ button:hover {
 }
 
 @media only screen and (min-width: 992px) {
+
     fieldset {
         height: 50vh;
+        width: 50vw;
     }
 }
