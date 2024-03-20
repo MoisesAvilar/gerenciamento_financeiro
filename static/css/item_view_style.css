@@ -17,20 +17,24 @@
 }
 
 .item-container {
+    text-align: center;
     padding: 10px;
-    margin: 20px;
-    background-color: var(--cor-terciaria);
+    margin: 20px 50px;
+    background-color: rgb(227, 227, 227);
     border-radius: 10px;
     text-decoration: none;
 }
 
 .details {
-    text-align: center;
+    display: inline-block;
+
+    border-radius: 5px;
+    padding: 10px 20px;
 }
 
 .details p {
-    display: block;
     font-size: 1.5em;
+    font-family: Arial, Helvetica, sans-serif;
     margin-bottom: 30px;
     color: var(--cor-texto);
 }
@@ -115,18 +119,17 @@
 @media only screen and (min-width: 768px) {
 
     body {
-        font-size: 1.3em;
+        font-size: 1.1em;
     }
 
     .list-container {
         text-align: center;
     }
 
-    .list {
-        display: inline-block;
-        width: 70vw;
-        padding-bottom: 20px;
-        
+    .item-container {
+        text-align: center;
+        margin: 20px auto;
+        max-width: 60vw;
     }
 
     .options a {
@@ -139,11 +142,5 @@
 @media only screen and (min-width:992px) {
     .list-container {
         text-align: center;
-    }
-
-    .list {
-        display: inline-block;
-        width: 60vw;
-        padding-bottom: 20px;
     }
 }

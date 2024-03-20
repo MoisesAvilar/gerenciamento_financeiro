@@ -61,8 +61,10 @@ legend {
 .form-group select, .form-group input {
     height: 30px;
     width: 60vw;
-    border: 1px solid var(--cor-cinza);
+    border: .5px solid var(--cor-cinza);
     border-radius: 4px;
+    font-size: 1.1em;
+    text-align: center;
 }
 
 .button {

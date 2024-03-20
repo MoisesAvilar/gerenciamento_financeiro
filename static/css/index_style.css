@@ -29,10 +29,11 @@ header h1 {
     font-size: 2.5em;
 }
 
-main.menu {
+.menu {
+    position: absolute;
     background-color: var(--cor-terciaria);
-    margin: 20px auto;
     padding: 20px;
+    margin: 20% auto;
     max-width: 800px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
@@ -104,14 +105,26 @@ section a:hover {
     color: var(--cor-secundaria);
 }
 
-@media (min-width: 768px) {
-    .menu {
-        flex-direction: column;
-        columns: 2;
-        max-height: 80vh;
-    }
+@media only screen and (min-width: 768px) {
 
-    .features-container {
-        margin-top: 0px;
+    .menu {
+        position: static;
+        margin: 20% auto;
+        max-width: 800px;
+        align-items: center;
+        flex-direction: column;
+        margin-bottom: 40px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .menu {
+        margin: 15% auto;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .menu {
+        margin: 5% auto;
     }
 }
