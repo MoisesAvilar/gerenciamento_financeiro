@@ -10,10 +10,10 @@
     {% for item in itens %}
         <div class="item-container">
             <div class="details">
-                <p>Item: {{ item.nome.title }}</p>
-                <p>Quantidade: {{ item.quantidade }}</p>
-                <p>Valor: R${{ item.valor }}</p>
-                <p>Total: R${{ item.total }}</p>
+                <p><strong>Item:</strong> {{ item.nome.title }}</p>
+                <p><strong>Quantidade:</strong> {{ item.quantidade }}</p>
+                <p><strong>Valor:</strong> R${{ item.valor }}</p>
+                <p><strong>Total:</strong> R${{ item.total }}</p>
                 <div class="options">
                     <a id="edit" href="{% url 'cria_lista:editar_item' id_lista=lista.id id_item=item.id %}">Editar</a>
                     <a id="delete" href="{% url 'cria_lista:deletar_item' id_lista=lista.id id_item=item.id %}">Excluir</a>

@@ -1,151 +1,188 @@
 @charset "UTF-8";
 
 :root {
-    --cor1: #287133;
-    --cor2: #bbbbbb;
-    --cor3: #cac3c3;
-    --cor4: #000000;
-    --cor5: #ffffff;
-    --cor6: #2b2b2b;
-    --cor7: #8d8d8d;
-    --cor8: #4e4e4e;
-    --cor-add: #0000ff;
-    --cor-edit: #2f8f9c;
-    --cor-delete: #8d1e1e;
-    --fonte-cabeçalho: Verdana, Helvetica, sans-serif;
-    --fonte-paragrafos: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  --cor-primaria: #287133;
+  --cor-secundaria: #2b2b2b;
+  --cor-terciaria: #dbdbdb; 
+  --cor-leitura: #ffffff;
+  --cor-verde: #287133;
+  --cor-texto: #333;
+  --cor-link: #007bff;
+  --cor-botao: #489c2f;
+  --cor-texto: #333;
+  --cor1alt: #0E90A1;
+  --cor1alt2: #5CDCED;
+  --cor1alt3: #0A626E;
+  --cor2: #bbbbbb;
+  --cor3: #cac3c3;
+  --cor4: #000000;
+  --cor5: #ffffff;
+  --cor6: #2b2b2b;
+  --cor7: #8d8d8d;
+  --cor8: #4e4e4e;
+  --cor-add: #0000ff;
+  --cor-edit: #489c2f9f;
+  --cor-delete: #8d1e1e;
+  --fonte-cabeçalho: Verdana, Helvetica, sans-serif;
+  --fonte-paragrafos: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 #index {
-    font-family: var(--fonte-cabeçalho);
-    font-size: 2em;
-    text-align: left;
+  font-family: var(--fonte-cabeçalho);
+  font-size: 2em;
+  text-align: left;
 }
 
 nav.navigation {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
 nav ul.navbar {
-    list-style: none;
-    display: flex;
-    align-items: flex-end;
-    text-align: right;
-    margin: 0;
-    padding: 0;   
+  list-style: none;
+  display: flex;
+  align-items: flex-end;
+  text-align: right;
+  margin: 0;
+  padding: 0;
 }
 
 #not-logged-in {
-    position: relative;
-    text-align: right;
-    padding: 5px;
-    display: flex;
-    align-items: center;
+  position: relative;
+  text-align: right;
+  padding: 5px;
+  display: flex;
+  align-items: center;
 }
 
 #logged-in {
-    text-align: right;
-    align-items: center;
-    font-size: 12px;
+  text-align: right;
+  align-items: center;
+  font-size: 12px;
 }
 
 #hello {
-    color: var(--cor5);
-    position: relative;
-    display: flex;
-    border: 1px solid var(--cor5);
-    border-radius: 10px;
-    padding: 10px;
-    align-items: center;
-} 
+  color: var(--cor5);
+  position: relative;
+  display: flex;
+  border: 1px solid var(--cor5);
+  border-radius: 10px;
+  padding: 10px;
+  align-items: center;
+}
 
 #hello:hover {
-    cursor: pointer;
-    background-color: var(--cor3);
-    transition: background-color .3s ease-in-out;
-    color: var(--cor4);
-    border: 1px solid var(--cor5);
-    border-radius: 10px;
-    padding: 10px;
+  cursor: pointer;
+  background-color: var(--cor3);
+  transition: background-color 0.3s ease-in-out;
+  color: var(--cor4);
+  border: 1px solid var(--cor5);
+  border-radius: 10px;
+  padding: 10px;
 }
 
-#login, #logout, #signup {
-    border: 1px solid var(--cor1);
-    border-radius: 10px;
-    position: relative;
-    display: flex;
-    align-items: center;
+#login,
+#logout,
+#signup {
+  border: 1px solid var(--cor-primaria);
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
-#login:hover, #logout:hover, #signup:hover {
-    border: 1px solid var(--cor5);
-    color: var(--cor4);
-    border-radius: 10px;
+#login:hover,
+#logout:hover,
+#signup:hover {
+  border: 1px solid var(--cor5);
+  color: var(--cor4);
+  border-radius: 10px;
+  cursor: pointer;
 }
 
-#logout a {
-    display: flex;
-    align-items: center;
+#logout {
+  display: none;
+  align-items: center;
+  position: absolute;
+  background-color: var(--cor-primaria);
+  border: 1px solid var(--cor5);
+  border-radius: 10px;
+  padding: 0 20px;
+  top: 70px;
+  z-index: 2;
+  animation: slide-down 0.3s ease-in-out;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .material-symbols-outlined {
-    margin-left: 10px;
+  margin-left: 10px;
+  vertical-align: middle;
 }
 
 .navbar {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    justify-content: space-around;
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  justify-content: space-around;
 }
 
 .navbar li {
-    margin: 0 10px;
+  margin: 0 10px;
 }
 
-header, footer {
-    font-family: var(--fonte-cabeçalho);
-    background-color: var(--cor1);
-    color: white;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+header,
+footer {
+  font-family: var(--fonte-cabeçalho);
+  background-color: var(--cor-primaria);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header a {
-    padding: 10px;
-    border-radius: 4px;
-    color: var(--cor5);
-    outline: none;
-    border: none;
-    justify-content: space-around;
+  padding: 10px;
+  border-radius: 4px;
+  color: var(--cor5);
+  outline: none;
+  border: none;
+  justify-content: space-around;
 }
 
 body {
-    background-color: var(--cor2);
+  background-color: var(--cor2);
 }
 
 main {
-    background-color: var(--cor2);
-    font-family: var(--fonte-paragrafos);
+  background-color: var(--cor2);
+  font-family: var(--fonte-paragrafos);
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 footer {
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
 }
