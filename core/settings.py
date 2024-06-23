@@ -29,8 +29,9 @@ DJANGO_APPS = [
 ]
 
 MY_APPS = [
-    'cria_lista.apps.CriaListaConfig',
     'accounts.apps.AccountsConfig',
+    'cria_lista.apps.CriaListaConfig',
+    'earning.apps.EarningConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + MY_APPS

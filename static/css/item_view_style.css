@@ -1,14 +1,5 @@
 @charset "UTF-8";
 
-body {
-  font-family: var(--fonte-paragrafos);
-  background-color: var(--cor2);
-  color: var(--cor-texto);
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 .item-container {
   text-align: center;
   padding: 20px;
@@ -92,6 +83,40 @@ body {
   text-align: center;
   font-size: 1.2em;
   font-weight: bold;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.title {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--cor-texto);
+  margin-right: 10px;
+}
+
+.header a {
+  color: var(--cor-texto);
+  border: 1px solid var(--cor-texto);
+  border-radius: 5px;
+  padding: 5px 10px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.header a:hover {
+  background-color: var(--cor-texto);
+  color: var(--cor-terciaria);
+}
+
+.header a .material-symbols-outlined {
+  font-size: 1.7em;
 }
 
 .no-items {

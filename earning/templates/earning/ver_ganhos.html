@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Ganhos</title>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'item_view_style.css' %}" />
+{% endblock %}
+
+{% block content %}
+{% if earnings %}
+    {% for earning in earnings %}
+    <div class="item-container">
+    <div class="details">
+        <p><strong>Quantia:</strong> {{ earning.earning }}</p>
+        <p><strong>Categoria:</strong> {{ earning.get_category_display }}</p>
+        <p><strong>Data:</strong> {{ earning.created_at }}</p>
+
+        <div class="options">
+        <a
+            id="edit"
+            href="{% url 'earning:earning_update' id_earning=earning.id %}"
+            >Editar</a
+        >
+        <a
+            id="delete"
+            href="#"
+            >Excluir</a
+        >
+        </div>
+    </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <div class="no-items">
+    <h2>Nenhum item cadastrado</h2>
+    <a href="#"
+        >Cadastrar itens</a
+    >
+    </div>
+{% endif %}
+{% endblock %}

@@ -4,7 +4,7 @@ from cria_lista import views
 app_name = 'cria_lista'
 urlpatterns = [
      path('', views.IndexView.as_view(), name='index'),
-     path('nova_lista/', views.NovaLista.as_view(), name='nova_lista'),
+     path('nova-lista/', views.NovaLista.as_view(), name='nova_lista'),
      path('listas/', views.Listas.as_view(), name='listas'),
      path('listas/<int:id_lista>/cadastrar/', views.CadastrarItens.as_view(), name='cadastrar_itens'), # noqa
      path('listas/<int:id_lista>/editar/', views.EditarLista.as_view(), name='editar_lista'), # noqa

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Ganhos</title>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'input_style.css' %}" />
+{% endblock %}
+{% block content %}
+<div class="form-container">
+  <div class="form">
+    <form method="post">
+      {% csrf_token %}
+      <legend>Preencha os campos</legend>
+      <div class="form-group">
+        <label for="{{ form.earning.id_for_label }}"><strong>Quantia</strong></label>
+        <div class="currency-input">{{ form.earning }}</div>
+      </div>
+      <div class="form-group">
+        <label for="{{ form.category.id_for_label }}"><strong>Categoria</strong></label>
+        {{ form.category }}
+      </div>
+      <div class="button">
+        <button type="submit"><strong>Criar</strong></button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

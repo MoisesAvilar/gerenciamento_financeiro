@@ -1,16 +1,5 @@
 @charset "UTF-8";
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Helvetica Neue', sans-serif;
-    background-color: var(--cor-terciaria);
-}
-
 h1 {
     color: var(--cor-primaria);
     font-size: 2.5em;
@@ -18,7 +7,6 @@ h1 {
     margin-bottom: 20px;
 }
 .menu {
-    position: absolute;
     background-color: var(--cor-terciaria);
     padding: 20px;
     max-width: 800px;
