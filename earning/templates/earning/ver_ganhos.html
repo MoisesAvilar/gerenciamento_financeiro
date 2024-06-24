@@ -1,17 +1,22 @@
-{% extends 'base.html' %}
-
-{% block head %}
+{% extends 'base.html' %} {% block head %}
 <title>Ganhos</title>
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'item_view_style.css' %}" />
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'item_view_style.css' %}"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+/>
 {% endblock %}
-
 {% block content %}
 {% if earnings %}
     {% for earning in earnings %}
     <div class="item-container">
     <div class="details">
-        <p><strong>Quantia:</strong> R${{ earning.earning }}</p>
+        <p><strong>Quantia:</strong> R${{ earning.earning | floatformat:2 }}</p>
         <p><strong>Categoria:</strong> {{ earning.get_category_display }}</p>
         <p><strong>Data:</strong> {{ earning.created_at }}</p>
 
@@ -19,23 +24,17 @@
         <a
             id="edit"
             href="{% url 'earning:earning_update' id_earning=earning.id %}"
-            >Editar</a
         >
-        <a
-            id="delete"
-            href="#"
-            >Excluir</a
+            <i class="fas fa-edit"></i>Editar</a
         >
+        <a id="delete" href="#"> <i class="fas fa-trash"></i>Excluir</a>
         </div>
     </div>
     </div>
-    {% endfor %}
+    {% endfor %} 
 {% else %}
     <div class="no-items">
     <h2>Nenhum item cadastrado</h2>
-    <a href="#"
-        >Cadastrar itens</a
-    >
+    <a href="#">Cadastrar itens</a>
     </div>
-{% endif %}
-{% endblock %}
+{% endif %} {% endblock %}
