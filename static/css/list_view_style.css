@@ -43,7 +43,7 @@ header h1 {
 .options {
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 10px;
   margin-bottom: 15px;
 }
 
