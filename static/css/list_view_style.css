@@ -50,7 +50,7 @@ header h1 {
 .options a {
   display: flex;
   align-items: center;
-  padding: 10px 15px;
+  padding: 10px 10px;
   border-radius: 8px;
   color: white;
   border: 1px solid white;
