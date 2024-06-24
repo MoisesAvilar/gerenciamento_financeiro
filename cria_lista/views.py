@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 from django.contrib import messages
+from django.utils.encoding import smart_str
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -177,9 +178,14 @@ class DeletarLista(generic.DeleteView):
         return reverse('cria_lista:listas')
 
 
-def export_to_excel(request):
-    items = Item.objects.all()
+@login_required(login_url='accounts:login')
+def export_to_excel(request, id_lista):
+    lista = get_object_or_404(Lista, id=id_lista, user=request.user)
+    items = Item.objects.filter(lista=lista)
 
+    nome_lista = lista.nome.capitalize().strip()
+    nome_arquivo = smart_str(nome_lista) + '.xlsx'
+    
     wb = Workbook()
     ws = wb.active
 
@@ -189,8 +195,9 @@ def export_to_excel(request):
         ws.append([item.id, item.nome, item.quantidade, item.valor])
 
     response = HttpResponse(content_type='application/ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="exported_data.xlsx"'
+    response['Content-Disposition'] = f'attachment; filename="{nome_arquivo}"'
 
     wb.save(response)
 
     return response
+
