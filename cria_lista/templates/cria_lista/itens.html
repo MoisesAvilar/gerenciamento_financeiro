@@ -8,7 +8,7 @@
 />
 {% endblock %} {% block content %} {% if itens %}
 <div class="header">
-  <h2 class="title">Itens na lista {{ lista.nome.title }}</h2>
+  <h2 class="title">Lista {{ lista.nome.title }}</h2>
   <a href="{% url 'cria_lista:export_to_excel' id_lista=lista.id %}"
     >Baixar {{ lista.nome.title }}.xlsx
     <span class="material-symbols-outlined">download</span>
