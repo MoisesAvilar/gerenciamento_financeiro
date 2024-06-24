@@ -10,12 +10,9 @@
 <div class="header">
   <h2 class="title">Itens na lista {{ lista.nome.title }}</h2>
   <a href="{% url 'cria_lista:export_to_excel' id_lista=lista.id %}"
-    >Baixar {{ lista.nome.title }}.xlsx<span
-      class="material-symbols-outlined"
-    >
-      download
-    </span></a
-  >
+    >Baixar {{ lista.nome.title }}.xlsx
+    <span class="material-symbols-outlined">download</span>
+  </a>
 </div>
 {% for item in itens %}
 <div class="item-container">
@@ -24,25 +21,27 @@
     <p><strong>Quantidade:</strong> {{ item.quantidade }}</p>
     <p><strong>Valor:</strong> R${{ item.valor }}</p>
     <p><strong>Total:</strong> R${{ item.total }}</p>
-    <div class="options">
-      <a
-        id="edit"
-        href="{% url 'cria_lista:editar_item' id_lista=lista.id id_item=item.id %}"
-        >Editar</a
-      >
-      <a
-        id="delete"
-        href="{% url 'cria_lista:deletar_item' id_lista=lista.id id_item=item.id %}"
-        >Excluir</a
-      >
-    </div>
+  </div>
+  <div class="options">
+    <a
+      id="edit"
+      href="{% url 'cria_lista:editar_item' id_lista=lista.id id_item=item.id %}"
+    >
+      <span class="material-symbols-outlined">edit</span> Editar
+    </a>
+    <a
+      id="delete"
+      href="{% url 'cria_lista:deletar_item' id_lista=lista.id id_item=item.id %}"
+    >
+      <span class="material-symbols-outlined">delete</span> Excluir
+    </a>
   </div>
 </div>
 {% endfor %} {% else %}
 <div class="no-items">
   <h2>Nenhum item cadastrado</h2>
-  <a href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}"
-    >Cadastrar itens</a
-  >
+  <a href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}">
+    <span class="material-symbols-outlined">add</span> Cadastrar itens
+  </a>
 </div>
 {% endif %} {% endblock %}

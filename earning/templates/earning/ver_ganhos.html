@@ -11,7 +11,7 @@
     {% for earning in earnings %}
     <div class="item-container">
     <div class="details">
-        <p><strong>Quantia:</strong> {{ earning.earning }}</p>
+        <p><strong>Quantia:</strong> R${{ earning.earning }}</p>
         <p><strong>Categoria:</strong> {{ earning.get_category_display }}</p>
         <p><strong>Data:</strong> {{ earning.created_at }}</p>
 

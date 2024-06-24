@@ -3,8 +3,9 @@
     <title>Listas Criadas</title>
     {% load static %}
         <link rel="stylesheet" href="{% static 'list_view_style.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 {% endblock %}
-{% block content %} 
+{% block content %}
     {% if listas %}
 
         {% for lista in listas %}
@@ -15,9 +16,9 @@
                         <a id="title" href="{% url 'cria_lista:ver_itens' id_lista=lista.id %}">{{ lista.nome.title }}</a>
                     </div>
                     <div class="options">
-                        <a id="add" href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}">Adicionar</a>
-                        <a id="edit" href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}">Editar</a>
-                        <a id="delete" href="{% url 'cria_lista:deletar_lista' id_lista=lista.id %}">Excluir</a>
+                        <a id="add" href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}"><i class="fas fa-plus"></i> Adicionar</a>
+                        <a id="edit" href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}"><i class="fas fa-edit"></i> Editar</a>
+                        <a id="delete" href="{% url 'cria_lista:deletar_lista' id_lista=lista.id %}"><i class="fas fa-trash"></i> Excluir</a>
                     </div>
                 </div>
             </div>
@@ -32,10 +33,10 @@
                 <p>Listas: {{ listas|length }}</p>
             </div>
         {% endif %}
-    {% else%}
-            <div class="no-list">
-                <h2>Nenhuma lista criada</h2>
-                <a href="{% url 'cria_lista:nova_lista' %}">Crie sua primeira lista aqui</a>
-            </div>
+    {% else %}
+        <div class="no-list">
+            <h2>Nenhuma lista criada</h2>
+            <a href="{% url 'cria_lista:nova_lista' %}">Crie sua primeira lista aqui</a>
+        </div>
     {% endif %}
 {% endblock %}

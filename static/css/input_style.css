@@ -59,21 +59,31 @@ legend {
   text-align: center;
 }
 
-.currency-input {
+.currency-input,
+.quantity-input {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.currency-input input {
+.currency-input input,
+.quantity-input input {
   text-align: center;
 }
 
 .currency-input::before {
   content: "R$";
   position: absolute;
-  left: 30%;
+  left: 20%;
+  font-size: 1em;
+  color: #555;
+}
+
+.quantity-input::before {
+  content: "Un";
+  position: absolute;
+  left: 20%;
   font-size: 1em;
   color: #555;
 }
