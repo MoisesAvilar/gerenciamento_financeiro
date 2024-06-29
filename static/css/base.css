@@ -81,9 +81,6 @@ nav ul.navbar {
 
 #hello:hover {
   cursor: pointer;
-  background-color: var(--cor3);
-  transition: background-color 0.3s ease-in-out;
-  color: var(--cor4);
   border: 1px solid var(--cor5);
   border-radius: 10px;
   padding: 10px;
@@ -149,8 +146,7 @@ nav ul.navbar {
   margin: 0 10px;
 }
 
-header,
-footer {
+header {
   font-family: var(--fonte-cabeçalho);
   background-color: var(--cor-primaria);
   color: white;

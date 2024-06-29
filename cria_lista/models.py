@@ -47,6 +47,7 @@ class Item(models.Model):
     nome = models.CharField(max_length=50,  null=False, blank=False)
     quantidade = models.IntegerField(default=1,  null=False, blank=False)
     valor = models.DecimalField(max_digits=6, decimal_places=2,  null=False, blank=False) # noqa
+    added_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     @property
     def total(self):

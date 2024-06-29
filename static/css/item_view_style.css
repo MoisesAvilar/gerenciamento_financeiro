@@ -83,41 +83,48 @@
 .options {
   display: flex;
   justify-content: center;
-  gap: 20px;
-  font-size: 1.2em;
-  margin-top: 20px;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 .options a {
   display: flex;
   align-items: center;
-  padding: 10px 15px;
+  padding: 10px 10px;
   border-radius: 8px;
-  color: var(--cor-leitura);
-  border: 1px solid var(--cor-leitura);
-  text-decoration: none;
+  color: white;
+  border: 1px solid white;
   transition: background-color 0.5s ease, transform 0.2s ease;
 }
 
-.options a span.material-symbols-outlined {
+.options a i {
   margin-right: 5px;
 }
 
+.options a#add {
+  background-color: #0000a7bb;
+}
+
+.options a#add:hover {
+  background-color: var(--cor-add);
+  transform: scale(1.1);
+}
+
 .options a#edit {
-  background-color: var(--cor-edit);
+  background-color: #3677229f;
 }
 
 .options a#edit:hover {
-  background-color: var(--cor-primaria);
+  background-color: var(--cor-edit);
   transform: scale(1.1);
 }
 
 .options a#delete {
-  background-color: var(--cor-delete);
+  background-color: #8d1e1ea3;
 }
 
 .options a#delete:hover {
-  background-color: darkred;
+  background-color: var(--cor-delete);
   transform: scale(1.1);
 }
 

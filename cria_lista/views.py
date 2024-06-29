@@ -55,7 +55,7 @@ class Listas(generic.ListView):
     def get_queryset(self):
         user = self.request.user
         if user.is_authenticated:
-            return Lista.objects.filter(user=self.request.user)
+            return Lista.objects.filter(user=self.request.user).order_by('-data')
         else:
             return Lista.objects.none()
 
@@ -68,7 +68,7 @@ class VerItens(generic.ListView):
     def get_queryset(self):
         id_lista = self.kwargs['id_lista']
         lista = get_object_or_404(Lista, id=id_lista)
-        return lista.item_set.all()
+        return lista.item_set.all().order_by('-added_at')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
