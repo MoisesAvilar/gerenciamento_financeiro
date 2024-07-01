@@ -1,133 +1,156 @@
 @charset "UTF-8";
 
 .form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: .5px solid var(--cor-cinza);
-    background-color: var(--cor-terciaria);
-    border-radius: 4px;
-    margin: 5px;
-    margin-top: 10px;
-    top: 50%;;
-    transform: translate(0, 10%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 0.5px solid var(--cor-cinza);
+  background-color: var(--cor-terciaria);
+  border-radius: 4px;
+  top: 50%;
+  transform: translate(0, 10%);
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: .5px solid var(--cor-cinza);
-    background-color: var(--cor-terciaria);
-    border-radius: 4px;
-    width: 90vw;
-}
-
-fieldset {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 60vw;
-    border: .5px solid var(--cor-cinza);
-    padding: 10px;
-    border-radius: 4px;
-    margin-top: 20px;
-    vertical-align: middle;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 0.5px solid var(--cor-cinza);
+  background-color: var(--cor-terciaria);
+  border-radius: 4px;
+  width: 90vw;
 }
 
 .form-group {
-    position: relative;
+  position: relative;
 }
 
 .form-group label {
-    display: block;
-    padding: 10px;
-    text-align: center;
+  display: block;
+  padding: 10px;
+  text-align: center;
 }
 
-.form-group select, .form-group input {
-    height: 30px;
-    width: 60vw;
-    border: .5px solid var(--cor-cinza);
-    border-radius: 4px;
-    font-size: 1.1em;
-    text-align: center;
+.form-group select,
+.form-group input {
+  height: 30px;
+  width: 60vw;
+  border: 0.5px solid var(--cor-cinza);
+  border-radius: 4px;
+  font-size: 1.1em;
+  text-align: center;
 }
 
 legend {
-    text-align: center;
-    font-size: 1.5em;
-    padding: 20px;
+  text-align: center;
+  font-size: 1.5em;
+  padding: 20px;
+}
+
+.passwordWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes fading {
+  from {
+    opacity: 0;
+    right: -10px;
+  }
+
+  to {
+    right: 0;
+  }
+}
+
+#eye,
+#eye-slash,
+#eye1,
+#eye-slash1,
+#eye2,
+#eye-slash2 {
+  position: absolute;
+  right: 0;
+  opacity: 0.7;
+  padding: 10px;
+  animation: fading 0.3s ease;
 }
 
 .button {
-    text-align: center;
+  text-align: center;
+  margin: 30px 0;
 }
 
 button {
-    margin-top: 10px;
-    padding: 15px 30px;
-    border: 0px solid black;
-    border-radius: 10px;
-    color: var(--cor-leitura);
-    background-color: var(--cor-verde);
+  border-radius: 10px;
+  border: 0px solid black;
+  padding: 15px 30px;
+  color: var(--cor-leitura);
+  background-color: var(--cor-verde);
 }
 
 button:hover {
-    cursor: pointer;
+  cursor: pointer;
+  background-color: var(--cor-botao);
+  transition: background-color 0.2s;
 }
 
 .errorlist {
-    list-style-type: none;
+  list-style-type: none;
 }
 
 .errorlist {
-    font-size: 0px;
+  font-size: 0px;
 }
 
 .errorlist.nonfield {
-    display: block;
-    font-size: 20px;
-    padding: 10px;
+  display: block;
+  font-size: 20px;
+  padding: 10px;
 }
 
 @media only screen and (min-width: 768px) {
-    .form {
-        top: 50%;
-        transform: translate(0, 50%);
-        height:  40vh;
-    }
+  .form {
+    top: 50%;
+    transform: translate(0, 50%);
+    height: 40vh;
+  }
 
-    button {
-        font-size: 1em;
-    }
-    
-    .errorlist.nonfield {
-        padding: 20px;
-    }
+  form {
+    width: 50vw;
+    height: 40vh;
+    border-radius: 4px;
+  }
+
+  button {
+    font-size: 1.5em;
+  }
+
+  .errorlist.nonfield {
+    padding: 20px;
+  }
 }
 
 @media only screen and (min-width: 992px) {
-    .form {
-        top: 50%;
-        transform: translate(0, 30%);
-        height:  50vh;
-    }
+  .form {
+    top: 50%;
+    transform: translate(0, 30%);
+    height: 60vh;
+  }
 
-    form {
-        width: 50vw;
-        height:  60vh;
-        border-radius: 4px;
-    }
+  form {
+    width: 50vw;
+    height: 60vh;
+    border-radius: 4px;
+  }
 
-    .form-group select,
-    .form-group input {
-        width: 30vw;
-    }
+  .form-group select,
+  .form-group input {
+    width: 30vw;
+  }
 
-    .button {
-        margin-bottom: 20px;
-    }
-
+  button {
+    font-size: 1.2em;
+  }
 }
