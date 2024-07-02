@@ -8,11 +8,23 @@
 />
 {% endblock %} {% block content %} {% if itens %}
 <div class="header">
-  <h2 class="title">Lista {{ lista.nome.title }}</h2>
-  <a href="{% url 'cria_lista:export_to_excel' id_lista=lista.id %}"
-    >Baixar {{ lista.nome.title }}.xlsx
-    <span class="material-symbols-outlined">download</span>
-  </a>
+  <div class="infoList">
+    <h2 class="title">{{ lista.nome.title }}</h2>
+    <a
+      href="{% url 'cria_lista:export_to_excel' id_lista=lista.id %}"
+      title="Exportar {{ lista.nome.title }} para Excel"
+    >
+      <span class="material-symbols-outlined">download</span>
+    </a>
+  </div>
+  <div class="valoresLista">
+    <p class="diferenca">
+      <i class="fas fa-wallet"></i>Saldo: R${{ lista.calcular_diferenca }}
+    </p>
+    <p class="total">
+      <i class="fas fa-money-check-dollar"></i>Gasto: R${{ lista.valor_total }}
+    </p>
+  </div>
 </div>
 {% for item in itens %}
 <div class="item-container">
@@ -28,13 +40,13 @@
       id="edit"
       href="{% url 'cria_lista:editar_item' id_lista=lista.id id_item=item.id %}"
     >
-    <i class="fas fa-edit"></i> Editar
+      <i class="fas fa-edit"></i> Editar
     </a>
     <a
       id="delete"
       href="{% url 'cria_lista:deletar_item' id_lista=lista.id id_item=item.id %}"
     >
-    <i class="fas fa-trash"></i> Excluir
+      <i class="fas fa-trash"></i> Excluir
     </a>
   </div>
 </div>

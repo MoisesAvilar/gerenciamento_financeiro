@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 from django.contrib import messages
-from django.utils.encoding import smart_str
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -82,7 +81,7 @@ class VerItens(generic.ListView):
 class CadastrarItens(generic.CreateView):
     model = Item
     form_class = CadastraItensForm
-    template_name = 'cria_lista/cadastrar_itens.html'
+    template_name = 'cria_lista/form_item.html'
 
     def form_valid(self, form):
         id_lista = self.kwargs['id_lista']
@@ -125,7 +124,7 @@ class EditarLista(generic.UpdateView):
 @method_decorator(login_required(login_url='accounts:login'), name='dispatch')
 class EditarItem(generic.UpdateView):
     model = Item
-    template_name = 'cria_lista/editar_item.html'
+    template_name = 'cria_lista/form_item.html'
 
     def get(self, request, id_lista, id_item):
         lista = get_object_or_404(Lista, id=id_lista)
@@ -184,15 +183,16 @@ def export_to_excel(request, id_lista):
     items = Item.objects.filter(lista=lista)
 
     nome_lista = lista.nome.capitalize().strip()
-    nome_arquivo = smart_str(nome_lista) + '.xlsx'
-    
+    nome_arquivo = nome_lista + '.xlsx'
+
     wb = Workbook()
     ws = wb.active
 
     ws.append(['ID', 'Item', 'Quantidade', 'Valor'])
 
     for item in items:
-        ws.append([item.id, item.nome, item.quantidade, item.valor])
+        ws.append([item.id, item.nome.title(), item.quantidade, item.valor])
+    ws.append(['Saldo', lista.calcular_diferenca, 'Gasto', lista.valor_total,])
 
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = f'attachment; filename="{nome_arquivo}"'
@@ -200,4 +200,3 @@ def export_to_excel(request, id_lista):
     wb.save(response)
 
     return response
-

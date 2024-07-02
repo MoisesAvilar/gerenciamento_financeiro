@@ -22,16 +22,50 @@ legend {
   font-weight: bold;
   font-size: 1.3em;
   padding: 0px 15px;
-  margin-bottom: 1em;
 }
 
 #title {
   font-weight: bold;
   color: var(--cor-verde);
+  text-decoration: underline;
 }
 
-#title:hover {
-  text-decoration: underline;
+.label-data {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5em;
+  margin: 20px auto;
+}
+
+.label-data p {
+  margin: 0;
+  color: var(--cor-leitura);
+  padding: 10px 20px;
+  font-size: .6em;
+}
+
+.total,
+.diferenca {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-weight: bold;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.total i,
+.diferenca i {
+  padding-right: 10px;
+}
+
+.total {
+  background-color: var(--cor-delete);
+}
+
+.diferenca {
+  background-color: var(--cor-edit);
 }
 
 .form-group {
@@ -55,7 +89,7 @@ legend {
   width: 70vw;
   border: 0.5px solid var(--cor-cinza);
   border-radius: 4px;
-  font-size: .7em;
+  font-size: 0.7em;
   text-align: center;
 }
 
@@ -104,14 +138,6 @@ button {
 
 button:hover {
   cursor: pointer;
-}
-
-.label-data {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin: 10px auto;
 }
 
 @media only screen and (min-width: 768px) {

@@ -2,14 +2,26 @@
 
 .header {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
   background-color: var(--cor-terciaria);
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--cor-texto);
+  box-shadow: 0 10px 5px rgba(0, 0, 0, 0.116);
   margin-bottom: 20px;
   transition: background-color 0.3s ease;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.infoList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1em;
 }
 
 .title {
@@ -31,12 +43,50 @@
 }
 
 .header a span.material-symbols-outlined {
-  margin-left: 5px;
+  margin: 0 auto;
 }
 
 .header a:hover {
   background-color: var(--cor-verde);
   transform: scale(1.05);
+}
+
+.valoresLista {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5em;
+  margin-top: 1em;
+}
+
+.valoresLista p {
+  margin: 0;
+  font-size: 1.2em;
+  color: var(--cor-leitura);
+  padding: 10px 20px;
+}
+
+.total, .diferenca {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 1.5em;
+  font-weight: bold;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.total i,
+.diferenca i {
+  padding-right: 10px;
+}
+
+.total {
+  background-color: var(--cor-delete);
+}
+
+.diferenca {
+  background-color: var(--cor-edit);
 }
 
 .item-container {
