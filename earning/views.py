@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404, redirect
 from django.views import generic
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
@@ -9,7 +10,7 @@ from earning.forms import EarningForm
 
 @method_decorator(login_required(login_url='accounts:login'), name='dispatch')
 class EarningRegisterView(generic.FormView):
-    template_name = 'earning/registrar_ganhos.html'
+    template_name = 'earning/registrar.html'
     form_class = EarningForm
     success_url = reverse_lazy('earning:earning_list')
 
@@ -22,7 +23,7 @@ class EarningRegisterView(generic.FormView):
 @method_decorator(login_required(login_url='accounts:login'), name='dispatch')
 class EarningList(generic.ListView):
     model = Earning
-    template_name = 'earning/ver_ganhos.html'
+    template_name = 'earning/ganhos.html'
     context_object_name = 'earnings'
 
     def get_queryset(self):
@@ -32,11 +33,24 @@ class EarningList(generic.ListView):
 @method_decorator(login_required(login_url='accounts:login'), name='dispatch')
 class EarningUpdate(generic.UpdateView):
     model = Earning
-    template_name = 'earning/edit_ganhos.html'
+    template_name = 'earning/editar.html'
     form_class = EarningForm
     context_object_name = 'earning'
     pk_url_kwarg = 'id_earning'
 
     def get_success_url(self):
-        id_earning = self.kwargs['id_earning']
+        return reverse('earning:earning_list')
+
+
+@method_decorator(login_required(login_url='accounts:login'), name='dispatch')
+class EarningDelete(generic.DeleteView):
+    model = Earning
+    context_object_name = 'earning'
+    pk_url_kwarg = 'id_earning'
+
+    def delete(self, id_earning):
+        earning = get_object_or_404(Earning, id=id_earning)
+        earning.delete()
+
+    def get_success_url(self):
         return reverse('earning:earning_list')

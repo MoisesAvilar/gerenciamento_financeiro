@@ -151,7 +151,6 @@ class EditarItem(generic.UpdateView):
 @method_decorator(login_required(login_url='accounts:login'), name='dispatch')
 class DeletarItem(generic.DeleteView):
     model = Item
-    template_name = 'cria_lista/deletar_item.html'
     context_object_name = 'item'
 
     def get(self, request, id_lista, id_item):
@@ -168,7 +167,6 @@ class DeletarItem(generic.DeleteView):
 @method_decorator(login_required(login_url='accounts:login'), name='dispatch')
 class DeletarLista(generic.DeleteView):
     model = Lista
-    template_name = 'cria_lista/deletar_lista.html'
     context_object_name = 'lista'
     pk_url_kwarg = 'id_lista'
 

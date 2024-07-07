@@ -11,9 +11,13 @@
 <div class="header">
   <div class="infoList">
     <h2 class="title">{{ lista.nome.title }}</h2>
-    <a href="{% url 'cria_lista:export_to_excel' id_lista=lista.id %}" title="Exportar {{ lista.nome.title }} para Excel">
-      <span class="material-symbols-outlined">download</span>
-    </a>
+    <div class="icons">
+      <a href="{% url 'cria_lista:export_to_excel' id_lista=lista.id %}" title="Exportar {{ lista.nome.title }} para Excel">
+        <i class="fas fa-download"></i>
+      </a>
+      <a href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}" title="Editar lista"><i class="fas fa-edit"></i></a>
+      <a href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}" title="Adicionar item"><i class="fas fa-add"></i></a>
+    </div>
   </div>
   <div class="valoresLista">
     <p class="diferenca">
@@ -48,8 +52,9 @@
 <div class="no-items">
   <h2>Nenhum item cadastrado</h2>
   <a href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}">
-    <span class="material-symbols-outlined">add</span> Cadastrar itens
+    <i class="fas fa-add"></i>Cadastrar itens
   </a>
 </div>
 {% endif %}
+
 {% endblock %}

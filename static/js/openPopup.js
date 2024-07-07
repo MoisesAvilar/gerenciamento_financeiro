@@ -1,6 +1,7 @@
 function openPopup(button) {
     var itemId = button.getAttribute("data-item-id");
     var listaId = button.getAttribute("data-lista-id");
+    var earningId = button.getAttribute('data-earning-id');
     var itemName = "";
     var listaName = "";
 
@@ -18,6 +19,11 @@ function openPopup(button) {
         var actionUrl = `${listaId}/deletar/`;
         form.setAttribute("action", actionUrl);
         document.getElementById("lista-name").innerText = listaName;
+    } else if (earningId) {
+        var form = document.getElementById("delete-form");
+        var actionUrl = `deletar/${earningId}/`;
+        form.setAttribute('action', actionUrl);
+        document.getElementById('item-name');
     }
 
     document.getElementById("popup").style.display = "block";
