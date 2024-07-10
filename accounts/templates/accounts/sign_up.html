@@ -1,62 +1,60 @@
-{% extends 'base.html' %} {% block head %}
+{% extends 'base.html' %} 
+{% block head %}
 <title>Criar Conta</title>
 {% load static %}
 <link rel="stylesheet" href="{% static 'authentication_form.css' %}" />
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 <script src="{% static 'passwordVisibility.js' %}"></script>
-{% endblock %} {% block content %} {% if user.is_authenticated %}
-<h2>Você já está logado como <strong>{{ user }}</strong></h2>
-<p>Deseja sair?</p>
-<button type="submit">
-  <a href="{% url 'cria_lista:index' %}">Cancelar</a>
-</button>
-<button type="submit">
-  <a href="{% url 'accounts:logout' %}">Sim</a>
-</button>
-{% else %}
-<div class="form">
-  <form method="post">
-    {% csrf_token %}
-    <legend>Criar Cadastro</legend>
-    <div class="form-group">
-      {% for error in user_form.username.errors %}
-      <div class="error">{{ error }}</div>
-      {% endfor %}
-      <label for="{{ user_form.username.id_for_label }}"
-        >{{ user_form.username.label }}</label
-      >
-      {{ user_form.username }}
-    </div>
+{% endblock %} 
 
-    <div class="form-group passwordContainer">
-      {{ user_form.password1.errors }}
-      <label for="{{ user_form.password1.id_for_label }}"
-        >{{ user_form.password1.label }}</label
-      >
-      <div class="passwordWrapper">
-        {{ user_form.password1 }}
-        <i class="fas fa-eye" id="eye1"></i>
-        <i class="fas fa-eye-slash" id="eye-slash1" style="display: none"></i>
-      </div>
-    </div>
+{% block content %} 
+  {% if user.is_authenticated %}
+    <h2>Você já está logado como <strong>{{ user }}</strong></h2>
+    <p>Deseja sair?</p>
+    <button type="button">
+      <a href="{% url 'cria_lista:index' %}">Cancelar</a>
+    </button>
+    <button type="button">
+      <a href="{% url 'accounts:logout' %}">Sim</a>
+    </button>
+  {% else %}
+    <div class="form">
+      <form method="post">
+        {% csrf_token %}
+        <legend>Criar Cadastro</legend>
+        
+        <div class="form-group">
+          {% for error in user_form.username.errors %}
+            <div class="error">{{ error }}</div>
+          {% endfor %}
+          <label for="{{ user_form.username.id_for_label }}">{{ user_form.username.label }}</label>
+          {{ user_form.username }}
+        </div>
 
-    <div class="form-group passwordContainer">
-      {{ user_form.password2.errors }}
-      <label for="{{ user_form.password2.id_for_label }}"
-        >{{ user_form.password2.label }}</label
-      >
-      <div class="passwordWrapper">
-        {{ user_form.password2 }}
-        <i class="fas fa-eye" id="eye2"></i>
-        <i class="fas fa-eye-slash" id="eye-slash2" style="display: none"></i>
-      </div>
+        <div class="form-group passwordContainer">
+          {{ user_form.password1.errors }}
+          <label for="{{ user_form.password1.id_for_label }}">{{ user_form.password1.label }}</label>
+          <div class="passwordWrapper">
+            {{ user_form.password1 }}
+            <i class="fas fa-eye" id="eye1"></i>
+            <i class="fas fa-eye-slash" id="eye-slash1" style="display: none"></i>
+          </div>
+        </div>
+
+        <div class="form-group passwordContainer">
+          {{ user_form.password2.errors }}
+          <label for="{{ user_form.password2.id_for_label }}">{{ user_form.password2.label }}</label>
+          <div class="passwordWrapper">
+            {{ user_form.password2 }}
+            <i class="fas fa-eye" id="eye2"></i>
+            <i class="fas fa-eye-slash" id="eye-slash2" style="display: none"></i>
+          </div>
+        </div>
+        
+        <div class="button">
+          <button type="submit">Cadastrar</button>
+        </div>
+      </form>
     </div>
-    <div class="button">
-      <button type="submit">Cadastrar</button>
-    </div>
-  </form>
-</div>
-{% endif %} {% endblock %}
+  {% endif %}
+{% endblock %}

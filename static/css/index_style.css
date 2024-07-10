@@ -1,86 +1,71 @@
-@charset "UTF-8";
-
 h1 {
   color: var(--cor-primaria);
-  font-size: 2em;
+  font-size: 2rem;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .menu {
   position: absolute;
   background-color: var(--cor-terciaria);
-  padding: 20px;
-  max-width: 800px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
+  padding: 1.25rem;
+  max-width: 50rem;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+  border-radius: 0.625rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.menu p a {
-  color: var(--cor-primeria);
+.menu:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
 }
 
-.menu p a:hover {
+.menu a {
+  color: var(--cor-primaria);
+  transition: border-bottom 0.2s ease; 
+}
+
+.menu a:hover {
   color: var(--cor-secundaria);
+  border-bottom: 1px solid var(--cor-link);
 }
 
 .menu h2 {
-  font-size: 1.5em;
+  font-size: 1.5rem;
   color: var(--cor-primaria);
-  margin-bottom: 20px;
-}
-
-.menu ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.menu ul li {
-  font-size: 1.2em;
-}
-
-.menu ul li a {
-  text-decoration: none;
-  color: var(--cor-primaria);
-  transition: color 0.3s ease;
-}
-
-.menu ul li a:hover {
-  color: var(--cor-secundaria);
+  margin-bottom: 1.25rem;
 }
 
 section {
   background-color: var(--cor-terciaria);
-  padding: 20px;
-  margin: 20px 0;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 1.25rem;
+  margin: 1.25rem 0;
+  border-radius: 0.625rem;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
   text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 section:hover {
   transform: scale(1.05);
-  transition: transform 0.3s ease;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
 }
 
 section h2 {
-  font-size: 2em;
+  font-size: 2rem;
   color: var(--cor-primaria);
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 section p {
-  font-size: 1.2em;
+  font-size: 1.2rem;
   color: var(--cor-texto);
   line-height: 1.5;
 }
 
 section .brief {
   text-indent: 2em;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   text-align: justify;
 }
 
@@ -102,7 +87,7 @@ section a:hover {
   }
 
   .menu {
-    max-width: 800px;
+    max-width: 50rem;
     align-items: center;
     flex-direction: column;
     margin: 0 auto;

@@ -1,12 +1,13 @@
-{% extends "base.html" %} {% block head %}
-<title>Início</title>
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'index_style.css' %}" />
-<link
-  rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
-/>
-{% endblock %} {% block content %}
+{% extends "base.html" %}
+
+{% block head %}
+  <title>Início</title>
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'index_style.css' %}" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+{% endblock %}
+
+{% block content %}
 <main>
   <div class="menu">
     <section class="features-container">
@@ -20,6 +21,7 @@
         <p>Adicione, atualize e delete itens às suas listas.</p>
       </div>
     </section>
+
     <section class="features-container">
       <h1>Registrar ganhos</h1>
       <div class="feature">
@@ -27,46 +29,30 @@
         <p>Registre renda extra, dividendos e outros.</p>
       </div>
       <div class="feature">
-        <h2>
-          <a href="{% url 'earning:earning_list' %}">Visualizar ganhos</a>
-        </h2>
+        <h2><a href="{% url 'earning:earning_list' %}">Visualizar ganhos</a></h2>
         <p>Visualize todos os seus ganhos.</p>
       </div>
     </section>
+
     <section class="updates-container">
       <h1>
-        <a
-          href="https://www.github.com/MoisesAvilar/gerenciamento-financeiro/"
-          target="_blank"
-          rel="external"
-          >Notícias e Atualizações</a
-        >
+        <a href="https://www.github.com/MoisesAvilar/gerenciamento-financeiro/" target="_blank" rel="external">Notícias e Atualizações</a>
       </h1>
       <h2>Atualização chegando!</h2>
       <p class="brief">
         <i>Sistema de ganhos adicionado.</i>
-        <i>Melhorias na interface. </i>
-        <i>Sistema exportação de listas corrigido. </i>
+        <i>Melhorias na interface.</i>
+        <i>Sistema exportação de listas corrigido.</i>
       </p>
-      <p>
-        Fique por dentro das últimas notícias e atualizações da nossa aplicação.
-      </p>
+      <p>Fique por dentro das últimas notícias e atualizações da nossa aplicação.</p>
     </section>
+
     <section class="feedback">
       <h2>
-        <a
-          href="https://www.linkedin.com/in/moisés-avilar/"
-          rel="external"
-          target="_blank"
-          >Feedback e Suporte</a
-        >
+        <a href="https://www.linkedin.com/in/moisés-avilar/" rel="external" target="_blank">Feedback e Suporte</a>
       </h2>
-      <p>
-        Temos o prazer de ouvir sua opinião e responder às suas perguntas. Entre
-        em contato conosco.
-      </p>
+      <p>Temos o prazer de ouvir sua opinião e responder às suas perguntas. Entre em contato conosco.</p>
     </section>
   </div>
-</div>
 </main>
 {% endblock %}

@@ -1,75 +1,55 @@
-@charset "UTF-8";
-
-:root {
-    --cor-primaria: #0a606c;
-    --cor-secundaria: #2b2b2b;
-    --cor-terciaria: #c6c6c6;
-    --cor-leitura: #ffffff;
-    --cor-texto: #333;
-    --cor-link: #007bff;
-    --cor-botao: #2e2eb0;
-    --fonte-cabecalho: Verdana, Helvetica, sans-serif;
-    --fonte-paragrafos: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 .form {
-    margin-top: 10px;
+    margin-top: 0.625rem;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 20px;
-    max-width: 800px; 
-    border-radius: 10px;
+    padding: 1.25rem;
+    max-width: 50rem;
+    border-radius: 0.625rem;
     background-color: var(--cor-terciaria);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
 }
 
 fieldset {
-    border: 1px solid var(--cor-secundaria);
-    border-radius: 5px;
+    border: 0.0625rem solid var(--cor-secundaria);
+    border-radius: 0.3125rem;
     background-color: var(--cor-terciaria);
 }
 
 legend {
-    border: 1px solid var(--cor-secundaria);
-    padding: 10px;
+    border: 0.0625rem solid var(--cor-secundaria);
+    padding: 0.625rem;
     text-align: center;
     background-color: var(--cor-primaria);
-    border-radius: 5px;
+    border-radius: 0.3125rem;
     color: var(--cor-leitura);
-    font-size: 2em;
+    font-size: 2rem;
 }
 
 .form-group {
     position: relative;
-    margin: 20px 0px;
+    margin: 1.25rem 0;
 }
 
 .form-group label {
     display: block;
     text-align: center;
-    font-size: 1.2em;
+    font-size: 1.2rem;
     color: var(--cor-primaria);
     text-transform: uppercase;
 }
 
 .form-group input, .form-group select {
     background-color: var(--cor-terciaria);
-    font-size: 1.2em;
-    border: 1px solid var(--cor-secundaria);
-    border-radius: 5px;
+    font-size: 1.2rem;
+    border: 0.0625rem solid var(--cor-secundaria);
+    border-radius: 0.3125rem;
     outline: none;
     color: var(--cor-secundaria);
     width: 100%;
-    padding: 10px;
-    margin: 10px 0;
+    padding: 0.625rem;
+    margin: 0.625rem 0;
 }
 
 .form-group input:valid {
@@ -82,11 +62,11 @@ legend {
 
 button {
     border: none;
-    padding: 10px 20px;
-    font-size: 1.2em;
+    padding: 0.625rem 1.25rem;
+    font-size: 1.2rem;
     background-color: var(--cor-botao);
-    border-radius: 5px;
-    margin-bottom: 10px;
+    border-radius: 0.3125rem;
+    margin-bottom: 0.625rem;
     color: var(--cor-leitura);
     cursor: pointer;
 }
@@ -94,4 +74,3 @@ button {
 button:hover {
     background-color: var(--cor-secundaria);
 }
-

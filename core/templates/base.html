@@ -1,49 +1,48 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    {% block head %}
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}{% endblock %}</title>
-    {% endblock %}
-    {% load static %}
-    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
-    <script src="{% static 'logout.js' %}"></script>
-    <script src="{% static 'showLogoutButton.js' %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
-    />
-  </head>
-  <body>
-    <header>
-      <nav class="navigation">
-        <ul id="not-logged-in" class="navbar">
-          <li id="index"><a href="{% url 'cria_lista:index' %}">INICIO</a></li>
-          {% if not user.is_authenticated %}
-          <li id="login"><a href="{% url 'accounts:login' %}">Login</a></li>
-          <li id="signup">
-            <a href="{% url 'accounts:signup' %}">Cadastrar</a>
-          </li>
-          {% endif %}
-        </ul>
-        <ul id="logged-in" class="navbar">
-          {% if user.is_authenticated %}
-          <li id="hello" onclick="showLogoutButton()">
-            Olá, {{ user.username.title }}
-            <span class="material-symbols-outlined">account_circle</span>
-          </li>
-          <li id="logout">
-            <a href="{% url 'accounts:logout' %}" onclick="logout()"
-              >Sair
-              <span class="material-symbols-outlined">logout</span>
-            </a>
-          </li>
-          {% endif %}
-        </ul>
-      </nav>
-    </header>
-    <main>{% block content %} {% endblock %}</main>
-  </body>
+<head>
+  {% block head %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% endblock %}</title>
+  {% endblock %}
+  
+  {% load static %}
+  <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+  <script src="{% static 'logout.js' %}"></script>
+  <script src="{% static 'showLogoutButton.js' %}"></script>
+</head>
+<body>
+  <header>
+    <nav class="navigation">
+      <ul id="not-logged-in" class="navbar">
+        <li id="index"><a href="{% url 'cria_lista:index' %}">INÍCIO</a></li>
+        {% if not user.is_authenticated %}
+        <li id="login"><a href="{% url 'accounts:login' %}">Login</a></li>
+        <li id="signup"><a href="{% url 'accounts:signup' %}">Cadastrar</a></li>
+        {% endif %}
+      </ul>
+      <ul id="logged-in" class="navbar">
+        {% if user.is_authenticated %}
+        <li id="hello" onclick="showLogoutButton()">
+          Olá, {{ user.username.title }}
+          <span class="material-symbols-outlined">account_circle</span>
+        </li>
+        <li id="logout">
+          <a href="{% url 'accounts:logout' %}" onclick="logout()">
+            Sair
+            <span class="material-symbols-outlined">logout</span>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+  
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
 </html>

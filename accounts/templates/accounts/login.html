@@ -1,46 +1,46 @@
-{% extends 'base.html' %} {% block head %}
+{% extends 'base.html' %} 
+{% block head %}
 <title>Entrar</title>
 {% load static %}
 <link rel="stylesheet" href="{% static 'authentication_form.css' %}" />
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 <script src="{% static 'passwordVisibility.js' %}"></script>
-{% endblock %} {% block content %} {% if user.is_authenticated %}
-<h2>Você já está logado como <strong>{{ user.username }}</strong></h2>
-<p>Deseja sair?</p>
-<button type="submit">
-  <a href="{% url 'cria_lista:index' %}">Cancelar</a>
-</button>
-<button type="submit">
-  <a href="{% url 'accounts:logout' %}">Sim</a>
-</button>
-{% else %}
-<div class="form">
-  <form method="post">
-    {% csrf_token %}
-    <legend>Faça Login</legend>
-    <div class="form-group">
-      <label for="{{ login_form.username.id_for_label }}"
-        >{{ login_form.username.label }}</label
-      >
-      {{ login_form.username }}
+{% endblock %} 
+
+{% block content %} 
+  {% if user.is_authenticated %}
+    <h2>Você já está logado como <strong>{{ user.username }}</strong></h2>
+    <p>Deseja sair?</p>
+    <button type="button">
+      <a href="{% url 'cria_lista:index' %}">Cancelar</a>
+    </button>
+    <button type="button">
+      <a href="{% url 'accounts:logout' %}">Sim</a>
+    </button>
+  {% else %}
+    <div class="form">
+      <form method="post">
+        {% csrf_token %}
+        <legend>Faça Login</legend>
+        <div class="form-group">
+          <label for="{{ login_form.username.id_for_label }}">{{ login_form.username.label }}</label>
+          {{ login_form.username }}
+        </div>
+        <div class="form-group passwordContainer">
+          <label for="{{ login_form.password.id_for_label }}">{{ login_form.password.label }}</label>
+          <div class="passwordWrapper">
+            {{ login_form.password }}
+            <i class="fas fa-eye" id="eye"></i>
+            <i class="fas fa-eye-slash" id="eye-slash" style="display: none"></i>
+          </div>
+        </div>
+        <div class="errors">
+          {{ login_form.errors }}
+        </div>
+        <div class="button">
+          <button type="submit">Entrar</button>
+        </div>
+      </form>
     </div>
-    <div class="form-group passwordContainer">
-      <label for="{{ login_form.password.id_for_label }}"
-        >{{ login_form.password.label }}</label
-      >
-      <div class="passwordWrapper">
-        {{ login_form.password }}
-        <i class="fas fa-eye" id="eye"></i>
-        <i class="fas fa-eye-slash" id="eye-slash" style="display: none"></i>
-      </div>
-    </div>
-    <div class="errors">{{ login_form.errors }}</div>
-    <div class="button">
-      <button type="submit">Entrar</button>
-    </div>
-  </form>
-</div>
-{% endif %} {% endblock %}
+  {% endif %}
+{% endblock %}

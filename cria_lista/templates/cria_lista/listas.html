@@ -1,56 +1,47 @@
-{% extends "base.html" %} {% block head %}
-<title>Listas Criadas</title>
-{% load static %}
-<link rel="stylesheet" href="{% static 'list_view_style.css' %}" />
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-/>
-<script src="{% static 'openPopup.js' %}"></script>
-{% endblock %} {% block content %} {% if listas %} {% for lista in listas %}
-<div class="list-container">
-  <div class="list">
-    <div class="details">
-      <p>{{ forloop.counter }}</p>
-      <a id="title" href="{% url 'cria_lista:ver_itens' id_lista=lista.id %}"
-        >{{ lista.nome.title }}</a
-      >
-    </div>
-    <div class="options">
-      <a
-        id="add"
-        href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}"
-        ><i class="fas fa-plus"></i> Adicionar</a
-      >
-      <a id="edit" href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}"
-        ><i class="fas fa-edit"></i>Editar</a
-      >
-      <a
-        id="delete"
-        href="javascript:void(0);"
-        data-lista-id="{{ lista.id }}"
-        onclick="openPopup(this)"
-        ><i class="fas fa-trash"></i>Excluir</a
-      >
-    </div>
-  </div>
-</div>
+{% extends "base.html" %}
 
-{% endfor%}
-{% include 'cria_lista/_delete.html' %}
+{% block head %}
+  <title>Listas Criadas</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'list_view_style.css' %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <script src="{% static 'openPopup.js' %}"></script>
+{% endblock %}
 
-{% if listas|length > 1 %}
-<div class="total">
-  <p>Total: {{ listas|length }}</p>
-</div>
-{% else %}
-<div class="total">
-  <p>Listas: {{ listas|length }}</p>
-</div>
-{% endif %} {% else %}
-<div class="no-list">
-  <h2>Nenhuma lista criada</h2>
-  <a href="{% url 'cria_lista:nova_lista' %}"><i class="fas fa-add"></i>Crie sua primeira lista aqui</a>
-</div>
-{% endif %} 
+{% block content %}
+  {% if listas %}
+    {% for lista in listas %}
+      <div class="list-container">
+        <div class="list">
+          <div class="details">
+            <p>{{ forloop.counter }}</p>
+            <a id="title" href="{% url 'cria_lista:ver_itens' id_lista=lista.id %}">{{ lista.nome.title }}</a>
+          </div>
+          <div class="options">
+            <a id="add" href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}"><i class="fas fa-plus"></i> Adicionar</a>
+            <a id="edit" href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}"><i class="fas fa-edit"></i> Editar</a>
+            <a id="delete" href="javascript:void(0);" data-lista-id="{{ lista.id }}" onclick="openPopup(this)"><i class="fas fa-trash"></i> Excluir</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    
+    {% include 'cria_lista/_delete.html' %}
+    
+    <div class="total">
+      {% if listas|length > 1 %}
+        <p>Total: {{ listas|length }}</p>
+      {% else %}
+        <p>Listas: {{ listas|length }}</p>
+      {% endif %}
+    </div>
+  
+  {% else %}
+  
+    <div class="no-list">
+      <h2>Nenhuma lista criada</h2>
+      <a href="{% url 'cria_lista:nova_lista' %}"><i class="fas fa-plus"></i> Crie sua primeira lista aqui</a>
+    </div>
+  
+  {% endif %}
 {% endblock %}
