@@ -31,7 +31,6 @@ form {
   text-align: center;
 }
 
-.form-group select,
 .form-group input {
   height: 2rem;
   width: 60vw;
@@ -119,6 +118,10 @@ button:hover {
     border-radius: 0.25rem;
   }
 
+  .form-group input {
+    width: 40vw;
+  }
+
   button {
     font-size: 1.5rem;
   }
@@ -141,7 +144,6 @@ button:hover {
     border-radius: 0.25rem;
   }
 
-  .form-group select,
   .form-group input {
     width: 30vw;
   }

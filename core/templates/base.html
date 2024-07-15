@@ -18,7 +18,7 @@
   <header>
     <nav class="navigation">
       <ul id="not-logged-in" class="navbar">
-        <li id="index"><a href="{% url 'cria_lista:index' %}">INÍCIO</a></li>
+        <li id="index"><a href="{% url 'cria_lista:index' %}">Home</a></li>
         {% if not user.is_authenticated %}
         <li id="login"><a href="{% url 'accounts:login' %}">Login</a></li>
         <li id="signup"><a href="{% url 'accounts:signup' %}">Cadastrar</a></li>
