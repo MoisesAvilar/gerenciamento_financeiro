@@ -1,0 +1,98 @@
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 20;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .popup-content {
+    background-color: var(--cor-leitura);
+    margin: 15% auto;
+    padding: 1.25rem;
+    border: 0.0625rem solid var(--cor6);
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+    border-radius: 0.625rem;
+    box-shadow: 0 0.3125rem 0.9375rem rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.4s;
+    transform: translate(0, 30vh);
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .close {
+    color: var(--cor6);
+    float: right;
+    font-size: 1.75rem;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: var(--cor4);
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .popup-buttons {
+    margin: 1.25rem;
+  }
+  
+  #delete-form {
+    background-color: var(--cor-leitura);
+  }
+  
+  .btn-confirm,
+  .btn-cancel {
+    border: 0.0625rem solid var(--cor-leitura);
+    border-radius: 0.3125rem;
+    padding: 0.625rem;
+  }
+  
+  .btn-confirm {
+    background-color: var(--cor-delete);
+    color: var(--cor-leitura);
+  }
+  
+  .btn-confirm:hover {
+    background-color: #8d1e1ea3;
+  }
+  
+  .btn-cancel {
+    background-color: var(--cor6);
+    color: var(--cor-leitura);
+  }
+  
+  .btn-cancel:hover {
+    background-color: var(--cor8);
+  }
+  
+  button:hover {
+    cursor: pointer;
+  }
+  
+  @media only screen and (min-width: 768px) {  
+    .popup-content {
+      transform: translate(0, 20vh);
+    }
+  }
+  
+  @media only screen and (min-width: 992px) {
+    .popup-content {
+      transform: translate(0, 0);
+    }
+  }
+  

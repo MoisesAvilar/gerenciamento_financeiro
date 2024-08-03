@@ -120,88 +120,6 @@ header h1 {
   color: var(--cor-verde);
 }
 
-.popup {
-  display: none;
-  position: fixed;
-  z-index: 20;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.popup-content {
-  background-color: var(--cor-leitura);
-  margin: 15% auto;
-  padding: 1.25rem;
-  border: 1px solid var(--cor6);
-  width: 80%;
-  max-width: 500px;
-  text-align: center;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  animation: fadeIn 0.4s;
-  transform: translate(0, 30vh);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.close {
-  color: var(--cor6);
-  float: right;
-  font-size: 1.75rem;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: var(--cor4);
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.popup-buttons {
-  margin: 1.25rem;
-}
-
-.btn-confirm,
-.btn-cancel {
-  border: 1px solid var(--cor-leitura);
-  border-radius: 5px;
-  padding: 1rem;
-}
-
-.btn-confirm {
-  background-color: var(--cor-delete);
-  color: var(--cor-leitura);
-}
-
-.btn-confirm:hover {
-  background-color: #8d1e1ea3;
-}
-
-.btn-cancel {
-  background-color: var(--cor6);
-  color: var(--cor-leitura);
-}
-
-.btn-cancel:hover {
-  background-color: var(--cor8);
-}
-
-button:hover {
-  cursor: pointer;
-}
-
 @media only screen and (min-width: 768px) {
   body {
     font-size: 1.3rem;
@@ -221,10 +139,6 @@ button:hover {
     margin: 0 1.25rem;
     padding: 1rem 2rem;
   }
-
-  .popup-content {
-    transform: translate(0, 20vh);
-  }
 }
 
 @media only screen and (min-width: 992px) {
@@ -236,10 +150,6 @@ button:hover {
     display: inline-block;
     width: 60vw;
     padding-bottom: 2rem;
-  }
-
-  .popup-content {
-    transform: translate(0, 0);
   }
 }
 
