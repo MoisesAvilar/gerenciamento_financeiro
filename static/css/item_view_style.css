@@ -152,7 +152,7 @@
   transition: background-color 0.5s ease, transform 0.2s ease;
 }
 
-.options a i {
+a i {
   margin-right: 0.3125rem;
 }
 
@@ -284,7 +284,7 @@
 }
 
 .btn-confirm {
-  background-color: var(--cor-delete);
+  background-color: var(--cor-add);
   color: var(--cor-leitura);
 }
 

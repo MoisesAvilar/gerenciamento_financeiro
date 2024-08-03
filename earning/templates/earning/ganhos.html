@@ -11,7 +11,7 @@
 <div class="header">
   <div class="icons">
     <a href="{% url 'earning:earning' %}" title="Registrar">
-      <i class="fas fa-add"></i> Registrar
+      <i class="fas fa-add"></i>Registrar
     </a>
   </div>
 </div>
@@ -23,10 +23,10 @@
     <p><strong>Data:</strong> {{ earning.created_at }}</p>
     <div class="options">
       <a id="edit" href="{% url 'earning:earning_update' id_earning=earning.id %}">
-        <i class="fas fa-edit"></i> Editar
+        <i class="fas fa-edit"></i>Editar
       </a>
       <a id="delete" href="javascript:void(0);" data-earning-id="{{ earning.id }}" onclick="openPopup(this)">
-        <i class="fas fa-trash"></i> Excluir
+        <i class="fas fa-trash"></i>Excluir
       </a>
     </div>
   </div>
@@ -37,7 +37,7 @@
 <div class="no-items">
   <h2>Nenhum registro cadastrado</h2>
   <a href="{% url 'earning:earning' %}">
-    <i class="fas fa-add"></i> Registrar ganhos
+    <i class="fas fa-add"></i>Registrar ganhos
   </a>
 </div>
 {% endif %}
