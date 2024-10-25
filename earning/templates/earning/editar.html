@@ -1,33 +1,41 @@
 {% extends 'base.html' %}
+{% load earning_tags %}
 {% block head %}
-    <title>Editar ganho</title>
+    <title>Editar Ganho</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'input_style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 {% endblock %}
 
 {% block content %}
-<div class="form-container">
-    <div class="form">
-        <form method="post">
-            {% csrf_token %}
-            <legend>Altere os campos desejados</legend>
-            
-            <div class="form-group">
-                <label for="{{ form.earning.id_for_label }}"><strong>Quantia</strong></label>
-                <div class="currency-input">
-                    {{ form.earning }}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 rounded">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">Editar Ganho</h3>
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="{{ form.earning.id_for_label }}" class="form-label"><strong>Quantia</strong></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                {{ form.earning|add_class:"form-control" }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.category.id_for_label }}" class="form-label"><strong>Categoria</strong></label>
+                            {{ form.category|add_class:"form-select" }}
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary"><strong>Salvar</strong></button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            
-            <div class="form-group">
-                <label for="{{ form.category.id_for_label }}"><strong>Categoria</strong></label>
-                {{ form.category }}
-            </div>
-            
-            <div class="button">
-                <button type="submit"><strong>Salvar</strong></button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 {% endblock %}

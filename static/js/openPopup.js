@@ -27,8 +27,17 @@ function openPopup(button) {
     }
 
     document.getElementById("popup").style.display = "block";
+
+    document.addEventListener("keydown", handleKeyDown);
 }
 
 function closePopup() {
     document.getElementById("popup").style.display = "none";
+    document.removeEventListener("keydown", handleKeyDown);
+}
+
+function handleKeyDown(event) {
+    if (event.key === "Escape") {
+        closePopup();
+    }
 }

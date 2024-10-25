@@ -2,57 +2,74 @@
 
 {% block head %}
   <title>Início</title>
-  {% load static %}
-  <link rel="stylesheet" type="text/css" href="{% static 'index_style.css' %}" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 {% endblock %}
 
 {% block content %}
-<main>
-  <div class="menu">
-    <section class="features-container">
-      <h1>Gerenciar gastos</h1>
-      <div class="feature">
-        <h2><a href="{% url 'cria_lista:nova_lista' %}">Criar lista</a></h2>
-        <p>Crie e organize suas listas como preferir.</p>
-      </div>
-      <div class="feature">
-        <h2><a href="{% url 'cria_lista:listas' %}">Ver listas</a></h2>
-        <p>Adicione, atualize e delete itens às suas listas.</p>
-      </div>
-    </section>
+<main class="container mt-5">
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <section class="features-container">
+        <h1 class="mb-4 text-primary">Gerenciar gastos</h1>
+        <div class="feature mb-3">
+          <h2>
+            <a class="text-decoration-none text-success" href="{% url 'cria_lista:nova_lista' %}">Criar lista</a>
+          </h2>
+          <p>Crie e organize suas listas como preferir.</p>
+        </div>
+        <div class="feature">
+          <h2>
+            <a class="text-decoration-none text-success" href="{% url 'cria_lista:listas' %}">Ver listas</a>
+          </h2>
+          <p>Adicione, atualize e delete itens às suas listas.</p>
+        </div>
+      </section>
+    </div>
 
-    <section class="features-container">
-      <h1>Registrar ganhos</h1>
-      <div class="feature">
-        <h2><a href="{% url 'earning:earning' %}">Registrar renda extra</a></h2>
-        <p>Registre renda extra, dividendos e outros.</p>
-      </div>
-      <div class="feature">
-        <h2><a href="{% url 'earning:earning_list' %}">Visualizar ganhos</a></h2>
-        <p>Visualize todos os seus ganhos.</p>
-      </div>
-    </section>
+    <div class="col-md-6">
+      <section class="features-container">
+        <h1 class="mb-4 text-primary">Registrar ganhos</h1>
+        <div class="feature mb-3">
+          <h2>
+            <a class="text-decoration-none text-success" href="{% url 'earning:earning' %}">Registrar renda extra</a>
+          </h2>
+          <p>Registre renda extra, dividendos e outros.</p>
+        </div>
+        <div class="feature">
+          <h2>
+            <a class="text-decoration-none text-success" href="{% url 'earning:earning_list' %}">Visualizar ganhos</a>
+          </h2>
+          <p>Visualize todos os seus ganhos.</p>
+        </div>
+      </section>
+    </div>
+  </div>
 
-    <section class="updates-container">
-      <h1>
-        <a href="https://www.github.com/MoisesAvilar/gerenciamento-financeiro/" target="_blank" rel="external">Notícias e Atualizações</a>
-      </h1>
-      <h2>Atualização chegando!</h2>
-      <p class="brief">
-        <i>Sistema de ganhos adicionado.</i>
-        <i>Melhorias na interface.</i>
-        <i>Sistema exportação de listas corrigido.</i>
-      </p>
-      <p>Fique por dentro das últimas notícias e atualizações da nossa aplicação.</p>
-    </section>
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <section class="updates-container text-center">
+        <h1>
+          <a href="https://www.github.com/MoisesAvilar/gerenciamento-financeiro/" target="_blank" rel="external" class="text-decoration-none text-primary">Notícias e Atualizações</a>
+        </h1>
+        <h2 class="mt-3">Atualização chegando!</h2>
+        <p>
+          <i>Sistema de ganhos adicionado.</i><br>
+          <i>Melhorias na interface.</i><br>
+          <i>Sistema exportação de listas corrigido.</i>
+        </p>
+        <p>Fique por dentro das últimas notícias e atualizações da nossa aplicação.</p>
+      </section>
+    </div>
+  </div>
 
-    <section class="feedback">
-      <h2>
-        <a href="https://www.linkedin.com/in/moisés-avilar/" rel="external" target="_blank">Feedback e Suporte</a>
-      </h2>
-      <p>Temos o prazer de ouvir sua opinião e responder às suas perguntas. Entre em contato conosco.</p>
-    </section>
+  <div class="row">
+    <div class="col-md-12">
+      <section class="feedback text-center">
+        <h2>
+          <a href="https://www.linkedin.com/in/moisés-avilar/" rel="external" target="_blank" class="text-decoration-none text-primary">Feedback e Suporte</a>
+        </h2>
+        <p>Temos o prazer de ouvir sua opinião e responder às suas perguntas. Entre em contato conosco.</p>
+      </section>
+    </div>
   </div>
 </main>
 {% endblock %}

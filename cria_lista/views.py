@@ -117,7 +117,6 @@ class EditarLista(generic.UpdateView):
     pk_url_kwarg = 'id_lista'
 
     def get_success_url(self):
-        id_lista = self.kwargs['id_lista']
         return reverse('cria_lista:listas')
 
 
@@ -134,7 +133,6 @@ class EditarItem(generic.UpdateView):
         return render(request, self.template_name, context)
 
     def post(self, request, id_lista, id_item):
-        lista = get_object_or_404(Lista, id=id_lista)
         item = get_object_or_404(Item, id=id_item)
         form = EditarItemForm(request.POST, instance=item)
 
@@ -171,7 +169,6 @@ class DeletarLista(generic.DeleteView):
     pk_url_kwarg = 'id_lista'
 
     def get_success_url(self):
-        id_lista = self.kwargs['id_lista']
         return reverse('cria_lista:listas')
 
 

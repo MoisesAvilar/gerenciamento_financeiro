@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.views import generic
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator

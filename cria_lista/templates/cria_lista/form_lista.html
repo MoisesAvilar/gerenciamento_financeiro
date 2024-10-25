@@ -7,9 +7,8 @@
     <title>Nova Lista</title>
   {% endif %} 
   {% load static %}
-  <link rel="stylesheet" type="text/css" href="{% static 'input_style.css' %}" />
 {% endblock %} 
 
 {% block content %} 
-  {% include 'cria_lista/_lista.html' %}
+  {% include 'components/_lista.html' %}
 {% endblock %}

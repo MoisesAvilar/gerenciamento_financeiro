@@ -3,69 +3,70 @@
 {% block head %}
   <title>Itens na lista {{ lista }}</title>
   {% load static %}
-  <link rel="stylesheet" href="{% static 'item_view_style.css' %}" />
-  <link rel="stylesheet" href="{% static 'popup_style.css' %}" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <script src="{% static 'openPopup.js' %}"></script>
 {% endblock %}
 
 {% block content %}
+<div class="container mt-5">
   {% if itens %}
-    <div class="header">
+    <div class="header mb-4 p-3 bg-light shadow-sm rounded d-flex justify-content-between align-items-center">
       <div class="infoList">
-        <h2 class="title">{{ lista.nome.title }}</h2>
-        <div class="icons">
-          <a href="{% url 'cria_lista:export_to_excel' id_lista=lista.id %}" title="Exportar {{ lista.nome.title }} para Excel">
-            <i class="fas fa-download"></i>
-          </a>
-          <a href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}" title="Editar lista">
-            <i class="fas fa-edit"></i>
-          </a>
-          <a href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}" title="Adicionar item">
-            <i class="fas fa-plus"></i>
-          </a>
+        <h2 class="title display-6 text-primary">{{ lista.nome.title }}</h2>
+        <div class="valoresLista mt-2">
+          <p class="diferenca text-muted">
+            <i class="fas fa-wallet me-2"></i>Saldo: 
+            <span class="fw-bold text-success">R${{ lista.calcular_diferenca }}</span>
+          </p>
+          <p class="total text-muted">
+            <i class="fas fa-money-check-dollar me-2"></i>Gasto: 
+            <span class="fw-bold text-danger">R${{ lista.valor_total }}</span>
+          </p>
         </div>
       </div>
-      <div class="valoresLista">
-        <p class="diferenca">
-          <i class="fas fa-wallet"></i> Saldo: R${{ lista.calcular_diferenca }}
-        </p>
-        <p class="total">
-          <i class="fas fa-money-check-dollar"></i> Gasto: R${{ lista.valor_total }}
-        </p>
+      <div class="icons d-flex align-items-center">
+        <a href="{% url 'cria_lista:export_to_excel' id_lista=lista.id %}" class="btn btn-outline-primary me-2" title="Exportar para Excel">
+          <i class="fas fa-download"></i>
+        </a>
+        <a href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}" class="btn btn-outline-secondary me-2" title="Editar lista">
+          <i class="fas fa-edit"></i>
+        </a>
+        <a href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}" class="btn btn-outline-success" title="Adicionar item">
+          <i class="fas fa-plus"></i>
+        </a>
       </div>
     </div>
 
     {% for item in itens %}
-      <div class="item-container">
-        <div class="details">
-          <p><strong>Item:</strong> {{ item.nome.title }}</p>
-          <p><strong>Quantidade:</strong> {{ item.quantidade }}</p>
-          <p><strong>Valor:</strong> R${{ item.valor }}</p>
-          <p><strong>Total:</strong> R${{ item.total }}</p>
-          <p><strong>Adicionado em:</strong> {{ item.added_at }}</p>
-        </div>
-        <div class="options">
-          <a id="edit" href="{% url 'cria_lista:editar_item' id_lista=lista.id id_item=item.id %}">
-            <i class="fas fa-edit"></i>Editar
-          </a>
-          <a id="delete" href="javascript:void(0);" data-item-id="{{ item.id }}" onclick="openPopup(this)">
-            <i class="fas fa-trash"></i>Excluir
-          </a>
+      <div class="item-container mb-3 card shadow-sm border-0 rounded">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div class="details">
+            <p><strong>Item:</strong> {{ item.nome.title }}</p>
+            <p><strong>Quantidade:</strong> {{ item.quantidade }}</p>
+            <p><strong>Valor:</strong> R${{ item.valor }}</p>
+            <p><strong>Total:</strong> R${{ item.total }}</p>
+            <p><strong>Adicionado em:</strong> {{ item.added_at }}</p>
+          </div>
+          <div class="options">
+            <a class="btn btn-outline-warning btn-sm me-1" href="{% url 'cria_lista:editar_item' id_lista=lista.id id_item=item.id %}">
+              <i class="fas fa-edit"></i> Editar
+            </a>
+            <a class="btn btn-outline-danger btn-sm" href="javascript:void(0);" data-item-id="{{ item.id }}" onclick="openPopup(this)">
+              <i class="fas fa-trash"></i> Excluir
+            </a>
+          </div>
         </div>
       </div>
     {% endfor %}
-
-    {% include 'cria_lista/_delete.html' %}
-
+    {% include 'components/_delete.html' %}
   {% else %}
-
-    <div class="no-items">
+    <div class="no-items text-center">
       <h2>Nenhum item cadastrado</h2>
-      <a href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}">
-        <i class="fas fa-plus"></i>Cadastrar itens
+      <a class="btn btn-primary" href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}">
+        <i class="fas fa-plus"></i> Cadastrar itens
       </a>
     </div>
-
   {% endif %}
+</div>
+
 {% endblock %}

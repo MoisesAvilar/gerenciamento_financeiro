@@ -1,46 +1,65 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
+{% load custom_tags %}
+
 {% block head %}
 <title>Entrar</title>
 {% load static %}
-<link rel="stylesheet" href="{% static 'authentication_form.css' %}" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 <script src="{% static 'passwordVisibility.js' %}"></script>
-{% endblock %} 
+{% endblock %}
 
-{% block content %} 
-  {% if user.is_authenticated %}
-    <h2>Você já está logado como <strong>{{ user.username }}</strong></h2>
-    <p>Deseja sair?</p>
-    <button type="button">
-      <a href="{% url 'cria_lista:index' %}">Cancelar</a>
-    </button>
-    <button type="button">
-      <a href="{% url 'accounts:logout' %}">Sim</a>
-    </button>
-  {% else %}
-    <div class="form">
-      <form method="post">
-        {% csrf_token %}
-        <legend>Faça Login</legend>
-        <div class="form-group">
-          <label for="{{ login_form.username.id_for_label }}">{{ login_form.username.label }}</label>
-          {{ login_form.username }}
+{% block content %}
+<div class="container mt-5">
+    {% if user.is_authenticated %}
+    <div class="text-center">
+        <h2>Você já está logado como <strong>{{ user.username }}</strong></h2>
+        <p>Deseja sair?</p>
+        <div class="d-flex justify-content-center mt-3">
+            <a class="btn btn-secondary me-2" href="{% url 'cria_lista:index' %}">Cancelar</a>
+            <a class="btn btn-danger" href="{% url 'accounts:logout' %}">Sim, Sair</a>
         </div>
-        <div class="form-group passwordContainer">
-          <label for="{{ login_form.password.id_for_label }}">{{ login_form.password.label }}</label>
-          <div class="passwordWrapper">
-            {{ login_form.password }}
-            <i class="fas fa-eye" id="eye"></i>
-            <i class="fas fa-eye-slash" id="eye-slash" style="display: none"></i>
-          </div>
-        </div>
-        <div class="errors">
-          {{ login_form.errors }}
-        </div>
-        <div class="button">
-          <button type="submit">Entrar</button>
-        </div>
-      </form>
     </div>
-  {% endif %}
+    {% else %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 rounded">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">Faça Login</h3>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="{{ login_form.username.id_for_label }}" class="form-label">{{ login_form.username.label }}</label>
+                            {{ login_form.username|add_class:"form-control" }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ login_form.password.id_for_label }}" class="form-label">{{ login_form.password.label }}</label>
+                            <div class="input-group">
+                                {{ login_form.password|add_class:"form-control" }}
+                                <span class="input-group-text" id="eye" onclick="togglePasswordVisibility('id_password', 'eye', 'eye-slash')">
+                                    <i class="fas fa-eye"></i>
+                                </span>
+                                <span class="input-group-text" id="eye-slash" style="display:none;" onclick="togglePasswordVisibility('id_password', 'eye', 'eye-slash')">
+                                    <i class="fas fa-eye-slash"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-danger mb-3">
+                            {{ login_form.non_field_errors }}
+                            {% for field in login_form %}
+                            {{ field.errors }}
+                            {% endfor %}
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Entrar</button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <p>Não tem uma conta? <a href="{% url 'accounts:signup' %}" class="text-decoration-none">Crie uma agora!</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
 {% endblock %}
