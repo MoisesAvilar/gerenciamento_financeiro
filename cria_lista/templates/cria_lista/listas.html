@@ -9,6 +9,12 @@
 
 {% block content %}
 <div class="container mt-5">
+  <div class="text-end mb-4">
+    <a href="{% url 'cria_lista:nova_lista' %}" class="btn btn-outline-primary">
+      <i class="fas fa-plus"></i> Criar Nova Lista
+    </a>
+  </div>
+
   {% if listas %}
     <div class="row">
       {% for lista in listas %}
@@ -16,7 +22,7 @@
           <div class="card shadow-sm border-0 rounded list-container p-3">
             <div class="card-body">
               <div class="details mb-3">
-                <h5 class="mb-1 text-primary">{{ forloop.counter }}. 
+                <h5 class="mb-1 text-primary">{{ forloop.counter }}.
                   <a href="{% url 'cria_lista:ver_itens' id_lista=lista.id %}" class="text-decoration-none text-dark">
                     {{ lista.nome.title }}
                   </a>
@@ -53,5 +59,5 @@
     </div>
   {% endif %}
 </div>
-
+{% include 'components/_pagination.html' %}
 {% endblock %}

@@ -50,6 +50,7 @@ class Listas(generic.ListView):
     model = Lista
     template_name = 'cria_lista/listas.html'
     context_object_name = 'listas'
+    paginate_by = 10
 
     def get_queryset(self):
         user = self.request.user
@@ -63,6 +64,7 @@ class Listas(generic.ListView):
 class VerItens(generic.ListView):
     template_name = 'cria_lista/itens.html'
     context_object_name = 'itens'
+    paginate_by = 10
 
     def get_queryset(self):
         id_lista = self.kwargs['id_lista']
