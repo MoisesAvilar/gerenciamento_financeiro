@@ -1,38 +1,38 @@
+// theme-toggle.js (versão corrigida para Bootstrap Icons)
+
 document.addEventListener("DOMContentLoaded", function() {
-    const savedTheme = localStorage.getItem('theme');
-    const body = document.body;
-    const toggleButton = document.getElementById('toggle-theme');
-    const themeIcon = document.getElementById('theme-icon');
+    const themeToggleButton = document.getElementById('toggle-theme');
+    const themeIcon = document.getElementById('theme-icon'); 
+    
+    // Pega o tema salvo no localStorage ou define 'light' como padrão
+    const currentTheme = localStorage.getItem('theme') || 'light';
 
-    // Função para definir o tema
-    function setTheme(theme) {
+    // Função que aplica o tema no site
+    const applyTheme = (theme) => {
+        // Define o atributo data-bs-theme no elemento <html>
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        // Salva a preferência no localStorage
+        localStorage.setItem('theme', theme);
+
+        // Troca as classes do Bootstrap Icons
         if (theme === 'dark') {
-            body.classList.remove('bg-light');
-            body.classList.add('bg-dark', 'text-white');
             themeIcon.classList.remove('bi-moon-fill');
-            themeIcon.classList.add('bi-sun-fill'); 
+            themeIcon.classList.add('bi-sun-fill');
         } else {
-            body.classList.remove('bg-dark', 'text-white');
-            body.classList.add('bg-light');
             themeIcon.classList.remove('bi-sun-fill');
-            themeIcon.classList.add('bi-moon-fill'); 
+            themeIcon.classList.add('bi-moon-fill');
         }
-    }
+    };
 
-    // Inicializa o tema
-    if (savedTheme) {
-        setTheme(savedTheme);
-    } else {
-        setTheme('light');
-    }
+    // Aplica o tema inicial quando a página carrega
+    applyTheme(currentTheme);
 
-    // Adiciona o evento de clique
-    if (toggleButton) {
-        toggleButton.addEventListener('click', () => {
-            const currentTheme = body.classList.contains('bg-dark') ? 'dark' : 'light';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            setTheme(newTheme);
-            localStorage.setItem('theme', newTheme);
+    // Adiciona o evento de clique no botão
+    if(themeToggleButton) {
+        themeToggleButton.addEventListener('click', () => {
+            // Verifica qual é o tema atual e define o novo tema
+            const newTheme = document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
         });
     }
 });

@@ -1,43 +1,32 @@
-function openPopup(button) {
-    var itemId = button.getAttribute("data-item-id");
-    var listaId = button.getAttribute("data-lista-id");
-    var earningId = button.getAttribute('data-earning-id');
-    var itemName = "";
-    var listaName = "";
+// openPopup.js (nova versão)
 
-    if (itemId) {
-        itemName = button.closest('.item-container').querySelector('.details p').innerText;
-        var itemWords = itemName.split(" ");
-        var filteredName = itemWords.slice(1).join(" ");
-        var form = document.getElementById("delete-form");
-        var actionUrl = `deletar/${itemId}/`;
-        form.setAttribute("action", actionUrl);
-        document.getElementById("item-name").innerText = filteredName;
-    } else if (listaId) {
-        listaName = button.closest('.list-container').querySelector('.details a').innerText;
-        var form = document.getElementById("delete-form");
-        var actionUrl = `${listaId}/deletar/`;
-        form.setAttribute("action", actionUrl);
-        document.getElementById("lista-name").innerText = listaName;
-    } else if (earningId) {
-        var form = document.getElementById("delete-form");
-        var actionUrl = `deletar/${earningId}/`;
-        form.setAttribute('action', actionUrl);
-        document.getElementById('item-name');
+document.addEventListener('DOMContentLoaded', function () {
+    const deleteModalElement = document.getElementById('deleteConfirmationModal');
+    
+    if (deleteModalElement) {
+        // Escuta o evento que o Bootstrap dispara ANTES de o modal ser exibido
+        deleteModalElement.addEventListener('show.bs.modal', function (event) {
+            
+            // Pega o botão que acionou o modal
+            const button = event.relatedTarget;
+
+            // Extrai a URL de exclusão e o nome do item dos atributos 'data-*' do botão
+            const formAction = button.getAttribute('data-form-action');
+            const itemName = button.getAttribute('data-item-name');
+
+            // Encontra os elementos dentro do modal que vamos atualizar
+            const deleteForm = deleteModalElement.querySelector('#delete-form');
+            const itemNameElement = deleteModalElement.querySelector('#delete-item-name');
+
+            // Atualiza a 'action' do formulário com a URL correta
+            deleteForm.setAttribute('action', formAction);
+
+            // Atualiza o texto de confirmação com o nome do item
+            if (itemName) {
+                itemNameElement.textContent = `"${itemName}"`;
+            } else {
+                itemNameElement.textContent = 'este registro';
+            }
+        });
     }
-
-    document.getElementById("popup").style.display = "block";
-
-    document.addEventListener("keydown", handleKeyDown);
-}
-
-function closePopup() {
-    document.getElementById("popup").style.display = "none";
-    document.removeEventListener("keydown", handleKeyDown);
-}
-
-function handleKeyDown(event) {
-    if (event.key === "Escape") {
-        closePopup();
-    }
-}
+});

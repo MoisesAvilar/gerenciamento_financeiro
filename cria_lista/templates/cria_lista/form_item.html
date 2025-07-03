@@ -2,9 +2,19 @@
 
 {% block head %}
   <title>Cadastrar Itens</title>
-  {% load static %}
 {% endblock %} 
 
 {% block content %}
-  {% include 'components/_item.html' %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-body p-4 p-md-5">
+          <h2 class="card-title text-center mb-4">Adicionar Itens à Lista</h2>
+          {% include 'components/_item.html' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

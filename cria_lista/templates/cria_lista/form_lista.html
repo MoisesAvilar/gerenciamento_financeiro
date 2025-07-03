@@ -2,13 +2,29 @@
 
 {% block head %} 
   {% if lista.id_lista %}
-    <title>Editar lista {{ lista }}</title>
+    <title>Editar Lista: {{ lista.nome.title }}</title>
   {% else %}
     <title>Nova Lista</title>
   {% endif %} 
-  {% load static %}
 {% endblock %} 
 
 {% block content %} 
-  {% include 'components/_lista.html' %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-body p-4 p-md-5">
+          <h2 class="card-title text-center mb-4">
+            {% if lista.id_lista %}
+              Editar Lista
+            {% else %}
+              Criar Nova Lista
+            {% endif %}
+          </h2>
+          {% include 'components/_lista.html' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

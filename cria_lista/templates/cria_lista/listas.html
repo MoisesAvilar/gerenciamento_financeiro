@@ -1,44 +1,58 @@
 {% extends "base.html" %}
 
 {% block head %}
-  <title>Listas Criadas</title>
+  <title>Minhas Listas</title>
   {% load static %}
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <script src="{% static 'openPopup.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-  <div class="text-end mb-4">
-    <a href="{% url 'cria_lista:nova_lista' %}" class="btn btn-outline-primary">
-      <i class="fas fa-plus"></i> Criar Nova Lista
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h2">Minhas Listas</h1>
+    <a href="{% url 'cria_lista:nova_lista' %}" class="btn btn-primary">
+      <i class="fas fa-plus me-2"></i> Criar Nova Lista
     </a>
   </div>
 
   {% if listas %}
-    <div class="row">
+    <div class="row g-4">
       {% for lista in listas %}
-        <div class="col-md-4 mb-4">
-          <div class="card shadow-sm border-0 rounded list-container p-3">
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0 text-truncate">
+                {{ lista.nome.title }}
+              </h5>
+              <span class="badge bg-secondary rounded-pill">{{ lista.item_set.count }} 
+                {% if lista.item_set.count == 1 %} item {% else %} itens {% endif %}
+              </span>
+            </div>
             <div class="card-body">
-              <div class="details mb-3">
-                <h5 class="mb-1 text-primary">{{ forloop.counter }}.
-                  <a href="{% url 'cria_lista:ver_itens' id_lista=lista.id %}" class="text-decoration-none text-dark">
-                    {{ lista.nome.title }}
-                  </a>
-                </h5>
-              </div>
-              <div class="options d-flex justify-content-between">
-                <a class="btn btn-outline-success btn-sm me-1" href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}">
-                  <i class="fas fa-plus"></i> Adicionar
-                </a>
-                <a class="btn btn-outline-warning btn-sm me-1" href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}">
-                  <i class="fas fa-edit"></i> Editar
-                </a>
-                <a class="btn btn-outline-danger btn-sm" href="javascript:void(0);" data-lista-id="{{ lista.id }}" onclick="openPopup(this)">
-                  <i class="fas fa-trash"></i> Excluir
-                </a>
-              </div>
+              <p class="card-text">
+                <strong class="text-danger">Gasto Total:</strong> R$ {{ lista.valor_total }} <br>
+                <strong class="text-success">Saldo Restante:</strong> R$ {{ lista.calcular_diferenca }}
+              </p>
+            </div>
+            <div class="card-footer bg-transparent border-0 p-3 d-grid gap-2 d-md-flex justify-content-end">
+              <a class="btn btn-outline-success btn-sm" href="{% url 'cria_lista:cadastrar_itens' id_lista=lista.id %}">
+                <i class="fas fa-plus"></i> Adicionar Itens
+              </a>
+              <a class="btn btn-primary btn-sm" href="{% url 'cria_lista:ver_itens' id_lista=lista.id %}">
+                <i class="fas fa-eye"></i> Ver Itens
+              </a>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pt-0 px-3 pb-3 d-grid gap-2 d-md-flex justify-content-end">
+              <a class="btn btn-outline-warning btn-sm" href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}">
+                <i class="fas fa-edit"></i> Editar
+              </a>
+              <button type="button" class="btn btn-outline-danger btn-sm" 
+        data-bs-toggle="modal" 
+        data-bs-target="#deleteConfirmationModal" 
+        data-form-action="{% url 'cria_lista:deletar_lista' lista.id %}" 
+        data-item-name="{{ lista.nome.title|escapejs }}">
+  <i class="fas fa-trash"></i> Excluir
+</button>
             </div>
           </div>
         </div>
@@ -47,14 +61,16 @@
 
     {% include 'components/_delete.html' %} 
 
-    <div class="total text-center mt-4">
-      <p><strong>Total de listas: {{ listas|length }}</strong></p>
+    <div class="text-center mt-4">
+      <p class="text-muted"><strong>Total de listas: {{ listas|length }}</strong></p>
     </div>
   {% else %}
-    <div class="no-list text-center">
-      <h2 class="display-6 text-muted">Nenhuma lista criada</h2>
+    <div class="text-center py-5">
+      <div class="feature-icon text-muted" style="font-size: 4rem;"><i class="fas fa-list-alt"></i></div>
+      <h2 class="display-6 mt-3">Nenhuma lista criada</h2>
+      <p class="lead text-muted">Que tal começar agora?</p>
       <a class="btn btn-primary mt-3" href="{% url 'cria_lista:nova_lista' %}">
-        <i class="fas fa-plus"></i> Crie sua primeira lista aqui
+        <i class="fas fa-plus me-2"></i> Crie sua primeira lista aqui
       </a>
     </div>
   {% endif %}

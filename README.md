@@ -1,58 +1,98 @@
-# Gerenciamento Financeiro
+# Gerenciamento Financeiro Pessoal
 
-Esta é uma aplicação Django projetada para auxiliar no controle de gastos mensais e no gerenciamento financeiro pessoal. Ela oferece as seguintes funcionalidades principais:
+Uma aplicação web moderna e completa, construída com Django, para um gerenciamento financeiro pessoal intuitivo e eficaz. A plataforma foi totalmente refatorada para oferecer uma experiência de usuário limpa, responsiva e com funcionalidades avançadas.
 
-- **Listas e Itens:** A aplicação permite a criação de listas para categorizar suas despesas e a adição de itens associados a cada lista. Isso facilita a organização e o rastreamento de gastos.
+## 🚀 Aplicação Ao Vivo
 
-- **Operações CRUD:** As operações CRUD (Criar, Ler, Atualizar e Deletar) estão disponíveis tanto para listas quanto para itens. Isso oferece flexibilidade para adicionar, visualizar, atualizar e excluir informações de maneira intuitiva.
+Você pode testar a aplicação completa, incluindo o login com Google e o novo design, no link abaixo:
 
-## Recursos Adicionais
+[![Acessar Aplicação](https://img.shields.io/badge/Acessar-Aplicação_Online-brightgreen?style=for-the-badge)](http://expenses.pythonanywhere.com/)
 
-Aqui estão alguns dos recursos adicionais e funcionalidades que você pode encontrar nesta aplicação:
+## Funcionalidades Principais
 
-- **Rastreamento de Gastos em Tempo Real:** A aplicação oferece uma visão em tempo real do quanto você já gastou em relação ao seu orçamento atual, fornecendo uma análise clara da situação financeira.
+-   **Autenticação Social e Segura:**
+    -   **Login com Google:** Cadastro e login rápidos e seguros com apenas um clique, utilizando a conta do Google.
+    -   **Sistema de Contas Tradicional:** Sistema de cadastro e login com usuário e senha totalmente funcional.
+    -   **Configuração Segura:** Uso de variáveis de ambiente para proteger dados sensíveis como a `SECRET_KEY`.
 
-- **Categorização de Despesas:** Categorize suas despesas em diferentes categorias, tornando mais fácil identificar onde seu dinheiro está sendo gasto.
+-   **Interface Moderna com Modo Escuro:**
+    -   **Design Renovado:** Todas as telas, do painel de controle aos formulários, foram redesenhadas para uma interface mais profissional e agradável.
+    -   **Modo Escuro:** Um seletor de tema (claro/escuro) está disponível em toda a aplicação para maior conforto visual.
+    -   **Componentes Interativos:** A interface utiliza cards, modais e ícones para facilitar a navegação e o uso.
 
-- **Metas Financeiras:** Defina metas financeiras pessoais para economia ou redução de gastos, ajudando na motivação para alcançar objetivos financeiros.
+-   **Gerenciamento de Despesas:**
+    -   **Listas de Gastos:** Crie e gerencie múltiplas listas para organizar suas despesas (ex: "Compras do Mês", "Gastos com Lazer").
+    -   **Operações CRUD Completas:** Adicione, visualize, edite e delete listas e itens de forma intuitiva.
 
-- **Exportação de Dados:** Exporte seus dados financeiros para formatos compatíveis, como CSV, para análises mais avançadas no Excel ou em outras ferramentas.
+-   **Controle de Ganhos:**
+    -   Registre e acompanhe suas fontes de renda, salários e ganhos extras.
 
-- **Relatórios e Gráficos:** (em progresso) Visualize seus dados financeiros por meio de gráficos e relatórios interativos.py para uma compreensão mais profunda dos seus hábitos de gastos.
+-   **Exportação de Dados:**
+    -   Exporte os dados das suas listas de gastos para arquivos Excel (.xlsx) para análises externas.
+
+-   **Relatórios e Gráficos:**
+    -   _(Em progresso)_ Seção futura para visualização de dados financeiros através de gráficos interativos.
+
+## Tecnologias e Boas Práticas
+
+-   **Back-end:** Django
+-   **Front-end:** Bootstrap 5, HTML5, CSS3, JavaScript
+-   **Autenticação:** `django-allauth` para autenticação social.
+-   **Segurança:** `python-dotenv` para gerenciamento de variáveis de ambiente.
+-   **Banco de Dados:** SQLite3 (desenvolvimento), facilmente portável para PostgreSQL ou MySQL.
 
 ## Instalação
 
-Para instalar e executar esta aplicação em sua máquina local, siga as seguintes etapas:
+Para executar esta aplicação em sua máquina local, siga estas etapas:
 
-1. Clone este repositório para sua máquina local:
-
-   ```bash
-   git clone https://github.com/MoisesAvilar/gerenciamento-financeiro.git
-
-2. Crie um ambiente virtual (recomendado) e ative-o:
-
+1.  **Clone o repositório:**
     ```bash
+    git clone [https://github.com/MoisesAvilar/gerenciamento-financeiro.git](https://github.com/MoisesAvilar/gerenciamento-financeiro.git)
+    cd gerenciamento-financeiro
+    ```
+
+2.  **Crie e ative um ambiente virtual:**
+    ```bash
+    # Para Windows
     python -m venv venv
+    .\venv\Scripts\activate
+
+    # Para macOS/Linux
+    python3 -m venv venv
     source venv/bin/activate
+    ```
 
-3. Instale as dependências do projeto:
+3.  **Configure as Variáveis de Ambiente:**
+    -   Este projeto usa um arquivo `.env` para configurações de segurança. Crie uma cópia do arquivo de exemplo:
+        ```bash
+        # Para Windows
+        copy .env.example .env
 
+        # Para macOS/Linux
+        cp .env.example .env
+        ```
+    -   Abra o novo arquivo `.env` e, se desejar, altere a `SECRET_KEY` (opcional para desenvolvimento).
+
+4.  **Instale as dependências:**
     ```bash
     pip install -r requirements.txt
+    ```
 
-4. Execute as migrações do banco de dados:
-
+5.  **Execute as migrações do banco de dados:**
     ```bash
     python manage.py migrate
+    ```
 
-5. Inicie o servidor de desenvolvimento:
+6.  **Crie um superusuário (opcional):**
+    ```bash
+    python manage.py createsuperuser
+    ```
 
+7.  **Inicie o servidor:**
     ```bash
     python manage.py runserver
+    ```
 
-6. Acesse a aplicação em seu navegador:
-    
-    ```bash
-    http://localhost:8000/
+A aplicação estará disponível em `http://127.0.0.1:8000/`.
 
-7. Desfrute da aplicação!
+---
