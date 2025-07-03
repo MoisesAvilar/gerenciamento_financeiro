@@ -24,6 +24,9 @@ Você pode testar a aplicação completa, incluindo o login com Google e o novo 
     -   **Listas de Gastos:** Crie e gerencie múltiplas listas para organizar suas despesas (ex: "Compras do Mês", "Gastos com Lazer").
     -   **Operações CRUD Completas:** Adicione, visualize, edite e delete listas e itens de forma intuitiva.
 
+-   **Controle de Dívidas:**
+    -   **Listas de Dívidas:** Crie listas específicas para acompanhar e amortizar dívidas. Adicionar um item a uma lista de dívida representa um pagamento, atualizando o saldo devedor.
+
 -   **Controle de Ganhos:**
     -   Registre e acompanhe suas fontes de renda, salários e ganhos extras.
 

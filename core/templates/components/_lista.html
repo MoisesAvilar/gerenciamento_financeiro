@@ -1,14 +1,29 @@
 <form method="post">
   {% csrf_token %}
-  
+
+  {# Novo seletor para o TIPO da lista #}
+  <div class="mb-4 text-center">
+    <label class="form-label d-block mb-2"><strong>{{ form.tipo.label }}</strong></label>
+    <div class="btn-group" role="group" aria-label="Tipo de lista">
+      {% for radio in form.tipo %}
+        {# O 'radio.tag' renderiza o <input type="radio" class="btn-check"> que configuramos no forms.py #}
+        {{ radio.tag }}
+        <label class="btn btn-outline-primary" for="{{ radio.id_for_label }}">
+          {# Adicionamos um ícone para cada opção para melhorar a interface #}
+          {% if radio.choice_label == 'Lista de Gastos' %}
+            <i class="fas fa-shopping-cart me-2"></i>
+          {% else %}
+            <i class="fas fa-hand-holding-dollar me-2"></i>
+          {% endif %}
+          {{ radio.choice_label }}
+        </label>
+      {% endfor %}
+    </div>
+  </div>
+
   <div class="mb-3">
     <label for="{{ form.nome.id_for_label }}" class="form-label"><strong>{{ form.nome.label }}</strong></label>
     {{ form.nome }}
-  </div>
-  
-  <div class="mb-3">
-    <label for="{{ form.tipo.id_for_label }}" class="form-label"><strong>{{ form.tipo.label }}</strong></label>
-    {{ form.tipo }}
   </div>
   
   <div class="mb-3">
@@ -17,7 +32,8 @@
   </div>
   
   <div class="mb-3">
-    <label for="{{ form.meta_de_gastos.id_for_label }}" class="form-label"><strong>{% if lista.id %}{{ form.meta_de_gastos.label }}{% else %}Limite de Gastos{% endif %}</strong></label>
+    {# O label deste campo agora é dinâmico, vindo do forms.py #}
+    <label for="{{ form.meta_de_gastos.id_for_label }}" class="form-label"><strong>{{ form.meta_de_gastos.label }}</strong></label>
     <div class="input-group">
       <span class="input-group-text">R$</span>
       {{ form.meta_de_gastos }}

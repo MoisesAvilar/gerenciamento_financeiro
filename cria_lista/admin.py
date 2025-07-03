@@ -1,3 +1,4 @@
+# cria_lista/admin.py
 from django.contrib import admin
 from cria_lista.models import Lista, Item
 
@@ -10,5 +11,6 @@ class ItemAdmin(admin.ModelAdmin):
 
 @admin.register(Lista)
 class ListaAdmin(admin.ModelAdmin):
+    # Adicione 'tipo' aqui
     list_display = ('nome', 'tipo', 'categoria', 'data', 'meta_de_gastos',)
     list_filter = ('tipo', 'categoria',)
