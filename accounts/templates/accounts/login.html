@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load custom_tags %}
-
-{% block head %}
+{% load socialaccount %} {% block head %}
 <title>Entrar</title>
 {% load static %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
@@ -53,6 +52,18 @@
                             <button type="submit" class="btn btn-primary">Entrar</button>
                         </div>
                     </form>
+
+                    <div class="d-flex align-items-center my-3">
+                        <hr class="flex-grow-1">
+                        <span class="px-3 text-muted">OU</span>
+                        <hr class="flex-grow-1">
+                    </div>
+
+                    <div class="text-center">
+                        <a href="{% provider_login_url 'google' %}" class="btn btn-danger w-100">
+                            <i class="fab fa-google me-2"></i> Continuar com Google
+                        </a>
+                    </div>
                     <div class="text-center mt-3">
                         <p>Não tem uma conta? <a href="{% url 'accounts:signup' %}" class="text-decoration-none">Crie uma agora!</a></p>
                     </div>

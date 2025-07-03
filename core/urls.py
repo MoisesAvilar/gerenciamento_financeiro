@@ -9,6 +9,7 @@ urlpatterns = [
     path('', include('accounts.urls')),
     path('', include('cria_lista.urls')),
     path('', include('earning.urls')),
+    path('social/', include('allauth.urls')),
 ]
 
 if settings.DEBUG:
