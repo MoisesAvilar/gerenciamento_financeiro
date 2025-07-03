@@ -1,49 +1,48 @@
 {% if page_obj.has_other_pages %}
-  <nav>
+  <nav aria-label="Navegação de página">
     <ul class="pagination justify-content-center">
+
       {% if page_obj.has_previous %}
+        {# Botão para a Primeira Página #}
         <li class="page-item">
-          <a class="page-link" href="?page=1">
-            Primeira
-          </a>
+          <a class="page-link" href="?page=1" aria-label="Primeira">Primeira</a>
         </li>
+        {# Botão para a Página Anterior com Ícone #}
         <li class="page-item">
-          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
-            Anterior
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Anterior">
+            <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
       {% endif %}
 
+      {# Números das Páginas (lógica mantida) #}
       {% for page_number in page_obj.paginator.page_range %}
         {% if page_number <= page_obj.number|add:3 and page_number >= page_obj.number|add:-3 %}
           {% if page_obj.number == page_number %}
-            <li class="page-item active">
-              <a class="page-link" href="?page={{ page_number }}">
-                {{ page_number }}
-              </a>
+            <li class="page-item active" aria-current="page">
+              <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
             </li>
           {% else %}
             <li class="page-item">
-              <a class="page-link" href="?page={{ page_number }}">
-                {{ page_number }}
-              </a>
+              <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
             </li>
           {% endif %}
         {% endif %}
       {% endfor %}
 
       {% if page_obj.has_next %}
+        {# Botão para a Próxima Página com Ícone #}
         <li class="page-item">
-          <a class="page-link" href="?page={{ page_obj.next_page_number }}">
-            Próxima
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Próxima">
+            <span aria-hidden="true">&raquo;</span>
           </a>
         </li>
+        {# Botão para a Última Página #}
         <li class="page-item">
-          <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
-            Última
-          </a>
+          <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Última">Última</a>
         </li>
       {% endif %}
+
     </ul>
   </nav>
 {% endif %}
