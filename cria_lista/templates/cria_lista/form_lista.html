@@ -1,6 +1,7 @@
 {% extends 'base.html' %} 
 
-{% block head %} 
+{% block head %}
+{{ block.super }}
   {% if lista.id_lista %}
     <title>Editar Lista: {{ lista.nome.title }}</title>
   {% else %}

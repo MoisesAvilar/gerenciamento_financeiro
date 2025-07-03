@@ -1,5 +1,8 @@
-{% extends "base.html" %} {% load static %} {% block head %}
+{% extends "base.html" %} {% load static %}
+{% block head %}
+{{ block.super }}
 <title>Painel Principal</title>
+
 <style>
   /* Estilos para o efeito de hover nos cards de ação */
   .card-link {
