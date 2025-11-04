@@ -51,12 +51,20 @@
         .dropdown-menu {
             --bs-dropdown-min-width: 14rem;
         }
+
+        /* --- Estilo para os Toasts (Mensagens) --- */
+        .toast-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1090;
+        }
     </style>
 
 </head>
 <body class="d-flex flex-column" style="min-height: 100vh;"> 
     <header>
-        {# ... sua navbar continua a mesma ... #}
+        {# ... sua navbar (sem alterações) ... #}
         <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom shadow-sm">
           <div class="container-fluid">
             <a class="navbar-brand fw-bold" href="{% url 'cria_lista:index' %}">
@@ -90,7 +98,7 @@
                     <li>
                       <form action="{% url 'accounts:logout' %}" method="post" class="d-inline" onsubmit="return confirm('Tem certeza que deseja sair?');">
                         {% csrf_token %}
-                        <button type="submit" class="dropdown-item text-danger">
+                        <button type-="submit" class="dropdown-item text-danger">
                           <i class="fas fa-sign-out-alt fa-fw me-2"></i>Sair
                         </button>
                       </form>
@@ -106,11 +114,77 @@
           </div>
         </nav>
     </header>
-  
+
+    {% if messages %}
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <div class="toast-container">
+            {% for message in messages %}
+            <div class="toast align-items-center text-white {% if message.tags %}{{ message.tags }}{% endif %}" 
+                 role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {% if 'success' in message.tags %}
+                            <i class="fas fa-check-circle me-2"></i>
+                        {% elif 'error' in message.tags %}
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                        {% else %}
+                            <i class="fas fa-info-circle me-2"></i>
+                        {% endif %}
+                        {{ message }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
     <main class="container mt-4 flex-grow-1">
         {% block content %}{% endblock %}
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', (event) => {
+        var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+        var toastList = toastElList.map(function(toastEl) {
+          // Mapeia as classes de tag do Django para classes de background do Bootstrap
+          if (toastEl.classList.contains('success')) {
+            toastEl.classList.add('bg-success');
+          } else if (toastEl.classList.contains('error')) {
+            toastEl.classList.add('bg-danger');
+          } else if (toastEl.classList.contains('warning')) {
+            toastEl.classList.add('bg-warning', 'text-dark');
+          } else {
+            // 'info' ou padrão
+            toastEl.classList.add('bg-primary');
+          }
+          return new bootstrap.Toast(toastEl, { autohide: true });
+        });
+        toastList.forEach(toast => toast.show());
+      });
+    </script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var deleteModal = document.getElementById('deleteConfirmationModal');
+        
+        if (deleteModal) {
+          deleteModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            
+            var formAction = button.getAttribute('data-form-action');
+            var itemName = button.getAttribute('data-item-name');
+            
+            var modalForm = deleteModal.querySelector('#deleteConfirmForm');
+            var modalItemName = deleteModal.querySelector('#itemNameToDelete');
+            
+            modalForm.setAttribute('action', formAction);
+            modalItemName.textContent = itemName;
+          });
+        }
+      });
+    </script>
+    </body>
 </html>

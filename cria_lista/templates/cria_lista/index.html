@@ -1,187 +1,163 @@
-{% extends "base.html" %} {% load static %}
+{% extends "base.html" %}
+{% load humanize %}
 {% block head %}
-{{ block.super }}
-<title>Painel Principal</title>
+  {{ block.super }}
+  <title>Meu Painel</title>
+{% endblock %}
 
-<style>
-  /* Estilos para o efeito de hover nos cards de ação */
-  .card-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  }
-  .card-link:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(var(--bs-body-color-rgb), 0.1);
-  }
-  .card-link .card-title {
-    color: var(--bs-body-color);
-  }
-</style>
-{% endblock %} {% block content %}
-<main class="container py-5">
-  <section class="p-5 bg-body-tertiary rounded-3 text-center mb-5">
-    <h1 class="display-5 fw-bold">Seu Painel Financeiro</h1>
-    <p class="lead text-muted">
-      Gerencie suas listas de gastos e registre seus ganhos de forma simples e
-      organizada.
-    </p>
-  </section>
+{% block content %}
+<div class="container py-5">
+  <div class="row g-4 g-lg-5">
 
-  <div class="row g-4">
-    {# Coluna de Gastos #}
-    <div class="col-lg-6">
-      <h2 class="h4 mb-3">
-        <i class="fas fa-shopping-cart me-2"></i>Gerenciar Gastos
-      </h2>
-      <div class="row g-4">
-        <div class="col-md-6">
-          <a href="{% url 'cria_lista:nova_lista' %}" class="card-link">
-            <div class="card text-center h-100 shadow-sm">
-              <div class="card-body">
-                <div class="display-4 text-success mb-3">
-                  <i class="fas fa-plus-circle"></i>
-                </div>
-                <h5 class="card-title">Criar Lista</h5>
-                <p class="card-text small text-muted">
-                  Comece uma nova lista de compras ou despesas.
-                </p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-md-6">
-          <a href="{% url 'cria_lista:listas' %}" class="card-link">
-            <div class="card text-center h-100 shadow-sm">
-              <div class="card-body">
-                <div class="display-4 text-info mb-3">
-                  <i class="fas fa-list-check"></i>
-                </div>
-                <h5 class="card-title">Ver Listas</h5>
-                <p class="card-text small text-muted">
-                  Adicione ou edite itens em suas listas salvas.
-                </p>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    {# Coluna de Ganhos #}
-    <div class="col-lg-6">
-      <h2 class="h4 mb-3">
-        <i class="fas fa-chart-line me-2"></i>Registrar Ganhos
-      </h2>
-      <div class="row g-4">
-        <div class="col-md-6">
-          <a href="{% url 'earning:earning' %}" class="card-link">
-            <div class="card text-center h-100 shadow-sm">
-              <div class="card-body">
-                <div class="display-4 text-warning mb-3">
-                  <i class="fas fa-hand-holding-dollar"></i>
-                </div>
-                <h5 class="card-title">Registrar Renda</h5>
-                <p class="card-text small text-muted">
-                  Adicione renda extra, dividendos e outros ganhos.
-                </p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-md-6">
-          <a href="{% url 'earning:earning_list' %}" class="card-link">
-            <div class="card text-center h-100 shadow-sm">
-              <div class="card-body">
-                <div class="display-4 text-secondary mb-3">
-                  <i class="fas fa-eye"></i>
-                </div>
-                <h5 class="card-title">Visualizar Ganhos</h5>
-                <p class="card-text small text-muted">
-                  Consulte o histórico de todas as suas rendas.
-                </p>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
- <div class="row mt-5 pt-4 border-top">
-    <div class="col-md-7 mb-4">
-      <div class="card h-100 shadow-sm">
+    <div class="col-lg-4">
+      <div class="card shadow-sm mb-4 sticky-top" style="top: 2rem;">
         <div class="card-body">
-          <h5 class="card-title mb-3">
-            <i class="fas fa-rocket me-2"></i>Últimas Atualizações
-          </h5>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item d-flex align-items-start px-0">
-              <i class="fas fa-file-invoice-dollar text-warning fa-fw me-3 mt-1"></i>
-              <div>
-                <strong>Novo Tipo de Lista - Dívidas:</strong> Acompanhe e abata o pagamento de dívidas de forma organizada.
+          <h5 class="card-title mb-3">Registro Rápido Pessoal</h5>
+          <form method="post" action="{% url 'cria_lista:index' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="{{ form.valor.id_for_label }}" class="form-label">{{ form.valor.label }}</label>
+              {{ form.valor }}
+              <div class="form-text">Renda (+) ou Gasto (-) pessoal.</div>
+            </div>
+            <div class="mb-3">
+              <label for="{{ form.descricao.id_for_label }}" class="form-label">{{ form.descricao.label }}</label>
+              {{ form.descricao }}
+            </div>
+            <div class="mb-3">
+              <label for="{{ form.categoria.id_for_label }}" class="form-label">{{ form.categoria.label }}</label>
+              {{ form.categoria }}
+              <div class="form-text">
+                <a href="{% url 'cria_lista:categorias' %}" class="small" target="_blank">Gerenciar categorias</a>
               </div>
-            </li>
-            <li class="list-group-item d-flex align-items-start px-0">
-              <i class="fas fa-ellipsis-v text-secondary fa-fw me-3 mt-1"></i>
-              <div>
-                <strong>Menus de Ação Otimizados:</strong> Os botões nas listas foram reorganizados para uma interface mais limpa e amigável no celular.
-              </div>
-            </li>
-            <li class="list-group-item d-flex align-items-start px-0">
-                <i class="fas fa-mobile-alt text-success fa-fw me-3 mt-1"></i>
-                <div>
-                    <strong>Responsividade Corrigida:</strong> A visualização em dispositivos móveis foi totalmente corrigida para uma experiência perfeita.
-                </div>
-            </li>
-            <li class="list-group-item d-flex align-items-start px-0">
-              <i class="fab fa-google text-primary fa-fw me-3 mt-1"></i>
-              <div>
-                <strong>Login com Google:</strong> Agora você pode se cadastrar e
-                entrar na plataforma com apenas um clique.
-              </div>
-            </li>
-            <li class="list-group-item d-flex align-items-start px-0">
-              <i class="fas fa-paint-brush text-info fa-fw me-3 mt-1"></i>
-              <div>
-                <strong>Interface Totalmente Renovada:</strong> Redesenhamos todas
-                as telas para uma experiência mais moderna e intuitiva.
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="card-footer bg-transparent text-center border-0">
-            <a href="https://www.github.com/MoisesAvilar/gerenciamento-financeiro/" target="_blank" rel="external" class="small text-muted text-decoration-none">
-                Ver todas as atualizações no GitHub <i class="fas fa-external-link-alt fa-xs"></i>
-            </a>
+            </div>
+            <div class="mb-3">
+              <label for="{{ form.data.id_for_label }}" class="form-label">{{ form.data.label }}</label>
+              {{ form.data }}
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Adicionar Transação Pessoal
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-    <div class="col-md-5 mb-4">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body text-center d-flex flex-column justify-content-center p-4">
-          <div class="display-4 text-primary mb-3 mx-auto">
-            <i class="fas fa-comments"></i>
-          </div>
-          <h5 class="card-title mt-3">Feedback e Suporte</h5>
-          <p class="card-text text-muted small">
-            Sua opinião é fundamental para a evolução do projeto. Encontrou um
-            problema ou tem uma sugestão?
-          </p>
-          <div class="mt-auto pt-2">
-            <a
-              href="https://www.linkedin.com/in/moisés-avilar/"
-              rel="external"
-              target="_blank"
-              class="btn btn-primary"
-            >
-              <i class="fab fa-linkedin me-2"></i> Fale Comigo no LinkedIn
-            </a>
-          </div>
-        </div>
+
+    <div class="col-lg-8">
+      
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h1 class="h2 mb-0">Meus Envelopes</h1>
+        <a href="{% url 'cria_lista:nova_lista' %}" class="btn btn-primary">
+          <i class="fas fa-plus me-2"></i> Criar Novo Envelope
+        </a>
       </div>
+
+      {% if listas %}
+        <div class="row g-4">
+          {% for lista in listas %}
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 text-truncate">
+                  {{ lista.nome.title }}
+                  {% if lista.shared_with.all %}
+                    <span class="badge bg-info ms-2" title="Este envelope é compartilhado">
+                      <i class="fas fa-users me-1"></i> Compartilhado
+                    </span>
+                  {% endif %}
+                </h5>
+              </div>
+              <div class="card-body">
+                <p class="card-text mb-2">
+                  <small class="text-muted">Meta:</small>
+                  <strong class="d-block fs-5">R$ {{ lista.meta|floatformat:2|intcomma }}</strong>
+                </p>
+                <p class="card-text mb-0">
+                  <small class="text-muted">Saldo Atual:</small>
+                  <strong class="d-block fs-5 {% if lista.diferenca_meta > 0 %}text-success{% else %}text-danger{% endif %}">
+                    R$ {{ lista.diferenca_meta|floatformat:2|intcomma }}
+                  </strong>
+                </p>
+              </div>
+              <div class="card-footer bg-transparent border-0 p-3 d-flex justify-content-end align-items-center gap-2">
+                  <a class="btn btn-primary btn-sm" href="{% url 'cria_lista:detalhe_lista' id_lista=lista.id %}">
+                      <i class="fas fa-eye"></i> Ver Transações
+                  </a>
+                  {% if lista.user == request.user %}
+                  <div class="dropdown">
+                      <button class="btn btn-outline-secondary btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Mais opções">
+                          <i class="fas fa-ellipsis-v"></i>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-end">
+                          <li>
+                              <a class="dropdown-item" href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}">
+                                  <i class="fas fa-edit fa-fw me-2"></i>Editar Envelope
+                              </a>
+                          </li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li>
+                              <button type="button" class="dropdown-item text-danger"
+                                      data-bs-toggle="modal"
+                                      data-bs-target="#deleteConfirmationModal"
+                                      data-form-action="{% url 'cria_lista:deletar_lista' lista.id %}"
+                                      data-item-name="{{ lista.nome.title|escapejs }}">
+                                  <i class="fas fa-trash fa-fw me-2"></i>Excluir
+                              </button>
+                          </li>
+                      </ul>
+                  </div>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="text-center py-5 rounded-3 bg-body-tertiary">
+          <div class="feature-icon text-muted" style="font-size: 4rem">
+            <i class="fas fa-box-open"></i>
+          </div>
+          <h2 class="display-6 mt-3">Nenhum envelope criado</h2>
+          <p class="lead text-muted">Que tal criar seu primeiro envelope de orçamento?</p>
+          <a class="btn btn-primary mt-3" href="{% url 'cria_lista:nova_lista' %}">
+            <i class="fas fa-plus me-2"></i> Crie seu primeiro envelope
+          </a>
+        </div>
+      {% endif %}
+
+      <hr class="my-4">
+
+      <h2 class="h3 mb-3">Últimas Transações Pessoais</h2>
+      {% if transacoes_pessoais %}
+        <div class="list-group shadow-sm">
+          {% for transacao in transacoes_pessoais %}
+            <div class="list-group-item d-flex justify-content-between align-items-start gap-3">
+              <div class="flex-grow-1">
+                <h5 class="mb-1">{{ transacao.descricao.title }}</h5>
+                <h4 class="mb-1 {% if transacao.valor > 0 %}text-success{% else %}text-danger{% endif %}">
+                  R$ {{ transacao.valor|floatformat:2|intcomma }}
+                </h4>
+                <small class="text-muted">
+                  {{ transacao.data|date:"d/m/Y" }}
+                  {% if transacao.categoria %}({{ transacao.categoria.nome }}){% endif %}
+                </small>
+              </div>
+              <a href="{% url 'cria_lista:editar_transacao' id_transacao=transacao.id %}" class="btn btn-sm btn-outline-secondary" title="Editar">
+                <i class="fas fa-edit"></i>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p classt="text-muted">Nenhuma transação pessoal registrada ainda. Use o formulário de "Registro Rápido" para começar.</p>
+      {% endif %}
+
     </div>
   </div>
-</main>
+</div>
+
+{% include 'components/_delete.html' %}
+{% include 'components/_pagination.html' %}
 {% endblock %}

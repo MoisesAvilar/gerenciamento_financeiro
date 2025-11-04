@@ -18,12 +18,12 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 ]
 
 MY_APPS = [
     'accounts.apps.AccountsConfig',
     'cria_lista.apps.CriaListaConfig',
-    'earning.apps.EarningConfig',
 
     # Apps do Allauth
     'django.contrib.sites',
@@ -51,7 +51,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['gerenciamento_financeiro/core/templates'],
+        'DIRS': [BASE_DIR / 'core' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

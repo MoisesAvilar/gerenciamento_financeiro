@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block head %}
+  {{ block.super }}
+  <title>Confirmar Exclusão</title>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm border-danger">
+        <div class="card-header bg-danger text-white">
+          <h2 class="h4 mb-0">Confirmar Exclusão</h2>
+        </div>
+        <div class="card-body p-4 p-md-5">
+          <p class="lead">
+            Você tem certeza que deseja excluir permanentemente a transação:
+          </p>
+          <div class="alert alert-secondary">
+            <strong class="text-danger">{{ object.descricao.title }}</strong>
+            <span class="fs-5">(R$ {{ object.valor|floatformat:2 }})</span>
+          </div>
+          <p>Esta ação não pode ser desfeita.</p>
+          
+          <form method="post">
+            {% csrf_token %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
+              {% if object.lista %}
+              <a href="{% url 'cria_lista:detalhe_lista' id_lista=object.lista.id %}" class="btn btn-outline-secondary">Cancelar</a>
+              {% else %}
+              <a href="{% url 'cria_lista:index' %}" class="btn btn-outline-secondary">Cancelar</a>
+              {% endif %}
+              <button type="submit" class="btn btn-danger">Sim, excluir</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

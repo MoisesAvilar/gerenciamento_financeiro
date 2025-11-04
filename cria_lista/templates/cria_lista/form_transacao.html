@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{ block.super }}
+  <title>Editar Transação</title>
+{% endblock %} 
+
+{% block content %} 
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-body p-4 p-md-5">
+          <h2 class="card-title text-center mb-4">
+            Editar Transação
+          </h2>
+          
+          <form method="post">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+              <label for="{{ form.valor.id_for_label }}" class="form-label">{{ form.valor.label }}</label>
+              {{ form.valor }}
+              <div class="form-text">Positivo (Renda) ou Negativo (Gasto). Ex: +150 ou -50</div>
+            </div>
+            <div class="mb-3">
+              <label for="{{ form.descricao.id_for_label }}" class="form-label">{{ form.descricao.label }}</label>
+              {{ form.descricao }}
+            </div>
+            <div class="mb-3">
+              <label for="{{ form.categoria.id_for_label }}" class="form-label">{{ form.categoria.label }}</label>
+              {{ form.categoria }}
+              <div class="form-text">
+                <a href="{% url 'cria_lista:categorias' %}" class="small" target="_blank">Gerenciar categorias</a>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="{{ form.data.id_for_label }}" class="form-label">{{ form.data.label }}</label>
+              {{ form.data }}
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
+              
+              {% if object.lista %}
+              <a href="{% url 'cria_lista:detalhe_lista' id_lista=object.lista.id %}" class="btn btn-outline-secondary">Cancelar</a>
+              {% else %}
+              <a href="{% url 'cria_lista:index' %}" class="btn btn-outline-secondary">Cancelar</a>
+              {% endif %}
+
+              <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

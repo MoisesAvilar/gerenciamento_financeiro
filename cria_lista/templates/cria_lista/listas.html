@@ -19,7 +19,15 @@
         <div
           class="card-header d-flex justify-content-between align-items-center"
         >
-          <h5 class="mb-0 text-truncate">{{ lista.nome.title }}</h5>
+          <h5 class="mb-0">
+            {{ lista.nome.title }}
+            
+            {% if lista.shared_with.all %}
+              <span class="badge bg-info ms-2" title="Compartilhada por {{ lista.user.username|capfirst }}">
+                <i class="fas fa-users me-1"></i> Compartilhada
+              </span>
+            {% endif %}
+            </h5>
           <span class="badge bg-secondary rounded-pill"
             >{{ lista.item_set.count }} {% if lista.item_set.count == 1 %} item
             {% else %} itens {% endif %}
@@ -83,6 +91,7 @@
                             <i class="fas fa-plus fa-fw me-2"></i>Adicionar Itens
                         </a>
                     </li>
+                    {% if lista.user == request.user %}
                     <li>
                         <a class="dropdown-item" href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}">
                             <i class="fas fa-edit fa-fw me-2"></i>Editar Lista
@@ -98,7 +107,8 @@
                             <i class="fas fa-trash fa-fw me-2"></i>Excluir
                         </button>
                     </li>
-                </ul>
+                    {% endif %}
+                    </ul>
             </div>
         </div>
         </div>

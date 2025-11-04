@@ -1,0 +1,24 @@
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="deleteModalLabel">Confirmar Exclusão</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Você tem certeza que deseja excluir permanentemente o item abaixo?</p>
+        <p class="lead text-danger fw-bold" id="itemNameToDelete"></p>
+        <p class="small text-muted">Esta ação não pode ser desfeita.</p>
+      </div>
+      <div class="modal-footer">
+        
+        <form method="post" id="deleteConfirmForm">
+          {% csrf_token %}
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-danger">Sim, excluir</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

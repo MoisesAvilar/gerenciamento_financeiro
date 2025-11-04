@@ -3,9 +3,9 @@
 {% block head %}
 {{ block.super }}
   {% if object %}
-    <title>Editar Envelope: {{ object.nome.title }}</title>
+    <title>Editar Categoria</title>
   {% else %}
-    <title>Novo Envelope</title>
+    <title>Nova Categoria</title>
   {% endif %} 
 {% endblock %} 
 
@@ -17,9 +17,9 @@
         <div class="card-body p-4 p-md-5">
           <h2 class="card-title text-center mb-4">
             {% if object %}
-              Editar Envelope
+              Editar Categoria
             {% else %}
-              Criar Novo Envelope
+              Criar Nova Categoria
             {% endif %}
           </h2>
           
@@ -29,13 +29,9 @@
               <label for="{{ form.nome.id_for_label }}" class="form-label">{{ form.nome.label }}</label>
               {{ form.nome }}
             </div>
-            <div class="mb-3">
-              <label for="{{ form.meta.id_for_label }}" class="form-label">{{ form.meta.label }}</label>
-              {{ form.meta }}
-            </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
-              <a href="{% url 'cria_lista:index' %}" class="btn btn-outline-secondary">Cancelar</a>
-              <button type="submit" class="btn btn-primary">Salvar Envelope</button>
+              <a href="{% url 'cria_lista:categorias' %}" class="btn btn-outline-secondary">Cancelar</a>
+              <button type="submit" class="btn btn-primary">Salvar Categoria</button>
             </div>
           </form>
 

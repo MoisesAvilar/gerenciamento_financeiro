@@ -1,199 +1,291 @@
-from typing import Any
-from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse_lazy, reverse
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from openpyxl import Workbook
+from django.contrib.auth.models import User
+from django.db.models import Q
+from django.http import Http404
 
-from cria_lista.forms import (AtualizaNomeListaForm, CadastraItensForm,
-                              CriaListaForm, EditarItemForm)
-from cria_lista.models import Item, Lista
-
-
-class IndexView(generic.TemplateView):
-    template_name = 'cria_lista/index.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user = self.request.user
-
-        if user.is_authenticated:
-            context['user'] = user
-            context['lista'] = Lista.objects.filter(user=user)
-            context['item'] = Item.objects.all()
-        else:
-            context['user'] = None
-            context['lista'] = []
-            context['item'] = []
-
-        return context
+from .models import Categoria, Lista, Transacao
+from .forms import CategoriaForm, ListaForm, TransacaoForm, ShareListForm
 
 
 @method_decorator(login_required(login_url='accounts:login'), name='dispatch')
-class NovaLista(generic.CreateView):
-    model = Lista
-    form_class = CriaListaForm
-    template_name = 'cria_lista/form_lista.html'
-    success_url = reverse_lazy('cria_lista:listas')
-    context_object_name = 'lista'
+class IndexView(generic.CreateView):
+    model = Transacao
+    form_class = TransacaoForm
+    template_name = 'cria_lista/index.html'
+    success_url = reverse_lazy('cria_lista:index')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        kwargs['lista'] = None
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['listas'] = Lista.objects.filter(
+            Q(user=self.request.user) | Q(shared_with=self.request.user)
+        ).distinct().order_by('-data')
+        
+        context['transacoes_pessoais'] = Transacao.objects.filter(
+            user=self.request.user,
+            lista=None
+        ).order_by('-data')[:10]
+        return context
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        form.instance.lista = None
+        form.save()
+        messages.success(self.request, "Transação pessoal registrada!")
         return super().form_valid(form)
 
 
-@method_decorator(login_required(login_url='accounts:login'), name='dispatch')
-class Listas(generic.ListView):
+@method_decorator(login_required(login_url="accounts:login"), name="dispatch")
+class ListaCreateView(generic.CreateView):
+    """
+    Substitui a antiga 'NovaLista'.
+    Usa o novo 'ListaForm' para criar um "Envelope".
+    """
+
     model = Lista
-    template_name = 'cria_lista/listas.html'
-    context_object_name = 'listas'
-    paginate_by = 10
+    form_class = ListaForm
+    template_name = "cria_lista/form_lista.html"
+    success_url = reverse_lazy("cria_lista:index")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        messages.success(
+            self.request, f"Envelope '{form.instance.nome}' criado com sucesso!"
+        )
+        return super().form_valid(form)
+
+
+@method_decorator(login_required(login_url="accounts:login"), name="dispatch")
+class ListaUpdateView(generic.UpdateView):
+    """
+    Substitui a antiga 'EditarLista'.
+    Usa o novo 'ListaForm' para editar um "Envelope".
+    """
+
+    model = Lista
+    form_class = ListaForm
+    template_name = "cria_lista/form_lista.html"
+    pk_url_kwarg = "id_lista"
+    success_url = reverse_lazy("cria_lista:index")
 
     def get_queryset(self):
-        user = self.request.user
-        if user.is_authenticated:
-            return Lista.objects.filter(user=self.request.user).order_by('-data')
-        else:
-            return Lista.objects.none()
+        return Lista.objects.filter(user=self.request.user)
 
 
-@method_decorator(login_required(login_url='accounts:login'), name='dispatch')
-class VerItens(generic.ListView):
-    template_name = 'cria_lista/itens.html'
-    context_object_name = 'itens'
-    paginate_by = 10
+@method_decorator(login_required(login_url="accounts:login"), name="dispatch")
+class ListaDeleteView(generic.DeleteView):
+    """
+    Substitui a antiga 'DeletarLista'.
+    """
+
+    model = Lista
+    pk_url_kwarg = "id_lista"
+    template_name = "cria_lista/lista_confirm_delete.html"
+    success_url = reverse_lazy("cria_lista:index")
 
     def get_queryset(self):
-        id_lista = self.kwargs['id_lista']
-        lista = get_object_or_404(Lista, id=id_lista)
-        return lista.item_set.all().order_by('-added_at')
+        return Lista.objects.filter(user=self.request.user)
+
+
+@method_decorator(login_required(login_url="accounts:login"), name="dispatch")
+class DetalheListaView(generic.CreateView):
+    """
+    Esta é a view MAIS IMPORTANTE.
+    Substitui a antiga 'VerItens' e 'CadastrarItens'.
+    - É uma 'CreateView' para o 'TransacaoForm' (Registro Rápido).
+    - Também lista todas as transações existentes para esta lista.
+    """
+
+    model = Transacao
+    form_class = TransacaoForm
+    template_name = "cria_lista/detalhe_lista.html"
+
+    def get_lista_object(self):
+        """Helper para buscar a lista com permissão e evitar duplicatas"""
+        if not hasattr(self, "_lista_object"):
+            lista_id = self.kwargs["id_lista"]
+            lista = (
+                Lista.objects.filter(
+                    Q(user=self.request.user) | Q(shared_with=self.request.user),
+                    id=lista_id,
+                )
+                .distinct()
+                .first()
+            )
+
+            if not lista:
+                raise Http404("Lista não encontrada ou você não tem permissão.")
+            self._lista_object = lista
+        return self._lista_object
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        id_lista = self.kwargs['id_lista']
-        lista = get_object_or_404(Lista, id=id_lista)
-        context['lista'] = lista
+        lista = self.get_lista_object()
+        context["lista"] = lista
+        context["transacoes"] = Transacao.objects.filter(lista=lista)
         return context
 
-
-@method_decorator(login_required(login_url='accounts:login'), name='dispatch')
-class CadastrarItens(generic.CreateView):
-    model = Item
-    form_class = CadastraItensForm
-    template_name = 'cria_lista/form_item.html'
+    def get_form_kwargs(self):
+        """
+        Passa argumentos extras para o __init__ do TransacaoForm.
+        """
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        kwargs["lista"] = self.get_lista_object()
+        return kwargs
 
     def form_valid(self, form):
-        id_lista = self.kwargs['id_lista']
-        lista = Lista.objects.get(id=id_lista)
-        item: Item = form.save(commit=False)
-        item.lista = lista
-        item.save()
+        lista = self.get_lista_object()
 
-        messages.success(self.request, 'Item cadastrado com sucesso!')
+        form.instance.user = self.request.user
+        form.instance.lista = lista
 
-        return super().form_valid(form)
+        form.save()
 
-    def get_context_data(self, **kwargs: Any):
-        context = super().get_context_data(**kwargs)
-        id_lista = self.kwargs['id_lista']
-        lista = Lista.objects.get(id=id_lista)
-        itens = Item.objects.filter(lista=lista)
-        context['itens'] = itens
-        context['lista'] = lista
-        return context
-
-    def get_success_url(self):
-        id_lista = self.kwargs['id_lista']
-        return reverse('cria_lista:cadastrar_itens', kwargs={'id_lista': id_lista})
+        messages.success(self.request, "Transação registrada!")
+        return redirect("cria_lista:detalhe_lista", id_lista=lista.id)
 
 
-@method_decorator(login_required(login_url='accounts:login'), name='dispatch')
-class EditarLista(generic.UpdateView):
-    model = Lista
-    form_class = AtualizaNomeListaForm
-    template_name = 'cria_lista/form_lista.html'
-    context_object_name = 'lista'
-    pk_url_kwarg = 'id_lista'
+@method_decorator(login_required(login_url="accounts:login"), name="dispatch")
+class TransacaoUpdateView(generic.UpdateView):
+    """
+    Nova view para permitir a EDIÇÃO de uma transação.
+    """
+
+    model = Transacao
+    form_class = TransacaoForm
+    template_name = "cria_lista/form_transacao.html"
+    pk_url_kwarg = "id_transacao"
+
+    def get_queryset(self):
+        return Transacao.objects.filter(user=self.request.user)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
 
     def get_success_url(self):
-        return reverse('cria_lista:listas')
+        transacao = self.get_object()
+        if transacao.lista:
+            return reverse(
+                "cria_lista:detalhe_lista", kwargs={"id_lista": transacao.lista.id}
+            )
+        return reverse("cria_lista:index")
 
 
-@method_decorator(login_required(login_url='accounts:login'), name='dispatch')
-class EditarItem(generic.UpdateView):
-    model = Item
-    template_name = 'cria_lista/form_item.html'
+@method_decorator(login_required(login_url="accounts:login"), name="dispatch")
+class TransacaoDeleteView(generic.DeleteView):
+    """
+    Nova view para permitir a EXCLUSÃO de uma transação.
+    """
 
-    def get(self, request, id_lista, id_item):
-        lista = get_object_or_404(Lista, id=id_lista)
-        item = get_object_or_404(Item, id=id_item)
-        form = EditarItemForm(instance=item)
-        context = {'lista': lista, 'item': item, 'form': form}
-        return render(request, self.template_name, context)
+    model = Transacao
+    pk_url_kwarg = "id_transacao"
+    template_name = "cria_lista/transacao_confirm_delete.html"
 
-    def post(self, request, id_lista, id_item):
-        item = get_object_or_404(Item, id=id_item)
-        form = EditarItemForm(request.POST, instance=item)
+    def get_queryset(self):
+        return Transacao.objects.filter(user=self.request.user)
 
-        if form.is_valid():
-            form.save()
-            return self.form_valid(form)
-        else:
+    def get_success_url(self):
+        transacao = self.get_object()
+        if transacao.lista:
+            return reverse(
+                "cria_lista:detalhe_lista", kwargs={"id_lista": transacao.lista.id}
+            )
+        return reverse("cria_lista:index")
+
+
+@method_decorator(login_required(login_url="accounts:login"), name="dispatch")
+class CategoriaListView(generic.ListView):
+    """
+    Mostra ao usuário todas as suas categorias pessoais.
+    """
+
+    model = Categoria
+    template_name = "cria_lista/categoria_list.html"
+    context_object_name = "categorias"
+
+    def get_queryset(self):
+        return Categoria.objects.filter(user=self.request.user).order_by("nome")
+
+
+@method_decorator(login_required(login_url="accounts:login"), name="dispatch")
+class CategoriaCreateView(generic.CreateView):
+    """
+    Permite ao usuário criar uma nova categoria pessoal.
+    """
+
+    model = Categoria
+    form_class = CategoriaForm
+    template_name = "cria_lista/form_categoria.html"
+    success_url = reverse_lazy("cria_lista:categorias")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        try:
+            return super().form_valid(form)
+        except Exception:
+            messages.error(self.request, "Você já possui uma categoria com esse nome.")
             return self.form_invalid(form)
 
-    def get_success_url(self):
-        return reverse('cria_lista:ver_itens', kwargs={'id_lista': self.kwargs['id_lista']})
+
+@method_decorator(login_required(login_url="accounts:login"), name="dispatch")
+class CategoriaUpdateView(generic.UpdateView):
+    model = Categoria
+    form_class = CategoriaForm
+    template_name = "cria_lista/form_categoria.html"
+    pk_url_kwarg = "id_categoria"
+    success_url = reverse_lazy("cria_lista:categorias")
+
+    def get_queryset(self):
+        return Categoria.objects.filter(user=self.request.user)
 
 
-@method_decorator(login_required(login_url='accounts:login'), name='dispatch')
-class DeletarItem(generic.DeleteView):
-    model = Item
-    context_object_name = 'item'
+@method_decorator(login_required(login_url="accounts:login"), name="dispatch")
+class CategoriaDeleteView(generic.DeleteView):
+    model = Categoria
+    pk_url_kwarg = "id_categoria"
+    template_name = "cria_lista/categoria_confirm_delete.html"
+    success_url = reverse_lazy("cria_lista:categorias")
 
-    def get(self, request, id_lista, id_item):
-        lista = get_object_or_404(Lista, id=id_lista)
-        item = get_object_or_404(Item, id=id_item)
-        return render(request, self.template_name, {'lista': lista, 'item': item})
-
-    def post(self, request, id_lista, id_item):
-        item = get_object_or_404(Item, id=id_item)
-        item.delete()
-        return redirect(reverse('cria_lista:ver_itens', kwargs={'id_lista': id_lista}))
-
-
-@method_decorator(login_required(login_url='accounts:login'), name='dispatch')
-class DeletarLista(generic.DeleteView):
-    model = Lista
-    context_object_name = 'lista'
-    pk_url_kwarg = 'id_lista'
-
-    def get_success_url(self):
-        return reverse('cria_lista:listas')
+    def get_queryset(self):
+        return Categoria.objects.filter(user=self.request.user)
 
 
 @login_required(login_url='accounts:login')
-def export_to_excel(request, id_lista):
-    lista = get_object_or_404(Lista, id=id_lista, user=request.user)
-    items = Item.objects.filter(lista=lista)
+def share_list_view(request, id_lista):
+    lista = get_object_or_404(Lista, id=id_lista, user=request.user) 
 
-    nome_lista = lista.nome.capitalize().strip()
-    nome_arquivo = nome_lista + '.xlsx'
+    if request.method == 'POST':
+        form = ShareListForm(request.POST)
+        if form.is_valid():
+            identificador = form.cleaned_data['identificador']
+            try:
+                user_to_share = User.objects.filter(
+                    Q(email=identificador) | Q(username=identificador)
+                ).first()
 
-    wb = Workbook()
-    ws = wb.active
+                if user_to_share:
+                    lista.shared_with.add(user_to_share)
+                    lista.save()
+                    messages.success(request, f'Envelope compartilhado com {identificador}!')
+                else:
+                    messages.error(request, f'Usuário "{identificador}" não foi encontrado.')
 
-    ws.append(['ID', 'Item', 'Quantidade', 'Valor'])
+            except Exception as e:
+                messages.error(request, f'Ocorreu um erro: {e}')
+            
+            return redirect('cria_lista:detalhe_lista', id_lista=id_lista)
 
-    for item in items:
-        ws.append([item.id, item.nome.title(), item.quantidade, item.valor])
-    ws.append(['Saldo', lista.calcular_diferenca, 'Gasto', lista.valor_total,])
-
-    response = HttpResponse(content_type='application/ms-excel')
-    response['Content-Disposition'] = f'attachment; filename="{nome_arquivo}"'
-
-    wb.save(response)
-
-    return response
+    return redirect('cria_lista:detalhe_lista', id_lista=id_lista)

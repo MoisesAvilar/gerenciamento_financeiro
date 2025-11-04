@@ -1,87 +1,114 @@
 from django import forms
-from cria_lista.models import Item, Lista
+from django.utils import timezone
+from django.db.models import Q
+from .models import Categoria, Lista, Transacao
 
 
-class CadastraItensForm(forms.ModelForm):
+class CategoriaForm(forms.ModelForm):
     class Meta:
-        model = Item
-        fields = (
-            "nome",
-            "quantidade",
-            "valor",
-        )
+        model = Categoria
+        fields = ("nome",)
         widgets = {
             "nome": forms.TextInput(
-                attrs={"class": "form-control", "autofocus": "autofocus"}
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Ex: Supermercado, Gasolina, Salário",
+                    "autofocus": "autofocus",
+                }
             ),
-            "quantidade": forms.NumberInput(attrs={"class": "form-control"}),
-            "valor": forms.NumberInput(attrs={"class": "form-control"}),
         }
 
-
-class CriaListaForm(forms.ModelForm):
-    tipo = forms.ChoiceField(
-        choices=Lista.TIPO_CHOICES,
-        widget=forms.RadioSelect(attrs={"class": "btn-check"}),
-        initial=Lista.TIPO_GASTO,
-        label="Qual o tipo de lista?",
-    )
-
-    class Meta:
-        model = Lista
-        fields = (
-            "nome",
-            "tipo",
-            "categoria",
-            "meta_de_gastos",
-        )
-        widgets = {
-            "nome": forms.TextInput(
-                attrs={"class": "form-control", "autofocus": "autofocus"}
-            ),
-            "categoria": forms.Select(attrs={"class": "form-select"}),
-            "meta_de_gastos": forms.NumberInput(attrs={"class": "form-control"}),
-        }
-        labels = {"meta_de_gastos": "Limite de Gastos / Valor da Dívida"}
+    def clean_nome(self):
+        nome = self.cleaned_data.get('nome')
+        if nome:
+            return nome.capitalize()
+        return nome
 
 
-class AtualizaNomeListaForm(forms.ModelForm):
-    tipo = forms.ChoiceField(
-        choices=Lista.TIPO_CHOICES,
-        widget=forms.RadioSelect(attrs={"class": "btn-check"}),
-        label="Qual o tipo de lista?",
-    )
-
+class ListaForm(forms.ModelForm):
     class Meta:
         model = Lista
         fields = (
             "nome",
-            "tipo",
-            "categoria",
-            "meta_de_gastos",
+            "meta",
         )
+        labels = {
+            "nome": 'Nome do "Envelope"',
+            "meta": "Meta / Orçamento (opcional)",
+        }
         widgets = {
             "nome": forms.TextInput(
-                attrs={"class": "form-control", "autofocus": "autofocus"}
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Ex: Orçamento da Casa, Férias",
+                    "autofocus": "autofocus",
+                }
             ),
-            "categoria": forms.Select(attrs={"class": "form-select"}),
-            "meta_de_gastos": forms.NumberInput(attrs={"class": "form-control"}),
+            "meta": forms.NumberInput(
+                attrs={"class": "form-control", "placeholder": "Ex: 1500,00"}
+            ),
         }
-        labels = {"meta_de_gastos": "Limite de Gastos / Valor da Dívida"}
+
+    def clean_nome(self):
+        nome = self.cleaned_data.get('nome')
+        if nome:
+            return nome.capitalize()
+        return nome
 
 
-class EditarItemForm(forms.ModelForm):
+class TransacaoForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        lista = kwargs.pop('lista', None)
+        super().__init__(*args, **kwargs)
+
+        if user and lista:
+            q_user = Q(user=user)
+            q_owner = Q(user=lista.user)
+            q_used = Q(transacao__lista=lista)
+            
+            self.fields['categoria'].queryset = Categoria.objects.filter(
+                q_user | q_owner | q_used
+            ).distinct()
+            
+        elif user:
+            self.fields['categoria'].queryset = Categoria.objects.filter(user=user)
+        
+        else:
+            self.fields['categoria'].queryset = Categoria.objects.none()
+            
+        self.fields['data'].initial = timezone.now().date()
+
     class Meta:
-        model = Item
-        fields = (
-            "nome",
-            "quantidade",
-            "valor",
-        )
-        widgets = {
-            "nome": forms.TextInput(
-                attrs={"class": "form-control", "autofocus": "autofocus"}
-            ),
-            "quantidade": forms.NumberInput(attrs={"class": "form-control"}),
-            "valor": forms.NumberInput(attrs={"class": "form-control"}),
+        model = Transacao
+        fields = ('valor', 'descricao', 'categoria', 'data')
+        labels = {
+            'valor': 'Valor (R$)',
+            'descricao': 'Descrição',
+            'categoria': 'Categoria',
+            'data': 'Data da Transação',
         }
+        widgets = {
+            'valor': forms.NumberInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': '+150 (Renda) ou -50 (Gasto)',
+                }
+            ),
+            'descricao': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Ex: Gasolina, Salário',
+                    'autofocus': 'autofocus'
+                }
+            ),
+            'categoria': forms.Select(attrs={'class': 'form-select'}),
+            'data': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        }
+
+
+class ShareListForm(forms.Form):
+    identificador = forms.CharField(
+        label="E-mail ou Nome de Usuário",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'usuario@exemplo.com ou nome_de_usuario'})
+    )

@@ -8,7 +8,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('accounts.urls')),
     path('', include('cria_lista.urls')),
-    path('', include('earning.urls')),
     path('social/', include('allauth.urls')),
 ]
 

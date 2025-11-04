@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block head %}
+  {{ block.super }}
+  <title>Confirmar Exclusão</title>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm border-danger">
+        <div class="card-header bg-danger text-white">
+          <h2 class="h4 mb-0">Confirmar Exclusão</h2>
+        </div>
+        <div class="card-body p-4 p-md-5">
+          <p class="lead">
+            Você tem certeza que deseja excluir permanentemente o envelope: 
+            <strong class="text-danger">{{ object.nome.title }}</strong>?
+          </p>
+          <p>
+            <strong>Atenção:</strong> Todas as 
+            <span class="fw-bold">{{ object.transacao_set.count }}</span> 
+            transações associadas a este envelope também serão excluídas. 
+            Esta ação não pode ser desfeita.
+          </p>
+          
+          <form method="post">
+            {% csrf_token %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
+              <a href="{% url 'cria_lista:index' %}" class="btn btn-outline-secondary">Cancelar</a>
+              <button type="submit" class="btn btn-danger">Sim, excluir permanentemente</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

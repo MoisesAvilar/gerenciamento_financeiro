@@ -1,87 +1,73 @@
 from django.db import models
-from django.urls import reverse
 from django.contrib.auth.models import User
+from django.db.models import Sum
+from django.utils import timezone
+
+
+class Categoria(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="categorias")
+    nome = models.CharField(max_length=100)
+
+    class Meta:
+        unique_together = ("user", "nome")
+
+    def __str__(self):
+        return self.nome.capitalize()
+
+    def save(self, *args, **kwargs):
+        if self.nome:
+            self.nome = self.nome.capitalize()
+        super().save(*args, **kwargs)
 
 
 class Lista(models.Model):
-    TIPO_GASTO = "GASTO"
-    TIPO_DIVIDA = "DIVIDA"
-    TIPO_CHOICES = [
-        (TIPO_GASTO, "Lista de Gastos"),
-        (TIPO_DIVIDA, "Lista de Dívidas"),
-    ]
-
-    TIPO_CATEGORIA = (
-        ("Prioritários", "Prioritários"),
-        ("Secundários", "Secundários"),
-        ("Luxo", "Luxo"),
-        ("Outros", "Outros"),
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="listas_criadas"
+    )
+    shared_with = models.ManyToManyField(
+        User, related_name="listas_compartilhadas", blank=True
     )
 
-    CATEGORIA = (
-        ("Compras-do-mes", "Compras do mês"),
-        ("Transporte", "Transporte"),
-        ("Lazer", "Lazer"),
-        ("Alimentacao-fora", "Alimentação fora de casa"),
-        ("Outros", "Outros"),
-    )
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    nome = models.CharField(max_length=50, null=False, blank=False)
-
-    tipo = models.CharField(max_length=10, choices=TIPO_CHOICES, default=TIPO_GASTO)
-
-    tipo_categoria = models.CharField(
-        max_length=50,
-        choices=TIPO_CATEGORIA,
-        null=False,
-        blank=False,
-        default="Outros",
-        name="tipo_categoria_gasto",
-    )
-    categoria = models.CharField(
-        max_length=50, choices=CATEGORIA, null=False, blank=False
-    )
-    data = models.DateField(auto_now_add=True)
-    meta_de_gastos = models.DecimalField(
-        decimal_places=2, max_digits=10, default=500, null=False, blank=False
-    )
-
-    @property
-    def valor_total(self):
-        return sum((item.valor * item.quantidade) for item in self.item_set.all())
-
-    @property
-    def calcular_diferenca(self):
-        if self.tipo == self.TIPO_DIVIDA:
-            return self.meta_de_gastos - self.valor_total
-        else:
-            return self.meta_de_gastos - self.valor_total
+    nome = models.CharField(max_length=100)
+    meta = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    data = models.DateField(default=timezone.now)
 
     def __str__(self):
-        return self.nome
+        return self.nome.capitalize()
 
-    def get_absolute_url(self):
-        return f"lista/{self.id}/"
-
-
-class Item(models.Model):
-    lista = models.ForeignKey(Lista, on_delete=models.CASCADE)
-    nome = models.CharField(max_length=50, null=False, blank=False)
-    quantidade = models.IntegerField(default=1, null=False, blank=False)
-    valor = models.DecimalField(
-        max_digits=10, decimal_places=2, null=False, blank=False
-    )
-    added_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    def save(self, *args, **kwargs):
+        if self.nome:
+            self.nome = self.nome.capitalize()
+        super().save(*args, **kwargs)
 
     @property
-    def total(self):
-        return self.quantidade * self.valor
+    def total_transacoes(self):
+        resultado = self.transacao_set.aggregate(Sum("valor"))
+        return resultado["valor__sum"] or 0
+
+    @property
+    def diferenca_meta(self):
+        return self.meta + self.total_transacoes
+
+
+class Transacao(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, related_name="transacoes"
+    )
+
+    categoria = models.ForeignKey(
+        Categoria, on_delete=models.SET_NULL, null=True, blank=True
+    )
+
+    lista = models.ForeignKey(Lista, on_delete=models.CASCADE, null=True, blank=True)
+
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
+    descricao = models.CharField(max_length=200)
+    data = models.DateField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.nome
+        return f"{self.descricao} (R$ {self.valor})"
 
-    def get_absolute_url(self):
-        return reverse(
-            "cria_lista:editar_item", args=[str(self.lista.id), str(self.id)]
-        )
+    class Meta:
+        ordering = ["-data", "-created_at"]
