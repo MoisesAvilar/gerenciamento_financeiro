@@ -61,27 +61,25 @@ class TransacaoForm(forms.ModelForm):
         user = kwargs.pop('user', None)
         lista = kwargs.pop('lista', None)
         super().__init__(*args, **kwargs)
-
         if user and lista:
             q_user = Q(user=user)
             q_owner = Q(user=lista.user)
             q_used = Q(transacao__lista=lista)
-            
             self.fields['categoria'].queryset = Categoria.objects.filter(
                 q_user | q_owner | q_used
             ).distinct()
-            
         elif user:
             self.fields['categoria'].queryset = Categoria.objects.filter(user=user)
-        
         else:
             self.fields['categoria'].queryset = Categoria.objects.none()
-            
         self.fields['data'].initial = timezone.now().date()
 
     class Meta:
         model = Transacao
         fields = ('valor', 'descricao', 'categoria', 'data')
+        help_texts = {
+            'valor': 'Use - para gasto. Ex: -50',
+        }
         labels = {
             'valor': 'Valor (R$)',
             'descricao': 'Descrição',
@@ -89,21 +87,22 @@ class TransacaoForm(forms.ModelForm):
             'data': 'Data da Transação',
         }
         widgets = {
-            'valor': forms.NumberInput(
-                attrs={
-                    'class': 'form-control',
-                    'placeholder': '+150 (Renda) ou -50 (Gasto)',
-                }
-            ),
-            'descricao': forms.TextInput(
-                attrs={
-                    'class': 'form-control',
-                    'placeholder': 'Ex: Gasolina, Salário',
-                    'autofocus': 'autofocus'
-                }
-            ),
-            'categoria': forms.Select(attrs={'class': 'form-select'}),
-            'data': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'valor': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': ' ',
+            }),
+            'descricao': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': ' ',
+            }),
+            'categoria': forms.Select(attrs={
+                'class': 'form-select',
+            }),
+            'data': forms.DateInput(attrs={
+                'class': 'form-control',
+                'type': 'date',
+                'placeholder': ' ',
+            }),
         }
 
 
