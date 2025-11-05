@@ -49,6 +49,27 @@ class Lista(models.Model):
     def diferenca_meta(self):
         return self.meta + self.total_transacoes
 
+    @property
+    def total_entradas(self):
+        """Soma todas as transações POSITIVAS (Rendas) neste envelope."""
+        soma = self.transacao_set.filter(valor__gt=0).aggregate(Sum("valor"))[
+            "valor__sum"
+        ]
+        return soma or 0
+
+    @property
+    def total_saidas(self):
+        """Soma todas as transações NEGATIVAS (Gastos) e retorna um número positivo."""
+        soma = self.transacao_set.filter(valor__lt=0).aggregate(Sum("valor"))[
+            "valor__sum"
+        ]
+        return abs(soma or 0)
+
+    @property
+    def saldo_final(self):
+        """Calcula o saldo real do envelope: Meta - Saídas + Entradas"""
+        return self.meta - self.total_saidas + self.total_entradas
+
 
 class Transacao(models.Model):
     user = models.ForeignKey(

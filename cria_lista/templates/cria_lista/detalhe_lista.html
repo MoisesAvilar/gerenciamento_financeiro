@@ -6,13 +6,103 @@
 {% endblock %}
 
 {% block content %}
-<div class="container py-5">
-  <div class="row g-4">
-    
-    <div class="col-lg-4 order-lg-2">
-      <div class="card shadow-sm mb-4">
+<div class="container py-4">
+  <div class="row gy-4 flex-column-reverse flex-lg-row">
+
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm mb-4">
         <div class="card-body">
-          <h5 class="card-title mb-3">Registrar Transação</h5>
+          <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+            <div>
+              <h1 class="h3 mb-2 fw-bold">{{ lista.nome.title }}</h1>
+              <div class="d-flex flex-wrap gap-4">
+                <div>
+                  <small class="text-muted d-block">Orçamento (Meta)</small>
+                  <span class="fw-semibold">R$ {{ lista.meta|floatformat:2|intcomma }}</span>
+                </div>
+                <div>
+                  <small class="text-muted d-block">Saídas</small>
+                  <span class="fw-semibold text-danger">- R$ {{ lista.total_saidas|floatformat:2|intcomma }}</span>
+                </div>
+                <div>
+                  <small class="text-muted d-block">Entradas</small>
+                  <span class="fw-semibold text-success">+ R$ {{ lista.total_entradas|floatformat:2|intcomma }}</span>
+                </div>
+                <div class="border-start ps-3">
+                  <small class="text-muted d-block">Saldo Final</small>
+                  <span class="fw-bold fs-5 {% if lista.saldo_final > 0 %}text-success{% else %}text-danger{% endif %}">
+                    R$ {{ lista.saldo_final|floatformat:2|intcomma }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            {% if lista.user == request.user %}
+            <div class="d-flex gap-2">
+              <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#shareListModal" title="Compartilhar">
+                <i class="fas fa-user-plus"></i>
+              </button>
+              <a href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}" class="btn btn-outline-secondary" title="Editar envelope">
+                <i class="fas fa-edit"></i>
+              </a>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      {% if transacoes %}
+      <h3 class="h5 mb-3 fw-semibold">Transações Registradas</h3>
+      <div class="list-group shadow-sm">
+        {% for transacao in transacoes %}
+        <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-start flex-wrap">
+          <div class="flex-grow-1">
+            <h6 class="fw-bold mb-1">{{ transacao.descricao.title }}</h6>
+            <p class="mb-1 {% if transacao.valor > 0 %}text-success{% else %}text-danger{% endif %} fw-semibold">
+              R$ {{ transacao.valor|floatformat:2 }}
+            </p>
+            <small class="text-muted">
+              {{ transacao.data|date:"d/m/Y" }}
+              {% if transacao.categoria %}({{ transacao.categoria.nome }}){% endif %}
+              {% if transacao.user %} por <strong>{{ transacao.user.username|capfirst }}</strong>{% endif %}
+            </small>
+          </div>
+          {% if transacao.user == request.user %}
+          <div class="dropdown">
+            <button class="btn btn-sm btn-outline-secondary border-0" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-ellipsis-v"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a class="dropdown-item" href="{% url 'cria_lista:editar_transacao' id_transacao=transacao.id %}">
+                  <i class="fas fa-edit fa-fw me-2"></i>Editar
+                </a>
+              </li>
+              <li>
+                <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+                        data-form-action="{% url 'cria_lista:deletar_transacao' id_transacao=transacao.id %}"
+                        data-item-name="{{ transacao.descricao|escapejs }}">
+                  <i class="fas fa-trash fa-fw me-2"></i>Excluir
+                </button>
+              </li>
+            </ul>
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="text-center py-5">
+        <i class="fas fa-receipt text-muted" style="font-size: 4rem"></i>
+        <h4 class="mt-3">Nenhuma transação</h4>
+        <p class="text-muted">Use o formulário ao lado para registrar seu primeiro gasto ou renda neste envelope.</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title mb-3 fw-semibold">Registrar Transação</h5>
           <form method="post">
             {% csrf_token %}
             <div class="mb-3">
@@ -45,124 +135,26 @@
       </div>
     </div>
 
-    <div class="col-lg-8 order-lg-1">
-      <div class="p-4 mb-4 rounded-3 bg-body-tertiary">
-        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
-          <div>
-            <h1 class="display-6">{{ lista.nome.title }}</h1>
-            <div class="d-flex flex-wrap gap-4 mt-2">
-              <p class="mb-0 fs-5">
-                <strong class="fw-normal">Meta:</strong>
-                <span class="fw-bold">R$ {{ lista.meta|floatformat:2 }}</span>
-              </p>
-              <p class="mb-0 fs-5">
-                <strong class="fw-normal">Saldo:</strong>
-                <span class="fw-bold {% if lista.diferenca_meta > 0 %}text-success{% else %}text-danger{% endif %}">
-                  R$ {{ lista.diferenca_meta|floatformat:2 }}
-                </span>
-              </p>
-            </div>
-          </div>
-          {% if lista.user == request.user %}
-          <div class="d-flex align-items-center gap-2">
-            <button
-              type="button"
-              class="btn btn-outline-secondary"
-              title="Compartilhar"
-              data-bs-toggle="modal"
-              data-bs-target="#shareListModal">
-              <i class="fas fa-user-plus"></i>
-            </button>
-            <a
-              href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}"
-              class="btn btn-outline-secondary"
-              title="Editar envelope">
-              <i class="fas fa-edit"></i>
-            </a>
-          </div>
-          {% endif %}
-        </div>
-      </div>
-
-      {% if transacoes %}
-      <h3 class="h4 mb-3">Transações Registradas</h3>
-      <div class="list-group shadow-sm">
-        {% for transacao in transacoes %}
-        <div class="list-group-item list-group-item-action d-flex flex-wrap justify-content-between align-items-start gap-3">
-          <div class="flex-grow-1">
-            <h5 class="mb-1">{{ transacao.descricao.title }}</h5>
-            <h4 class="mb-1 {% if transacao.valor > 0 %}text-success{% else %}text-danger{% endif %}">
-              R$ {{ transacao.valor|floatformat:2 }}
-            </h4>
-            <small class="text-muted">
-              {{ transacao.data|date:"d/m/Y" }}
-              {% if transacao.categoria %}({{ transacao.categoria.nome }}){% endif %}
-              {% if transacao.user %}
-                por <strong>{{ transacao.user.username|capfirst }}</strong>
-              {% endif %}
-            </small>
-          </div>
-          
-          {% if transacao.user == request.user %}
-          <div class="options">
-            <div class="dropdown">
-              <button class="btn btn-sm btn-outline-secondary border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Mais opções">
-                  <i class="fas fa-ellipsis-v"></i>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li>
-                  <a class="dropdown-item" href="{% url 'cria_lista:editar_transacao' id_transacao=transacao.id %}">
-                    <i class="fas fa-edit fa-fw me-2"></i>Editar
-                  </a>
-                </li>
-                <li>
-                  <button type="button" class="dropdown-item text-danger"
-                          data-bs-toggle="modal"
-                          data-bs-target="#deleteConfirmationModal"
-                          data-form-action="{% url 'cria_lista:deletar_transacao' id_transacao=transacao.id %}"
-                          data-item-name="{{ transacao.descricao|escapejs }}">
-                    <i class="fas fa-trash fa-fw me-2"></i>Excluir
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
-          {% endif %}
-        </div>
-        {% endfor %}
-      </div>
-      {% else %}
-      <div class="text-center py-5">
-        <div class="feature-icon text-muted" style="font-size: 4rem">
-          <i class="fas fa-receipt"></i>
-        </div>
-        <h2 class="display-6 mt-3">Nenhuma transação</h2>
-        <p class="lead text-muted">Use o formulário ao lado para registrar seu primeiro gasto ou renda neste envelope.</p>
-      </div>
-      {% endif %}
-    </div>
-
   </div>
 </div>
 
-{% include 'components/_delete.html' %} 
+{% include 'components/_delete.html' %}
 
 <div class="modal fade" id="shareListModal" tabindex="-1" aria-labelledby="shareListModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
+    <div class="modal-content border-0 shadow">
       <form action="{% url 'cria_lista:share_list' id_lista=lista.id %}" method="post">
         {% csrf_token %}
         <div class="modal-header">
-          <h5 class="modal-title" id="shareListModalLabel">Compartilhar Envelope: {{ lista.nome.title }}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h5 class="modal-title fw-semibold">Compartilhar Envelope: {{ lista.nome.title }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <p class="small text-muted">
-            Digite o e-mail ou nome de usuário cadastrado com quem você deseja compartilhar este envelope.
-          </p>
+          <p class="small text-muted mb-3">Digite o e-mail ou nome de usuário para compartilhar este envelope.</p>
           <div class="mb-3">
-            <label for="id_identificador" class="form-label">E-mail ou Nome de Usuário:</label>
-            <input type="text" name="identificador" class="form-control" id="id_identificador" placeholder="usuario@exemplo.com ou nome_de_usuario" required>
+            <label for="id_identificador" class="form-label">E-mail ou Nome de Usuário</label>
+            <input type="text" name="identificador" id="id_identificador" class="form-control"
+                   placeholder="usuario@exemplo.com ou nome_de_usuario" required>
           </div>
         </div>
         <div class="modal-footer">
