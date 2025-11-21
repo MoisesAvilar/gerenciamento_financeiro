@@ -9,7 +9,9 @@ from django.db.models import Q
 from django.http import Http404
 
 from .models import Categoria, Lista, Transacao
-from .forms import CategoriaForm, ListaForm, TransacaoForm, ShareListForm
+from .forms import CategoriaForm, ListaForm, TransacaoForm, ShareListForm, TransacaoFilterForm
+from django.utils import timezone
+from datetime import timedelta
 
 
 @method_decorator(login_required(login_url='accounts:login'), name='dispatch')
@@ -128,11 +130,55 @@ class DetalheListaView(generic.CreateView):
             self._lista_object = lista
         return self._lista_object
 
+    def get_transacoes_queryset(self):
+        """Aplica os filtros de tempo, categoria e ordenação à lista de transações."""
+        lista = self.get_lista_object()
+        queryset = Transacao.objects.filter(lista=lista)
+        get_params = self.request.GET
+
+        categoria_id = get_params.get('categoria')
+        if categoria_id:
+            queryset = queryset.filter(categoria__id=categoria_id)
+
+        periodo = get_params.get('periodo')
+        data_inicio = get_params.get('data_inicio')
+        data_fim = get_params.get('data_fim')
+
+        filtro_data = {}
+        hoje = timezone.localdate()
+
+        if periodo == 'today':
+            filtro_data['data'] = hoje
+        elif periodo == 'week':
+            filtro_data['data__gte'] = hoje - timedelta(days=7)
+        elif periodo == 'month':
+            filtro_data['data__year'] = hoje.year
+            filtro_data['data__month'] = hoje.month
+        elif periodo == 'custom' and data_inicio and data_fim:
+            filtro_data['data__range'] = [data_inicio, data_fim]
+
+        queryset = queryset.filter(**filtro_data)
+
+        ordem = get_params.get('ordem')
+        if ordem == 'highest':
+            queryset = queryset.order_by('-valor', '-data')
+        elif ordem == 'lowest':
+            queryset = queryset.order_by('valor', '-data')
+        elif ordem == 'oldest':
+            queryset = queryset.order_by('data')
+        else:
+            queryset = queryset.order_by('-data')
+
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         lista = self.get_lista_object()
-        context["lista"] = lista
-        context["transacoes"] = Transacao.objects.filter(lista=lista)
+
+        context['filter_form'] = TransacaoFilterForm(self.request.GET, lista=lista)
+
+        context['transacoes'] = self.get_transacoes_queryset()
+        context['lista'] = lista
         return context
 
     def get_form_kwargs(self):

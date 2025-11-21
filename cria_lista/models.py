@@ -70,6 +70,17 @@ class Lista(models.Model):
         """Calcula o saldo real do envelope: Meta - Saídas + Entradas"""
         return self.meta - self.total_saidas + self.total_entradas
 
+    @property
+    def percentual_gasto(self):
+        """Calcula o percentual gasto em relação à Meta."""
+        if self.meta is None or self.meta <= 0:
+            return 0
+
+        saidas = self.total_saidas
+
+        progress = (saidas / self.meta) * 100
+        return min(100, round(progress, 0))
+
 
 class Transacao(models.Model):
     user = models.ForeignKey(

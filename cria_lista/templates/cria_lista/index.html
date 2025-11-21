@@ -6,180 +6,21 @@
 {% endblock %}
 
 {% block content %}
-<div class="container py-4">
-  <div class="row gy-4 flex-column-reverse flex-lg-row">
-
-    <div class="col-lg-8">
-      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-        <h1 class="h3 fw-semibold mb-0">Meus Envelopes</h1>
-        <a href="{% url 'cria_lista:nova_lista' %}" class="btn btn-primary">
-          <i class="fas fa-plus me-2"></i>Criar Novo Envelope
-        </a>
-      </div>
-
-      {% if listas %}
-      <div class="row g-4">
-        {% for lista in listas %}
-        <div class="col-sm-6 col-lg-4">
-          <div class="card h-100 border shadow-sm">
-            <div class="card-header bg-body-secondary d-flex justify-content-between align-items-center">
-              <h5 class="mb-0 text-truncate">{{ lista.nome.title }}</h5>
-              {% if lista.shared_with.all %}
-              <span class="badge bg-info text-dark">
-                <i class="fas fa-users me-1"></i>Compartilhado
-              </span>
-              {% endif %}
-            </div>
-
-            <div class="card-body bg-body">
-              <div class="mb-2">
-                <small class="text-muted d-block">Meta</small>
-                <span class="fw-semibold">R$ {{ lista.meta|floatformat:2|intcomma }}</span>
-              </div>
-              <div class="mb-2">
-                <small class="text-muted d-block">Entradas</small>
-                <span class="fw-semibold text-success">+ R$ {{ lista.total_entradas|floatformat:2|intcomma }}</span>
-              </div>
-              <div class="mb-2">
-                <small class="text-muted d-block">Saídas</small>
-                <span class="fw-semibold text-danger">- R$ {{ lista.total_saidas|floatformat:2|intcomma }}</span>
-              </div>
-              <div class="border-top pt-2">
-                <small class="text-muted d-block">Saldo Final</small>
-                <span class="fw-bold {% if lista.saldo_final > 0 %}text-success{% else %}text-danger{% endif %}">
-                  R$ {{ lista.saldo_final|floatformat:2|intcomma }}
-                </span>
-              </div>
-            </div>
-
-            <div class="card-footer bg-body border-top d-flex justify-content-between align-items-center">
-              <a href="{% url 'cria_lista:detalhe_lista' id_lista=lista.id %}" class="btn btn-sm btn-outline-primary">
-                <i class="fas fa-eye"></i> Ver
-              </a>
-              {% if lista.user == request.user %}
-              <div class="dropdown">
-                <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="dropdown">
-                  <i class="fas fa-ellipsis-v"></i>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li>
-                    <a class="dropdown-item" href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}">
-                      <i class="fas fa-edit me-2"></i>Editar
-                    </a>
-                  </li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li>
-                    <button class="dropdown-item text-danger"
-                            data-bs-toggle="modal"
-                            data-bs-target="#deleteConfirmationModal"
-                            data-form-action="{% url 'cria_lista:deletar_lista' lista.id %}"
-                            data-item-name="{{ lista.nome.title|escapejs }}">
-                      <i class="fas fa-trash me-2"></i>Excluir
-                    </button>
-                  </li>
-                </ul>
-              </div>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-      {% else %}
-      <div class="text-center py-5 bg-body-secondary rounded-3">
-        <i class="fas fa-envelope-open text-muted" style="font-size: 4rem"></i>
-        <h4 class="mt-3">Nenhum envelope criado</h4>
-        <p class="text-muted">Crie o primeiro para começar a controlar seu orçamento.</p>
-        <a href="{% url 'cria_lista:nova_lista' %}" class="btn btn-primary mt-2">
-          <i class="fas fa-plus me-2"></i>Criar Envelope
-        </a>
-      </div>
-      {% endif %}
-
-      <hr class="my-4">
-
-      <h2 class="h5 fw-semibold mb-3">Últimas Transações Pessoais</h2>
-      {% if transacoes_pessoais %}
-      <div class="list-group shadow-sm">
-        {% for transacao in transacoes_pessoais %}
-        <div class="list-group-item d-flex justify-content-between align-items-start flex-wrap bg-body">
-          <div>
-            <h6 class="fw-bold mb-1">{{ transacao.descricao.title }}</h6>
-            <p class="mb-1 {% if transacao.valor > 0 %}text-success{% else %}text-danger{% endif %} fw-semibold">
-              R$ {{ transacao.valor|floatformat:2|intcomma }}
-            </p>
-            <small class="text-muted">{{ transacao.data|date:"d/m/Y" }}{% if transacao.categoria %} ({{ transacao.categoria.nome }}){% endif %}</small>
-          </div>
-          <a href="{% url 'cria_lista:editar_transacao' id_transacao=transacao.id %}" class="btn btn-sm btn-outline-secondary">
-            <i class="fas fa-edit"></i>
-          </a>
-        </div>
-        {% endfor %}
-      </div>
-      {% else %}
-      <p class="text-muted">Nenhuma transação pessoal registrada ainda.</p>
-      {% endif %}
-    </div>
+<div class="container py-5">
+  <div class="row g-4 g-lg-5">
 
     <div class="col-lg-4">
-      <!-- Accordion no mobile -->
-      <div class="d-lg-none">
-        <div class="accordion" id="accordionForm">
-          <div class="accordion-item bg-body border shadow-sm">
-            <h2 class="accordion-header" id="headingForm">
-              <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapseForm" aria-expanded="false" aria-controls="collapseForm">
-                <i class="fas fa-plus me-2"></i>Registrar Transação
-              </button>
-            </h2>
-            <div id="collapseForm" class="accordion-collapse collapse" aria-labelledby="headingForm"
-              data-bs-parent="#accordionForm">
-              <div class="accordion-body">
-                <form method="post" action="{% url 'cria_lista:index' %}">
-                  {% csrf_token %}
-                  <div class="form-floating mb-3">
-                    {{ form.valor }}
-                    <label for="{{ form.valor.id_for_label }}">{{ form.valor.label }}</label>
-                    {% if form.valor.help_text %}
-                    <small class="text-muted">{{ form.valor.help_text }}</small>
-                    {% endif %}
-                  </div>
-                  <div class="form-floating mb-3">
-                    {{ form.descricao }}
-                    <label for="{{ form.descricao.id_for_label }}">{{ form.descricao.label }}</label>
-                  </div>
-                  <div class="form-floating mb-3">
-                    {{ form.categoria }}
-                    <label for="{{ form.categoria.id_for_label }}">{{ form.categoria.label }}</label>
-                  </div>
-                  <div class="form-floating mb-3">
-                    {{ form.data }}
-                    <label for="{{ form.data.id_for_label }}">{{ form.data.label }}</label>
-                  </div>
-                  <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">
-                      <i class="fas fa-plus me-2"></i>Adicionar
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card fixo no desktop -->
-      <div class="card border shadow-sm d-none d-lg-block">
-        <div class="card-body bg-body">
+      <div class="card shadow-sm mb-4 sticky-top" style="top: 2rem;">
+        <div class="card-body">
           <h5 class="card-title mb-3 fw-semibold">Registro Rápido Pessoal</h5>
           <form method="post" action="{% url 'cria_lista:index' %}">
             {% csrf_token %}
-            <div class="form-floating mb-3">
-              {{ form.valor }}
-              <label for="{{ form.valor.id_for_label }}">{{ form.valor.label }}</label>
-              {% if form.valor.help_text %}
-              <small class="text-muted">{{ form.valor.help_text }}</small>
-              {% endif %}
+            <div class="input-group mb-3">
+              <span class="input-group-text bg-body-tertiary"><i class="fas fa-dollar-sign text-muted"></i></span>
+              <div class="form-floating flex-grow-1">
+                {{ form.valor }}
+                <label for="{{ form.valor.id_for_label }}">{{ form.valor.label }}</label>
+              </div>
             </div>
             <div class="form-floating mb-3">
               {{ form.descricao }}
@@ -195,7 +36,7 @@
             </div>
             <div class="d-grid">
               <button type="submit" class="btn btn-primary">
-                <i class="fas fa-plus me-2"></i>Adicionar
+                <i class="fas fa-plus me-2"></i>Adicionar Transação Pessoal
               </button>
             </div>
           </form>
@@ -203,6 +44,123 @@
       </div>
     </div>
 
+    <div class="col-lg-8">
+      
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h1 class="h2 mb-0">Meus Envelopes</h1>
+        <a href="{% url 'cria_lista:nova_lista' %}" class="btn btn-primary">
+          <i class="fas fa-plus me-2"></i> Criar Novo Envelope
+        </a>
+      </div>
+
+      {% if listas %}
+        <div class="row g-4">
+          {% for lista in listas %}
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-start border-3 
+              {% if lista.percentual_gasto < 50 %}border-success
+              {% elif lista.percentual_gasto < 80 %}border-warning
+              {% else %}border-danger{% endif %}">
+              
+              <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+                  <h5 class="mb-0 fw-semibold text-truncate">
+                      {{ lista.nome.title }}
+                      {% if lista.shared_with.all %}
+                          <span class="badge bg-info-subtle text-info ms-2" title="Este envelope é compartilhado">
+                              <i class="fas fa-users me-1"></i> Compartilhado
+                          </span>
+                      {% endif %}
+                  </h5>
+                  <div class="dropdown">
+                      <button class="btn btn-sm btn-outline-secondary border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Mais opções">
+                          <i class="fas fa-ellipsis-v"></i>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-end shadow">
+                          <li><a class="dropdown-item" href="{% url 'cria_lista:detalhe_lista' id_lista=lista.id %}"><i class="fas fa-eye fa-fw me-2"></i>Ver Transações</a></li>
+                          {% if lista.user == request.user %}
+                          <li><a class="dropdown-item" href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}"><i class="fas fa-edit fa-fw me-2"></i>Editar Envelope</a></li>
+                          <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#shareListModal" title="Compartilhar"><i class="fas fa-user-plus fa-fw me-2"></i>Compartilhar</button></li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li><button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-form-action="{% url 'cria_lista:deletar_lista' lista.id %}" data-item-name="{{ lista.nome.title|escapejs }}"><i class="fas fa-trash fa-fw me-2"></i>Excluir</button></li>
+                          {% endif %}
+                      </ul>
+                  </div>
+              </div>
+
+              <div class="card-body pt-2">
+                <p class="card-text mb-2">
+                  <small class="text-muted">Orçamento (Meta):</small>
+                  <strong class="d-block fs-5">R$ {{ lista.meta|floatformat:2|intcomma }}</strong>
+                </p>
+                <div class="progress mb-2" role="progressbar" aria-label="Progresso de Gasto" aria-valuenow="{{ lista.percentual_gasto }}" aria-valuemin="0" aria-valuemax="100" style="height: 10px;">
+                  <div class="progress-bar 
+                    {% if lista.percentual_gasto < 50 %}bg-success
+                    {% elif lista.percentual_gasto < 80 %}bg-warning
+                    {% else %}bg-danger{% endif %}" style="width: {{ lista.percentual_gasto }}%"></div>
+                </div>
+                
+                <p class="card-text mb-0">
+                  <small class="text-muted">Gasto Atual ({{ lista.percentual_gasto }}% da Meta):</small>
+                  <strong class="d-block fs-6 text-danger">R$ {{ lista.total_saidas|floatformat:2|intcomma }}</strong>
+                </p>
+              </div>
+
+              <div class="card-footer bg-transparent border-0 pt-0 pb-3 d-flex justify-content-between align-items-center">
+                  <p class="mb-0">
+                      <small class="text-muted">Saldo Final:</small>
+                      <strong class="d-block fs-5 {% if lista.saldo_final > 0 %}text-success{% else %}text-danger{% endif %}">
+                          R$ {{ lista.saldo_final|floatformat:2|intcomma }}
+                      </strong>
+                  </p>
+                  <a class="btn btn-primary btn-sm" href="{% url 'cria_lista:detalhe_lista' id_lista=lista.id %}">
+                      <i class="fas fa-eye"></i> Ver Transações
+                  </a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="text-center py-5 rounded-3 bg-body-tertiary">
+          <div class="feature-icon text-muted" style="font-size: 4rem">
+            <i class="fas fa-box-open"></i>
+          </div>
+          <h2 class="display-6 mt-3">Nenhum envelope criado</h2>
+          <p class="lead text-muted">Que tal criar seu primeiro envelope de orçamento?</p>
+          <a class="btn btn-primary mt-3" href="{% url 'cria_lista:nova_lista' %}">
+            <i class="fas fa-plus me-2"></i> Crie seu primeiro envelope
+          </a>
+        </div>
+      {% endif %}
+
+      <hr class="my-4">
+
+      <h2 class="h3 mb-3">Últimas Transações Pessoais</h2>
+      {% if transacoes_pessoais %}
+        <div class="list-group shadow-sm">
+          {% for transacao in transacoes_pessoais %}
+            <div class="list-group-item d-flex justify-content-between align-items-start gap-3">
+              <div class="flex-grow-1">
+                <h5 class="mb-1">{{ transacao.descricao.title }}</h5>
+                <h4 class="mb-1 {% if transacao.valor > 0 %}text-success{% else %}text-danger{% endif %}">
+                  R$ {{ transacao.valor|floatformat:2|intcomma }}
+                </h4>
+                <small class="text-muted">
+                  {{ transacao.data|date:"d/m/Y" }}
+                  {% if transacao.categoria %}({{ transacao.categoria.nome }}){% endif %}
+                </small>
+              </div>
+              <a href="{% url 'cria_lista:editar_transacao' id_transacao=transacao.id %}" class="btn btn-sm btn-outline-secondary" title="Editar">
+                <i class="fas fa-edit"></i>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p classt="text-muted">Nenhuma transação pessoal registrada ainda. Use o formulário de "Registro Rápido" para começar.</p>
+      {% endif %}
+
+    </div>
   </div>
 </div>
 

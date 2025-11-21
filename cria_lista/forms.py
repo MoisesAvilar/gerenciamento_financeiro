@@ -1,7 +1,8 @@
 from django import forms
 from django.utils import timezone
-from django.db.models import Q
+from django.db.models import Q, Count
 from .models import Categoria, Lista, Transacao
+from django.forms import DateInput, ChoiceField, Select
 
 
 class CategoriaForm(forms.ModelForm):
@@ -61,17 +62,23 @@ class TransacaoForm(forms.ModelForm):
         user = kwargs.pop('user', None)
         lista = kwargs.pop('lista', None)
         super().__init__(*args, **kwargs)
+
         if user and lista:
             q_user = Q(user=user)
             q_owner = Q(user=lista.user)
             q_used = Q(transacao__lista=lista)
-            self.fields['categoria'].queryset = Categoria.objects.filter(
-                q_user | q_owner | q_used
-            ).distinct()
+            base_qs = Categoria.objects.filter(q_user | q_owner | q_used)
         elif user:
-            self.fields['categoria'].queryset = Categoria.objects.filter(user=user)
+            base_qs = Categoria.objects.filter(user=user)
         else:
-            self.fields['categoria'].queryset = Categoria.objects.none()
+            base_qs = Categoria.objects.none()
+
+        if self.instance.pk and self.instance.categoria:
+            saved_category_qs = Categoria.objects.filter(pk=self.instance.categoria.pk)
+            base_qs = base_qs | saved_category_qs
+
+        self.fields['categoria'].queryset = base_qs.distinct().order_by('nome')
+
         self.fields['data'].initial = timezone.now().date()
 
     class Meta:
@@ -102,7 +109,7 @@ class TransacaoForm(forms.ModelForm):
                 'class': 'form-control',
                 'type': 'date',
                 'placeholder': ' ',
-            }),
+            }, format='%Y-%m-%d'),
         }
 
 
@@ -111,3 +118,37 @@ class ShareListForm(forms.Form):
         label="E-mail ou Nome de Usuário",
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'usuario@exemplo.com ou nome_de_usuario'})
     )
+
+
+class TransacaoFilterForm(forms.Form):
+    PERIOD_CHOICES = [
+        ('all', 'Todo o Período'),
+        ('today', 'Hoje'),
+        ('week', 'Últimos 7 dias'),
+        ('month', 'Mês Atual'),
+        ('custom', 'Período Personalizado'),
+    ]
+
+    ORDER_CHOICES = [
+        ('newest', 'Mais Recentes'),
+        ('oldest', 'Mais Antigas'),
+        ('highest', 'Maior Valor'),
+        ('lowest', 'Menor Valor'),
+    ]
+    
+    periodo = ChoiceField(choices=PERIOD_CHOICES, required=False, label='Período', widget=Select(attrs={'class': 'form-select form-select-sm'}))
+    ordem = ChoiceField(choices=ORDER_CHOICES, required=False, label='Ordenar por', widget=Select(attrs={'class': 'form-select form-select-sm'}))
+    categoria = forms.ModelChoiceField(queryset=Categoria.objects.none(), required=False, label='Categoria', widget=Select(attrs={'class': 'form-select form-select-sm'}))
+    data_inicio = forms.DateField(required=False, label='De', widget=DateInput(attrs={'class': 'form-control form-control-sm', 'type': 'date'}))
+    data_fim = forms.DateField(required=False, label='Até', widget=DateInput(attrs={'class': 'form-control form-control-sm', 'type': 'date'}))
+
+    def __init__(self, *args, **kwargs):
+        lista = kwargs.pop('lista', None)
+        super().__init__(*args, **kwargs)
+        
+        if lista:
+            q_user = Q(user=lista.user)
+            q_shared = Q(transacao__lista=lista)
+            
+            self.fields['categoria'].queryset = Categoria.objects.filter(q_user | q_shared).distinct().order_by('nome')
+            self.fields['categoria'].label = 'Categoria Ativa'

@@ -9,6 +9,7 @@
 <div class="container py-4">
   <div class="row gy-4 flex-column-reverse flex-lg-row">
 
+    {# Coluna Principal - Detalhes do Envelope e Transações #}
     <div class="col-lg-8">
       <div class="card border-0 shadow-sm mb-4">
         <div class="card-body">
@@ -24,22 +25,31 @@
                   <a href="{% url 'cria_lista:editar_lista' id_lista=lista.id %}" class="btn btn-sm btn-outline-secondary" title="Editar envelope" data-bs-toggle="tooltip">
                     <i class="fas fa-edit"></i>
                   </a>
+                  <button type="button" class="btn btn-sm btn-outline-danger" 
+                          data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+                          data-form-action="{% url 'cria_lista:deletar_lista' lista.id %}"
+                          data-item-name="{{ lista.nome.title|escapejs }}" title="Excluir envelope" data-bs-toggle="tooltip">
+                      <i class="fas fa-trash"></i>
+                  </button>
                 </div>
                 {% endif %}
               </div>
             </div>
+            <div class="text-end">
+              <span class="badge rounded-pill bg-primary fw-normal fs-6">
+                Meta: R$ {{ lista.meta|floatformat:2|intcomma }}
+              </span>
+            </div>
           </div>
         </div>
       </div>
-
-      {% if transacoes %}
-      <h3 class="h5 mb-4 fw-semibold">Resumo e Transações</h3>
-
-      <div class="row g-3 mb-5">
+      
+      {# Resumo Financeiro (Entradas/Saídas/Saldo) #}
+      <div class="row g-3 mb-4">
         <div class="col-12 col-sm-4">
-          <div class="card text-center border-top  border-3 shadow-sm bg-body-tertiary h-100">
+          <div class="card text-center border-top border-3 shadow-sm bg-body-tertiary h-100">
             <div class="card-body py-3">
-              <p class="text-body-secondary small mb-1">Entradas</p>
+              <p class="text-body-secondary small mb-1">Total de Entradas</p>
               <h5 class="text-success fw-bold mb-0">+ R$ {{ lista.total_entradas|floatformat:2|intcomma }}</h5>
             </div>
           </div>
@@ -47,7 +57,7 @@
         <div class="col-12 col-sm-4">
           <div class="card text-center border-top border-3 shadow-sm bg-body-tertiary h-100">
             <div class="card-body py-3">
-              <p class="text-body-secondary small mb-1">Saídas</p>
+              <p class="text-body-secondary small mb-1">Total de Saídas</p>
               <h5 class="text-danger fw-bold mb-0">- R$ {{ lista.total_saidas|floatformat:2|intcomma }}</h5>
             </div>
           </div>
@@ -55,7 +65,7 @@
         <div class="col-12 col-sm-4">
           <div class="card text-center border-top border-3 shadow-sm bg-body-tertiary h-100">
             <div class="card-body py-3">
-              <p class="text-body-secondary small mb-1">Saldo</p>
+              <p class="text-body-secondary small mb-1">Saldo Final</p>
               <h5 class="fw-bold mb-0 {% if lista.saldo_final > 0 %}text-success{% elif lista.saldo_final < 0 %}text-danger{% else %}text-secondary{% endif %}">
                 R$ {{ lista.saldo_final|floatformat:2|intcomma }}
               </h5>
@@ -64,6 +74,44 @@
         </div>
       </div>
 
+      {# BLOCO DE FILTROS #}
+      <div class="card shadow-sm mb-4">
+        <div class="card-body py-3">
+          <form method="get" class="row g-3 align-items-end">
+            <div class="col-md-3">
+              <label for="id_periodo" class="form-label small mb-1">Período</label>
+              {{ filter_form.periodo }}
+            </div>
+            <div class="col-md-3">
+              <label for="id_categoria" class="form-label small mb-1">Categoria</label>
+              {{ filter_form.categoria }}
+            </div>
+            <div class="col-md-3">
+              <label for="id_ordem" class="form-label small mb-1">Ordenar por</label>
+              {{ filter_form.ordem }}
+            </div>
+            <div class="col-md-3 d-grid">
+              <button type="submit" class="btn btn-sm btn-primary">
+                <i class="fas fa-filter me-2"></i>Aplicar Filtros
+              </button>
+            </div>
+            
+            <div class="col-md-3" id="data-inicio-container" style="display: none;">
+              <label for="id_data_inicio" class="form-label small mb-1">De:</label>
+              {{ filter_form.data_inicio }}
+            </div>
+            <div class="col-md-3" id="data-fim-container" style="display: none;">
+              <label for="id_data_fim" class="form-label small mb-1">Até:</label>
+              {{ filter_form.data_fim }}
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <h3 class="h5 mb-4 fw-semibold">Transações</h3>
+
+      {# LISTA DE TRANSAÇÕES #}
+      {% if transacoes %}
       <div class="d-flex flex-column gap-3">
         {% for transacao in transacoes %}
         <div class="card border border-light shadow-sm bg-body position-relative overflow-hidden rounded-4 transition-all"
@@ -79,7 +127,7 @@
                     {% else %}
                     <i class="fas fa-arrow-down me-1"></i>
                     {% endif %}
-                    R$ {{ transacao.valor|floatformat:2 }}
+                    R$ {{ transacao.valor|floatformat:2|intcomma }}
                   </h5>
                 </div>
                 {% if transacao.user == request.user %}
@@ -149,86 +197,25 @@
       {% endif %}
     </div>
 
+    {# Coluna Lateral - Formulário e Resumo #}
     <div class="col-lg-4">
-      <div class="d-lg-none">
-        <!-- Botão flutuante (abre modal no mobile) -->
-<button class="btn btn-primary position-fixed bottom-0 end-0 m-3 rounded-circle shadow d-lg-none"
-        data-bs-toggle="modal" data-bs-target="#formModal">
-  <i class="fas fa-plus"></i>
-</button>
-
-<!-- Modal de cadastro de transação -->
-<div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-sm">
-    <div class="modal-content border-0 shadow">
-      <form method="post">
-        {% csrf_token %}
-        <div class="modal-header">
-          <h5 class="modal-title fw-semibold" id="formModalLabel">
-            <i class="fas fa-plus me-2"></i>Nova Transação
-          </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-        </div>
-        <div class="modal-body">
-          <div class="input-group mb-3">
-            <span class="input-group-text bg-body-tertiary"><i class="fas fa-dollar-sign text-muted"></i></span>
-            <div class="form-floating flex-grow-1">
-              {{ form.valor }}
-              <label for="{{ form.valor.id_for_label }}">{{ form.valor.label }}</label>
-            </div>
-          </div>
-          <div class="form-floating mb-3">
-            {{ form.descricao }}
-            <label for="{{ form.descricao.id_for_label }}">{{ form.descricao.label }}</label>
-          </div>
-          <div class="form-floating mb-3">
-            {{ form.categoria }}
-            <label for="{{ form.categoria.id_for_label }}">{{ form.categoria.label }}</label>
-          </div>
-          <div class="form-floating mb-3">
-            {{ form.data }}
-            <label for="{{ form.data.id_for_label }}">{{ form.data.label }}</label>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary">
-            <i class="fas fa-check me-2"></i>Salvar
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-
-
-      </div>
-
-      <div class="card border shadow-sm d-none d-lg-block">
+      <div class="card border shadow-sm d-none d-lg-block mb-4">
         <div class="card-body bg-body">
           <h5 class="card-title mb-3 fw-semibold">Registrar Transação</h5>
           <form method="post">
             {% csrf_token %}
-            <div class="input-group mb-3">
-              <span class="input-group-text bg-body-tertiary"><i class="fas fa-dollar-sign text-muted"></i></span>
-              <div class="form-floating flex-grow-1">
-                {{ form.valor }}
-                <label for="{{ form.valor.id_for_label }}">{{ form.valor.label }}</label>
+            {% for field in form %}
+              <div class="form-floating mb-3">
+                  {{ field }}
+                  <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                  {% if field.help_text %}
+                      <div class="form-text">{{ field.help_text }}</div>
+                  {% endif %}
+                  {% for error in field.errors %}
+                      <div class="invalid-feedback d-block">{{ error }}</div>
+                  {% endfor %}
               </div>
-            </div>
-            <div class="form-floating mb-3">
-              {{ form.descricao }}
-              <label for="{{ form.descricao.id_for_label }}">{{ form.descricao.label }}</label>
-            </div>
-            <div class="form-floating mb-3">
-              {{ form.categoria }}
-              <label for="{{ form.categoria.id_for_label }}">{{ form.categoria.label }}</label>
-            </div>
-            <div class="form-floating mb-3">
-              {{ form.data }}
-              <label for="{{ form.data.id_for_label }}">{{ form.data.label }}</label>
-            </div>
+            {% endfor %}
             <div class="d-grid">
               <button type="submit" class="btn btn-primary">
                 <i class="fas fa-plus me-2"></i>Adicionar Transação
@@ -237,8 +224,80 @@
           </form>
         </div>
       </div>
+      
+      {# Resumo do Envelope (Sidebar) #}
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white fw-bold">
+            Resumo Financeiro
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            Orçamento/Meta:
+            <span class="fw-bold">R$ {{ lista.meta|floatformat:2|intcomma }}</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="text-success">Total de Entradas:</span>
+            <span class="fw-bold text-success">R$ {{ lista.total_entradas|floatformat:2|intcomma }}</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="text-danger">Total de Saídas:</span>
+            <span class="fw-bold text-danger">R$ {{ lista.total_saidas|floatformat:2|intcomma }}</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="fw-bold">Saldo Líquido:</span>
+            <span class="fw-bold {% if lista.total_transacoes >= 0 %}text-success{% else %}text-danger{% endif %}">
+              R$ {{ lista.total_transacoes|floatformat:2|intcomma }}
+            </span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="fw-bold">Saldo Final:</span>
+            <span class="fw-bold {% if lista.saldo_final >= 0 %}text-success{% else %}text-danger{% endif %}">
+              R$ {{ lista.saldo_final|floatformat:2|intcomma }}
+            </span>
+          </li>
+        </ul>
+      </div>
+      
+      {# Mobile Form Button and Modal (Rest of original content) #}
+      <div class="d-lg-none">
+        <button class="btn btn-primary position-fixed bottom-0 end-0 m-3 rounded-circle shadow d-lg-none"
+                data-bs-toggle="modal" data-bs-target="#formModal">
+          <i class="fas fa-plus"></i>
+        </button>
+        <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content border-0 shadow">
+              <form method="post">
+                {% csrf_token %}
+                <div class="modal-header">
+                  <h5 class="modal-title fw-semibold" id="formModalLabel">
+                    <i class="fas fa-plus me-2"></i>Nova Transação
+                  </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                  {% for field in form %}
+                    <div class="form-floating mb-3">
+                        {{ field }}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {% if field.help_text %}
+                            <div class="form-text">{{ field.help_text }}</div>
+                        {% endif %}
+                    </div>
+                  {% endfor %}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check me-2"></i>Salvar
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
   </div>
 </div>
 
@@ -270,6 +329,36 @@
     </div>
   </div>
 </div>
+
+<script>
+  // JavaScript para Tooltips e Filtros
+  document.addEventListener("DOMContentLoaded", () => {
+    // 1. Tooltips (para títulos e botões)
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    [...tooltipTriggerList].map(el => new bootstrap.Tooltip(el));
+
+    // 2. Lógica para mostrar/esconder o filtro de data personalizado
+    const periodoSelect = document.getElementById('id_periodo');
+    const dataInicioContainer = document.getElementById('data-inicio-container');
+    const dataFimContainer = document.getElementById('data-fim-container');
+    
+    function toggleDateInputs() {
+      if (periodoSelect.value === 'custom') {
+        dataInicioContainer.style.display = 'block';
+        dataFimContainer.style.display = 'block';
+      } else {
+        dataInicioContainer.style.display = 'none';
+        dataFimContainer.style.display = 'none';
+      }
+    }
+
+    if (periodoSelect) {
+      periodoSelect.addEventListener('change', toggleDateInputs);
+      // Roda a função na carga da página (útil se o usuário recarregou a página com o filtro 'custom' ativo)
+      toggleDateInputs(); 
+    }
+  });
+</script>
 
 {% include 'components/_pagination.html' %}
 {% endblock %}
