@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.http import Http404
 
 from .models import Categoria, Lista, Transacao
@@ -175,10 +175,21 @@ class DetalheListaView(generic.CreateView):
         context = super().get_context_data(**kwargs)
         lista = self.get_lista_object()
 
-        context['filter_form'] = TransacaoFilterForm(self.request.GET, lista=lista)
+        transacoes_filtradas = self.get_transacoes_queryset()
+        total_entradas_filtrado = transacoes_filtradas.filter(valor__gt=0).aggregate(Sum('valor'))['valor__sum'] or 0
+        total_saidas_filtrado_raw = transacoes_filtradas.filter(valor__lt=0).aggregate(Sum('valor'))['valor__sum'] or 0
+        net_sum_filtrado = total_entradas_filtrado + total_saidas_filtrado_raw
+        saldo_final_filtrado = lista.meta + net_sum_filtrado
 
-        context['transacoes'] = self.get_transacoes_queryset()
+        context['filter_form'] = TransacaoFilterForm(self.request.GET, lista=lista)
+        context['transacoes'] = transacoes_filtradas
         context['lista'] = lista
+
+        context['kpi_entradas'] = total_entradas_filtrado
+        context['kpi_saidas'] = abs(total_saidas_filtrado_raw)
+        context['kpi_saldo_liquido'] = net_sum_filtrado
+        context['kpi_saldo_final'] = saldo_final_filtrado
+        
         return context
 
     def get_form_kwargs(self):

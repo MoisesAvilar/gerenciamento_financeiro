@@ -50,7 +50,7 @@
           <div class="card text-center border-top border-3 shadow-sm bg-body-tertiary h-100">
             <div class="card-body py-3">
               <p class="text-body-secondary small mb-1">Total de Entradas</p>
-              <h5 class="text-success fw-bold mb-0">+ R$ {{ lista.total_entradas|floatformat:2|intcomma }}</h5>
+              <h5 class="text-success fw-bold mb-0">+ R$ {{ kpi_entradas|floatformat:2|intcomma }}</h5>
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@
           <div class="card text-center border-top border-3 shadow-sm bg-body-tertiary h-100">
             <div class="card-body py-3">
               <p class="text-body-secondary small mb-1">Total de Saídas</p>
-              <h5 class="text-danger fw-bold mb-0">- R$ {{ lista.total_saidas|floatformat:2|intcomma }}</h5>
+              <h5 class="text-danger fw-bold mb-0">- R$ {{ kpi_saidas|floatformat:2|intcomma }}</h5>
             </div>
           </div>
         </div>
@@ -66,8 +66,8 @@
           <div class="card text-center border-top border-3 shadow-sm bg-body-tertiary h-100">
             <div class="card-body py-3">
               <p class="text-body-secondary small mb-1">Saldo Final</p>
-              <h5 class="fw-bold mb-0 {% if lista.saldo_final > 0 %}text-success{% elif lista.saldo_final < 0 %}text-danger{% else %}text-secondary{% endif %}">
-                R$ {{ lista.saldo_final|floatformat:2|intcomma }}
+              <h5 class="fw-bold mb-0 {% if kpi_saldo_final > 0 %}text-success{% elif kpi_saldo_final < 0 %}text-danger{% else %}text-secondary{% endif %}">
+                R$ {{ kpi_saldo_final|floatformat:2|intcomma }}
               </h5>
             </div>
           </div>
