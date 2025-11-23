@@ -161,13 +161,13 @@ class DetalheListaView(generic.CreateView):
 
         ordem = get_params.get('ordem')
         if ordem == 'highest':
-            queryset = queryset.order_by('-valor', '-data')
+            queryset = queryset.order_by('-valor', '-data', '-created_at')
         elif ordem == 'lowest':
-            queryset = queryset.order_by('valor', '-data')
+            queryset = queryset.order_by('valor', '-data', '-created_at')
         elif ordem == 'oldest':
-            queryset = queryset.order_by('data')
+            queryset = queryset.order_by('data', 'created_at')
         else:
-            queryset = queryset.order_by('-data')
+            queryset = queryset.order_by('-data', '-created_at')
 
         return queryset
 
