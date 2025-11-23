@@ -58,8 +58,8 @@
           {% for lista in listas %}
           <div class="col-md-6">
             <div class="card h-100 shadow-sm border-start border-3 
-              {% if lista.percentual_gasto < 50 %}border-success
-              {% elif lista.percentual_gasto < 80 %}border-warning
+              {% if lista.percentual_consumido < 50 %}border-success
+              {% elif lista.percentual_consumido < 80 %}border-warning
               {% else %}border-danger{% endif %}">
               
               <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
@@ -92,24 +92,24 @@
                   <small class="text-muted">Orçamento (Meta):</small>
                   <strong class="d-block fs-5">R$ {{ lista.meta|floatformat:2|intcomma }}</strong>
                 </p>
-                <div class="progress mb-2" role="progressbar" aria-label="Progresso de Gasto" aria-valuenow="{{ lista.percentual_gasto }}" aria-valuemin="0" aria-valuemax="100" style="height: 10px;">
+                <div class="progress mb-2" role="progressbar" aria-label="Progresso de Gasto" aria-valuenow="{{ lista.percentual_consumido }}" aria-valuemin="0" aria-valuemax="100" style="height: 10px;">
                   <div class="progress-bar 
-                    {% if lista.percentual_gasto < 50 %}bg-success
-                    {% elif lista.percentual_gasto < 80 %}bg-warning
-                    {% else %}bg-danger{% endif %}" style="width: {{ lista.percentual_gasto }}%"></div>
+                    {% if lista.percentual_consumido < 50 %}bg-success
+                    {% elif lista.percentual_consumido < 80 %}bg-warning
+                    {% else %}bg-danger{% endif %}" style="width: {{ lista.percentual_consumido }}%"></div>
                 </div>
                 
                 <p class="card-text mb-0">
-                  <small class="text-muted">Gasto Atual ({{ lista.percentual_gasto }}% da Meta):</small>
+                  <small class="text-muted">Consumo ({{ lista.percentual_consumido }}% da Meta):</small>
                   <strong class="d-block fs-6 text-danger">R$ {{ lista.total_saidas|floatformat:2|intcomma }}</strong>
                 </p>
               </div>
 
               <div class="card-footer bg-transparent border-0 pt-0 pb-3 d-flex justify-content-between align-items-center">
                   <p class="mb-0">
-                      <small class="text-muted">Saldo Final:</small>
-                      <strong class="d-block fs-5 {% if lista.saldo_final > 0 %}text-success{% else %}text-danger{% endif %}">
-                          R$ {{ lista.saldo_final|floatformat:2|intcomma }}
+                      <small class="text-muted">Saldo de Caixa:</small>
+                      <strong class="d-block fs-5 {% if lista.saldo_caixa_liquido > 0 %}text-success{% else %}text-danger{% endif %}">
+                          R$ {{ lista.saldo_caixa_liquido|floatformat:2|intcomma }}
                       </strong>
                   </p>
                   <a class="btn btn-primary btn-sm" href="{% url 'cria_lista:detalhe_lista' id_lista=lista.id %}">
@@ -157,7 +157,7 @@
           {% endfor %}
         </div>
       {% else %}
-        <p classt="text-muted">Nenhuma transação pessoal registrada ainda. Use o formulário de "Registro Rápido" para começar.</p>
+        <p class="text-muted">Nenhuma transação pessoal registrada ainda. Use o formulário de "Registro Rápido" para começar.</p>
       {% endif %}
 
     </div>

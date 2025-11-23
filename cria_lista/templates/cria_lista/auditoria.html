@@ -1,0 +1,264 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block head %}
+  {{ block.super }}
+  <title>Auditoria: {{ lista.nome.title }}</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row g-4">
+    
+    <div class="col-12 d-flex justify-content-between align-items-center flex-wrap">
+      <div>
+        <h1 class="h2 mb-0">Relatório de Auditoria</h1>
+        <p class="text-muted lead">Análise detalhada do envelope: <span class="fw-semibold text-primary">{{ lista.nome.title }}</span></p>
+      </div>
+      <a href="{% url 'cria_lista:detalhe_lista' id_lista=lista.id %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Voltar
+      </a>
+    </div>
+
+    {# 1. BLOCO DE FILTROS (MANTÉM O FORMULÁRIO NA TELA) #}
+    <div class="col-12">
+      <div class="card shadow-sm mb-4">
+        <div class="card-body py-3">
+          <form method="get" class="row g-3 align-items-end">
+            <div class="col-md-3">
+              <label for="id_periodo" class="form-label small mb-1">Período</label>
+              {{ filter_form.periodo }}
+            </div>
+            <div class="col-md-3">
+              <label for="id_categoria" class="form-label small mb-1">Categoria</label>
+              {{ filter_form.categoria }}
+            </div>
+            <div class="col-md-3">
+              <label for="id_ordem" class="form-label small mb-1">Ordenar por</label>
+              {{ filter_form.ordem }}
+            </div>
+            <div class="col-md-3 d-grid">
+              <button type="submit" class="btn btn-sm btn-primary">
+                <i class="fas fa-filter me-2"></i>Aplicar Filtros
+              </button>
+            </div>
+            
+            <div class="col-md-3" id="data-inicio-container" style="display: none;">
+              <label for="id_data_inicio" class="form-label small mb-1">De:</label>
+              {{ filter_form.data_inicio }}
+            </div>
+            <div class="col-md-3" id="data-fim-container" style="display: none;">
+              <label for="id_data_fim" class="form-label small mb-1">Até:</label>
+              {{ filter_form.data_fim }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    {# 2. BLOCO DE KPIS DE EFICIÊNCIA #}
+    <div class="col-12">
+      <div class="row g-3">
+        <div class="col-md-3">
+          <div class="card shadow-sm border-start border-3 border-primary h-100">
+            <div class="card-body">
+              <p class="small text-muted mb-1">Total de Gastos (Período)</p>
+              <h4 class="fw-bold text-danger">R$ {{ kpi.gasto_bruto_periodo|floatformat:2|intcomma }}</h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card shadow-sm border-start border-3 border-success h-100">
+            <div class="card-body">
+              <p class="small text-muted mb-1">Total de Entradas (Período)</p>
+              <h4 class="fw-bold text-success">R$ {{ kpi.entrada_bruto_periodo|floatformat:2|intcomma }}</h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card shadow-sm border-start border-3 border-warning h-100">
+            <div class="card-body">
+              <p class="small text-muted mb-1">Utilização da Meta</p>
+              <h4 class="fw-bold">{{ kpi.utilizacao_meta }}%</h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card shadow-sm border-start border-3 border-info h-100">
+            <div class="card-body">
+              <p class="small text-muted mb-1">Proporção Gasto/Renda</p>
+              <h4 class="fw-bold">{{ kpi.proporcao_gasto_renda }} : 1</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {# 3. GRÁFICO DE DISTRIBUIÇÃO E TABELA DE CATEGORIAS #}
+    <div class="col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold bg-body-tertiary"><i class="fas fa-chart-pie me-2"></i>Distribuição de Gastos por Categoria</div>
+        <div class="card-body d-flex justify-content-center align-items-center">
+          <canvas id="gastoPieChart"></canvas>
+        </div>
+        <div class="card-footer bg-transparent small text-center text-muted">
+          Baseado nos R$ {{ kpi.gasto_bruto_periodo|floatformat:2|intcomma }} gastos no período.
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-semibold bg-body-tertiary"><i class="fas fa-tags me-2"></i>Detalhe por Categoria</div>
+        <div class="card-body">
+          {% if categorias_detalhadas %}
+          <div class="table-responsive">
+            <table class="table table-sm table-hover align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>Categoria</th>
+                  <th class="text-end">Saída</th>
+                  <th class="text-end">Entrada</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in categorias_detalhadas %}
+                <tr>
+                  <td class="fw-semibold">{{ item.categoria__nome|default:"(Sem Cat.)" }}</td>
+                  <td class="text-end text-danger">R$ {{ item.total_gasto|default:0|floatformat:2|intcomma }}</td>
+                  <td class="text-end text-success">R$ {{ item.total_recebido|default:0|floatformat:2|intcomma }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="alert alert-info" role="alert">Nenhuma transação encontrada no período.</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {# 4. BLOCO DE COLABORAÇÃO (POR USUÁRIO) #}
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-header fw-semibold bg-body-tertiary"><i class="fas fa-users me-2"></i>Contribuição e Responsabilidade (Usuários)</div>
+        <div class="card-body">
+          {% if usuarios_detalhados %}
+          <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+              <thead>
+                <tr>
+                  <th>Usuário</th>
+                  <th class="text-end">Gasto Registrado</th>
+                  <th class="text-end">Renda Registrada</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in usuarios_detalhados %}
+                <tr>
+                  <td class="fw-semibold">{{ item.user__username|capfirst }}</td>
+                  <td class="text-end text-danger">R$ {{ item.total_gasto_user|default:0|floatformat:2|intcomma }}</td>
+                  <td class="text-end text-success">R$ {{ item.total_recebido_user|default:0|floatformat:2|intcomma }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="alert alert-info" role="alert">Nenhuma transação encontrada para esta análise.</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% include 'components/_delete.html' %} 
+
+<script>
+  // Script para o Gráfico de Pizza (Chart.js)
+  const GAIN_COLOR = '#198754'; // Bootstrap success
+  const EXPENSE_COLOR = '#dc3545'; // Bootstrap danger
+
+  function getRandomColor(index) {
+    const colors = ['#0d6efd', '#6f42c1', '#fd7e14', '#198754', '#20c997', '#ffc107', '#dc3545', '#0dcaf0'];
+    return colors[index % colors.length];
+  }
+
+  const gastoData = JSON.parse('{{ gasto_data_json|safe }}');
+  const totalGasto = parseFloat('{{ kpi.gasto_bruto_periodo }}');
+  
+  const labels = gastoData.map(item => item.category);
+  const data = gastoData.map(item => item.value);
+  const backgroundColor = gastoData.map((item, index) => getRandomColor(index));
+
+  if (data.length > 0) {
+    const ctx = document.getElementById('gastoPieChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: labels,
+        datasets: [{
+          data: data,
+          backgroundColor: backgroundColor,
+          hoverOffset: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'right',
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const label = context.label || '';
+                if (label) {
+                  const value = context.parsed;
+                  const percent = totalGasto ? ((value / totalGasto) * 100).toFixed(1) : 0;
+                  return `${label}: R$ ${value.toFixed(2).replace('.', ',')} (${percent}%)`;
+                }
+              }
+            }
+          },
+          title: {
+            display: true,
+            text: `Total Gasto: R$ ${totalGasto.toFixed(2).replace('.', ',')}`
+          }
+        }
+      }
+    });
+  }
+
+
+  // Script para mostrar/esconder o filtro de data personalizado
+  document.addEventListener("DOMContentLoaded", () => {
+    const periodoSelect = document.getElementById('id_periodo');
+    const dataInicioContainer = document.getElementById('data-inicio-container');
+    const dataFimContainer = document.getElementById('data-fim-container');
+    
+    function toggleDateInputs() {
+      if (periodoSelect.value === 'custom') {
+        dataInicioContainer.style.display = 'block';
+        dataFimContainer.style.display = 'block';
+      } else {
+        dataInicioContainer.style.display = 'none';
+        dataFimContainer.style.display = 'none';
+      }
+    }
+
+    if (periodoSelect) {
+      periodoSelect.addEventListener('change', toggleDateInputs);
+      // Roda a função na carga da página (para manter o filtro ativo na recarga)
+      toggleDateInputs(); 
+    }
+  });
+</script>
+
+{% include 'components/_pagination.html' %}
+{% endblock %}

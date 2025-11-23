@@ -46,10 +46,6 @@ class Lista(models.Model):
         return resultado["valor__sum"] or 0
 
     @property
-    def diferenca_meta(self):
-        return self.meta + self.total_transacoes
-
-    @property
     def total_entradas(self):
         """Soma todas as transações POSITIVAS (Rendas) neste envelope."""
         soma = self.transacao_set.filter(valor__gt=0).aggregate(Sum("valor"))[
@@ -66,13 +62,27 @@ class Lista(models.Model):
         return abs(soma or 0)
 
     @property
-    def saldo_final(self):
-        """Calcula o saldo real do envelope: Meta - Saídas + Entradas"""
+    def saldo_caixa_liquido(self):
+        """
+        [MÉTRICA CORRETA DE LIQUIDEZ] Dinheiro REAL disponível no envelope (Entradas - Saídas).
+        Isso ignora a 'Meta'.
+        """
+        return self.total_entradas - self.total_saidas
+
+    @property
+    def saldo_orcamentario(self):
+        """
+        [MÉTRICA ORÇAMENTÁRIA] Saldo em relação à Meta (Meta - Saídas + Entradas).
+        A fórmula original, renomeada para clareza.
+        """
         return self.meta - self.total_saidas + self.total_entradas
 
     @property
-    def percentual_gasto(self):
-        """Calcula o percentual gasto em relação à Meta."""
+    def percentual_consumido(self):
+        """
+        [MÉTRICA DA BARRA] Mede APENAS o gasto bruto em relação à Meta inicial.
+        Resolve a inconsistência.
+        """
         if self.meta is None or self.meta <= 0:
             return 0
 
@@ -80,6 +90,22 @@ class Lista(models.Model):
 
         progress = (saidas / self.meta) * 100
         return min(100, round(progress, 0))
+
+    @property
+    def percentual_gasto(self):
+        """Métrica da barra de progresso."""
+        return self.percentual_consumido
+
+    @property
+    def saldo_final(self):
+        """Calcula o saldo real do envelope: Meta - Saídas + Entradas"""
+        return self.saldo_orcamentario
+
+    @property
+    def total_gasto_bruto(self):
+        """Soma total das saídas (gastos) em valor POSITIVO."""
+        soma = self.transacao_set.filter(valor__lt=0).aggregate(Sum('valor'))['valor__sum']
+        return abs(soma or 0)
 
 
 class Transacao(models.Model):

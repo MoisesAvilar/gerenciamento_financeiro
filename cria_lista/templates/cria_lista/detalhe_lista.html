@@ -19,6 +19,9 @@
                 <h1 class="h4 fw-bold mb-0 text-truncate">{{ lista.nome.title }}</h1>
                 {% if lista.user == request.user %}
                 <div class="d-flex gap-2">
+                  <a href="{% url 'cria_lista:auditoria' id_lista=lista.id %}" class="btn btn-sm btn-info text-white" title="Relatório de Auditoria" data-bs-toggle="tooltip">
+                    <i class="fas fa-chart-pie me-1"></i> Auditoria
+                  </a>
                   <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#shareListModal" title="Compartilhar" data-bs-toggle="tooltip">
                     <i class="fas fa-user-plus"></i>
                   </button>
@@ -32,6 +35,10 @@
                       <i class="fas fa-trash"></i>
                   </button>
                 </div>
+                {% else %}
+                <a href="{% url 'cria_lista:auditoria' id_lista=lista.id %}" class="btn btn-sm btn-info text-white" title="Relatório de Auditoria" data-bs-toggle="tooltip">
+                    <i class="fas fa-chart-pie me-1"></i> Auditoria
+                </a>
                 {% endif %}
               </div>
             </div>

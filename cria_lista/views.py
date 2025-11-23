@@ -5,8 +5,9 @@ from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import Q, Sum
+from django.db.models import Count, Sum, F, Q, ExpressionWrapper, DecimalField
 from django.http import Http404
+import json
 
 from .models import Categoria, Lista, Transacao
 from .forms import CategoriaForm, ListaForm, TransacaoForm, ShareListForm, TransacaoFilterForm
@@ -346,3 +347,119 @@ def share_list_view(request, id_lista):
             return redirect('cria_lista:detalhe_lista', id_lista=id_lista)
 
     return redirect('cria_lista:detalhe_lista', id_lista=id_lista)
+
+
+@method_decorator(login_required(login_url="accounts:login"), name="dispatch")
+class AuditoriaView(generic.TemplateView):
+    template_name = 'cria_lista/auditoria.html'
+    
+    def get_lista_object(self):
+        if not hasattr(self, "_lista_object"):
+            lista_id = self.kwargs["id_lista"]
+            lista = (
+                Lista.objects.filter(
+                    Q(user=self.request.user) | Q(shared_with=self.request.user),
+                    id=lista_id,
+                )
+                .distinct()
+                .first()
+            )
+            if not lista:
+                raise Http404("Lista não encontrada ou você não tem permissão.")
+            self._lista_object = lista
+        return self._lista_object
+
+    def get_transacoes_queryset(self):
+        """Aplica os filtros de tempo, categoria e ordenação à lista de transações."""
+        lista = self.get_lista_object()
+        queryset = Transacao.objects.filter(lista=lista)
+        get_params = self.request.GET.dict()
+
+        categoria_id = get_params.get('categoria')
+        if categoria_id:
+            queryset = queryset.filter(categoria__id=categoria_id)
+
+        periodo = get_params.get('periodo')
+        data_inicio = get_params.get('data_inicio')
+        data_fim = get_params.get('data_fim')
+        
+        filtro_data = {}
+        hoje = timezone.localdate()
+
+        if periodo == 'today':
+            filtro_data['data'] = hoje
+        elif periodo == 'week':
+            filtro_data['data__gte'] = hoje - timedelta(days=7)
+        elif periodo == 'month':
+            filtro_data['data__year'] = hoje.year
+            filtro_data['data__month'] = hoje.month
+        elif periodo == 'custom' and data_inicio and data_fim:
+            filtro_data['data__range'] = [data_inicio, data_fim]
+        
+        queryset = queryset.filter(**filtro_data)
+
+        ordem = get_params.get('ordem')
+        if ordem == 'highest':
+            queryset = queryset.order_by('-valor', '-data', '-created_at')
+        elif ordem == 'lowest':
+            queryset = queryset.order_by('valor', '-data', '-created_at')
+        elif ordem == 'oldest':
+            queryset = queryset.order_by('data', 'created_at')
+        else:
+            queryset = queryset.order_by('-data', '-created_at')
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        lista = self.get_lista_object()
+        transacoes_filtradas = self.get_transacoes_queryset()
+
+        total_saida_periodo = transacoes_filtradas.filter(valor__lt=0).aggregate(Sum('valor'))['valor__sum']
+        total_entrada_periodo = transacoes_filtradas.filter(valor__gt=0).aggregate(Sum('valor'))['valor__sum']
+
+        total_gasto_bruto_periodo = abs(total_saida_periodo or 0)
+        total_entrada_bruto_periodo = total_entrada_periodo or 0
+
+        categorias_detalhadas = transacoes_filtradas.values('categoria__nome').annotate(
+            total_gasto=Sum(
+                ExpressionWrapper(F('valor'), output_field=DecimalField()),
+                filter=Q(valor__lt=0)
+            ),
+            total_recebido=Sum(
+                ExpressionWrapper(F('valor'), output_field=DecimalField()),
+                filter=Q(valor__gt=0)
+            ),
+            quantidade_transacoes=Count('id')
+        ).order_by('categoria__nome')
+
+        usuarios_detalhados = transacoes_filtradas.values('user__username').annotate(
+            total_gasto_user=Sum(ExpressionWrapper(F('valor'), output_field=DecimalField()), filter=Q(valor__lt=0)),
+            total_recebido_user=Sum(ExpressionWrapper(F('valor'), output_field=DecimalField()), filter=Q(valor__gt=0)),
+        ).order_by('user__username')
+
+        total_gasto_bruto_geral = lista.total_gasto_bruto
+
+        utilizacao_meta = (total_gasto_bruto_periodo / (lista.meta or 1)) * 100
+        utilizacao_meta = min(100, round(utilizacao_meta, 2))
+
+        proporcao_gasto_renda = (total_gasto_bruto_periodo / (total_entrada_bruto_periodo or 1)) if total_entrada_bruto_periodo else 0
+        proporcao_gasto_renda = round(proporcao_gasto_renda, 2)
+
+        context['lista'] = lista
+        context['filter_form'] = TransacaoFilterForm(self.request.GET, lista=lista)
+
+        context['kpi'] = {
+            'utilizacao_meta': utilizacao_meta,
+            'proporcao_gasto_renda': proporcao_gasto_renda,
+            'gasto_bruto_periodo': total_gasto_bruto_periodo,
+            'entrada_bruto_periodo': total_entrada_bruto_periodo,
+            'saldo_periodo': total_entrada_bruto_periodo - total_gasto_bruto_periodo,
+        }
+
+        context['categorias_detalhadas'] = categorias_detalhadas
+        context['usuarios_detalhados'] = usuarios_detalhados
+        gasto_data = [{'category': item['categoria__nome'], 'value': float(abs(item['total_gasto'] or 0))} for item in categorias_detalhadas]
+        context['gasto_data_json'] = json.dumps(gasto_data)
+
+        return context
