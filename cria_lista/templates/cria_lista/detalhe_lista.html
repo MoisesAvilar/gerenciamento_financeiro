@@ -44,7 +44,7 @@
         </div>
       </div>
       
-      {# Resumo Financeiro (Entradas/Saídas/Saldo) #}
+      {# Resumo Financeiro (Entradas/Saídas/Saldo) - Dinâmico #}
       <div class="row g-3 mb-4">
         <div class="col-12 col-sm-4">
           <div class="card text-center border-top border-3 shadow-sm bg-body-tertiary h-100">
@@ -214,6 +214,12 @@
                   {% for error in field.errors %}
                       <div class="invalid-feedback d-block">{{ error }}</div>
                   {% endfor %}
+                  {# CORREÇÃO: Link de Gerenciamento de Categoria #}
+                  {% if field.name == 'categoria' %}
+                  <div class="form-text mt-n2 mb-3">
+                      <a href="{% url 'cria_lista:categorias' %}" class="small" target="_blank">Gerenciar categorias</a>
+                  </div>
+                  {% endif %}
               </div>
             {% endfor %}
             <div class="d-grid">
