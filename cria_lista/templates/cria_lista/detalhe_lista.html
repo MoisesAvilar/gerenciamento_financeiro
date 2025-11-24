@@ -297,6 +297,12 @@
                             <div class="form-text">{{ field.help_text }}</div>
                         {% endif %}
                     </div>
+                    {# CORREÇÃO: Link de Gerenciamento de Categoria no Modal #}
+                    {% if field.name == 'categoria' %}
+                    <div class="d-flex justify-content-end mb-3 mt-n2">
+                        <a href="{% url 'cria_lista:categorias' %}" class="small text-muted" target="_blank">Gerenciar categorias</a>
+                    </div>
+                    {% endif %}
                   {% endfor %}
                 </div>
                 <div class="modal-footer">
